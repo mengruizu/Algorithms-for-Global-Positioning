@@ -1,0 +1,241 @@
+\documentclass[a4paper,12pt]{book}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage[UTF8]{ctex}
+\usepackage{minitoc}
+\dominitoc[n]%表示去掉minitoc的contents的名字
+\dominitoc[c]% 表示把 "contents"居中
+\usepackage{titlesec}
+\usepackage{textcomp}
+\usepackage{tabularx} %可变长表格导言
+\usepackage{graphicx} %插图导言
+\usepackage{listings} %代码插入导言
+\usepackage{amsmath} %公式编辑导言
+\usepackage{float} %插图控制
+\usepackage{multirow} %合并表格
+
+\begin{document}
+
+\author{KAI BORRE}
+\title{ALGORITHMS\\FOR\\GLOBAL\\POSITIONING}
+\date{2017}
+
+\frontmatter
+\maketitle
+\setcounter{tocdepth}{1}
+%仅显示主目录到chapter一级
+%数值	目录等级
+%	0	\part
+%	1	\chapter
+%	2	\section
+%	3	\subsubsection
+\setcounter{minitocdepth}{1} % 会在minitoc显示到sections
+\tableofcontents
+
+\mainmatter
+
+\titleformat{\part}[display]{\centering\Huge\bfseries}{第\,\thepart\,篇}{1em}{}
+%\titleformat{command}[shape]{format}{label}{sep}{before}[after]
+%command 包括\part，\chapter，\section，\subsection，\subsubsection，\paragraph，\subparagraph等
+%display 将单独一行显示“第一篇”
+%format 参数 将章标题设置为居中( \centering )显示、字号为 \Huge，字体被加粗显示 \bfseries  
+%label 参数将标题的标签设置为 “第 xxx 章”格式。 sep 参数设置标签与标题内容之间以一个字(1em)的宽度为间隔。
+\titleformat{\chapter}[display]{\Huge\bfseries}{第\,\thechapter\,章}{1em}{}
+
+\lstset{
+	numbers=left,
+	numberstyle=\tiny,
+	tabsize=1,
+	breaklines=true,
+	frame=shadowbox
+} %插入代码格式
+
+%-----------------------第一部分开始---------------------------%	
+\part[卫星信号与坐标系统]{卫星信号与坐标系\\Satellite Signals \\and\\ Coordinate Systems}
+% \第一篇[目录标题]{正文标题}
+	%%----------------------------第一章开始-------------------------%%
+	\chapter[GNSS的基本思路与应用]{GNSS的基本思路与应用\\Essential Ideas and Applications \\ of GNSS}
+	\minitoc %小标题
+	\newpage%新页
+		\include{./TeX_files/Part01/chapter01/section01}
+		\include{./TeX_files/Part01/chapter01/section02}
+		\include{./TeX_files/Part01/chapter01/section03}
+	%%----------------------------第一章结束-------------------------%%
+
+
+	%%----------------------------第二章开始-------------------------%%
+	\chapter[GNSS信号和调制]{GNSS信号和调制\\GNSS Signals and Modulations}
+	\minitoc %小标题
+	\newpage%新页
+		\include{./TeX_files/Part01/chapter02/section01}
+		\include{./TeX_files/Part01/chapter02/section02}
+	%%----------------------------第二章结束-------------------------%%	
+	
+
+	%%----------------------------第三章开始-------------------------%%
+	\chapter[坐标系统转换]{坐标系统转换\\Change of Coordinate Systems}
+	\minitoc %小标题
+	\newpage%新页
+		\include{./TeX_files/Part01/chapter03/section01}
+		\include{./TeX_files/Part01/chapter03/section02}
+		\include{./TeX_files/Part01/chapter03/section03}
+		\include{./TeX_files/Part01/chapter03/section04}
+		\include{./TeX_files/Part01/chapter03/section05}
+		\include{./TeX_files/Part01/chapter03/section06}
+	%%----------------------------第三章结束-------------------------%%	
+	
+%-----------------------第一部分结束---------------------------%
+
+
+%-----------------------第二部分开始---------------------------%		
+\part[最优估计]{最优估计\\Optimal Estimates}
+% \第二篇[目录标题]{正文标题}
+	%%----------------------------第四章开始-------------------------%%
+	\chapter[随机变量和协方差阵]{随机变量和协方差阵\\Random Variables \\and\\ Covariance Matrices}
+	\minitoc %小标题
+	\newpage%新页
+		\include{./TeX_files/Part02/chapter04/section01}
+		\include{./TeX_files/Part02/chapter04/section02}
+		\include{./TeX_files/Part02/chapter04/section03}
+		\include{./TeX_files/Part02/chapter04/section04}
+		\include{./TeX_files/Part02/chapter04/section05}
+		\include{./TeX_files/Part02/chapter04/section06}
+		\include{./TeX_files/Part02/chapter04/section07}
+		\include{./TeX_files/Part02/chapter04/section08}
+		\include{./TeX_files/Part02/chapter04/section09}
+		\include{./TeX_files/Part02/chapter04/section10}
+
+	%%----------------------------第四章结束-------------------------%%
+
+	%%----------------------------第五章开始-------------------------%%
+	\chapter[随机过程]{随机过程\\Random Processes}
+	\minitoc %小标题
+	\newpage%新页
+		\include{./TeX_files/Part02/chapter05/section01}
+		\include{./TeX_files/Part02/chapter05/section02}
+		\include{./TeX_files/Part02/chapter05/section03}
+	
+	%%----------------------------第五章结束-------------------------%%
+		
+	%%----------------------------第六章开始-------------------------%%
+	\chapter[线性代数中加权最小二乘]{线性代数中加权最小二乘\\Linear Algebr for\\ Weighted Least Squares}
+	\minitoc %小标题
+	\newpage%新页
+		\include{./TeX_files/Part02/chapter06/section01}
+		\include{./TeX_files/Part02/chapter06/section02}
+		\include{./TeX_files/Part02/chapter06/section03}
+		\include{./TeX_files/Part02/chapter06/section04}
+		\include{./TeX_files/Part02/chapter06/section05}
+		\include{./TeX_files/Part02/chapter06/section06}
+		\include{./TeX_files/Part02/chapter06/section07}
+		\include{./TeX_files/Part02/chapter06/section08}
+	%%----------------------------第六章结束-------------------------%%
+
+	%%----------------------------第七章开始-------------------------%%
+	\chapter[奇异方程和网平差]{奇异方程和网平差\\Singular Normal Equations \\and\\ Networks}
+	\minitoc %小标题
+	\newpage%新页
+		\include{./TeX_files/Part02/chapter07/section01}
+		\include{./TeX_files/Part02/chapter07/section02}
+		\include{./TeX_files/Part02/chapter07/section03}
+		\include{./TeX_files/Part02/chapter07/section04}
+		\include{./TeX_files/Part02/chapter07/section05}
+		\include{./TeX_files/Part02/chapter07/section06}
+		\include{./TeX_files/Part02/chapter07/section07}
+		\include{./TeX_files/Part02/chapter07/section08}
+	%%----------------------------第七章结束-------------------------%%
+
+	%%----------------------------第八章开始-------------------------%%
+	\chapter[卡尔曼滤波]{卡尔曼滤波\\Kalman Filters}
+	\minitoc %小标题
+	\newpage%新页
+		\include{./TeX_files/Part02/chapter08/section01}
+		\include{./TeX_files/Part02/chapter08/section02}
+		\include{./TeX_files/Part02/chapter08/section03}
+		\include{./TeX_files/Part02/chapter08/section04}
+		\include{./TeX_files/Part02/chapter08/section05}
+		\include{./TeX_files/Part02/chapter08/section06}
+		\include{./TeX_files/Part02/chapter08/section07}
+		\include{./TeX_files/Part02/chapter08/section08}
+		\include{./TeX_files/Part02/chapter08/section09}
+		\include{./TeX_files/Part02/chapter08/section10}
+		\include{./TeX_files/Part02/chapter08/section11}
+		\include{./TeX_files/Part02/chapter08/section12}
+		\include{./TeX_files/Part02/chapter08/section13}
+	%%----------------------------第八章结束-------------------------%%
+	
+%-----------------------第二部分结束---------------------------%
+	
+%-----------------------第三部分开始---------------------------%		
+\part[定位算法]{定位算法\\Positioning Algorithms}
+% \第三篇[目录标题]{正文标题}
+	%%----------------------------第九章开始-------------------------%%
+	\chapter[接收机伪距定位的方法]{接收机伪距定位的方法\\Receiver Position \\from One-Way Pseudoranges}
+	\minitoc %小标题
+	\newpage%新页
+		\include{./TeX_files/Part03/chapter09/section01}
+		\include{./TeX_files/Part03/chapter09/section02}
+		\include{./TeX_files/Part03/chapter09/section03}
+		\include{./TeX_files/Part03/chapter09/section04}
+		\include{./TeX_files/Part03/chapter09/section05}
+		\include{./TeX_files/Part03/chapter09/section06}
+		\include{./TeX_files/Part03/chapter09/section07}
+		\include{./TeX_files/Part03/chapter09/section08}
+		\include{./TeX_files/Part03/chapter09/section09}
+		\include{./TeX_files/Part03/chapter09/section10}
+	%%----------------------------第九章结束-------------------------%%
+	
+	%%----------------------------第十章开始-------------------------%%
+	\chapter[差分观测的一种方法]{差分观测的一种方法\\Differences of One-Way Observations}
+	\minitoc %小标题
+	\newpage%新页
+		\include{./TeX_files/Part03/chapter10/section01}
+		\include{./TeX_files/Part03/chapter10/section02}
+		\include{./TeX_files/Part03/chapter10/section03}
+		\include{./TeX_files/Part03/chapter10/section04}
+		\include{./TeX_files/Part03/chapter10/section05}
+		\include{./TeX_files/Part03/chapter10/section06}
+		\include{./TeX_files/Part03/chapter10/section07}
+		\include{./TeX_files/Part03/chapter10/section08}
+		\include{./TeX_files/Part03/chapter10/section09}
+	%%----------------------------第十章结束-------------------------%%
+	
+%-----------------------第三部分结束---------------------------%	
+
+%-----------------------第四部分开始---------------------------%	
+\part[大地测量和地球坐标]{大地测量和地球坐标\\Geodesy and Earth Coordinates}
+% \第四篇[目录标题]{正文标题}
+	%%----------------------------第十一章开始-------------------------%%
+	\chapter[椭球面大地测量]{椭球面大地测量\\Geometry of the Ellipsoid}
+	\minitoc %小标题
+	\newpage%新页
+		\include{./TeX_files/Part04/chapter11/section01}
+		\include{./TeX_files/Part04/chapter11/section02}
+		\include{./TeX_files/Part04/chapter11/section03}
+		\include{./TeX_files/Part04/chapter11/section04}
+		\include{./TeX_files/Part04/chapter11/section05}
+		\include{./TeX_files/Part04/chapter11/section06}
+		\include{./TeX_files/Part04/chapter11/section07}
+		\include{./TeX_files/Part04/chapter11/section08}
+		\include{./TeX_files/Part04/chapter11/section09}
+		
+	%%----------------------------第十一章结束-------------------------%%
+	
+	%%----------------------------第十二章开始-------------------------%%
+	\chapter[椭球面的正形投影]{椭球面的正形投影\\Differences of One-Way Observations}
+	\minitoc %小标题
+	\newpage%新页
+		\include{./TeX_files/Part04/chapter12/section01}
+		\include{./TeX_files/Part04/chapter12/section02}
+		\include{./TeX_files/Part04/chapter12/section03}
+		\include{./TeX_files/Part04/chapter12/section04}
+		\include{./TeX_files/Part04/chapter12/section05}
+		\include{./TeX_files/Part04/chapter12/section06}
+		\include{./TeX_files/Part04/chapter12/section07}
+	
+	%%----------------------------第十二章结束-------------------------%%
+
+\backmatter
+% bibliography, glossary and index would go here.
+
+\end{document}
