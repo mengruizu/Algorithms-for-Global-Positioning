@@ -1,82 +1,47 @@
 \section[可选择的算法]{可选择的算法\\Alternative Algorithms}
 	我们考虑各种最小二乘的模型:为了估计接收机j的坐标，通过给出的卫星位置坐标和伪距我们认为普通最小二乘法和加权最小二乘法模型最适合。下面是基于数值的例子显示在表中\ref{tab:9.4}。这个计算在rp.m文件中被实现。
 	\subsection[普通最小二乘]{普通最小二乘\\Ordinary Least Squares}
-	这个模型描述了$$ Ax=b+e $$。A中每一行的内容为：
-
-		\[ 
-
-			\begin{bmatrix}
-
-				-\dfrac{X^k-X_i}{\rho^k_1} & -\dfrac{Y^k-Y_i}{\rho^k_1} & -\dfrac{Z^k-Z_i}{\rho^k_1} & 1
-
-			\end{bmatrix} 
-
-		\]
+	这个模型描述了$Ax=b+e$。A中每一行的内容为：
+	\begin{equation*}
+		\begin{bmatrix}
+		
+		-\dfrac{X^k-X_i}{\rho^k_1} & -\dfrac{Y^k-Y_i}{\rho^k_1} & -\dfrac{Z^k-Z_i}{\rho^k_1} & 1
+		
+		\end{bmatrix}
+	\end{equation*}
 	对应 $b_k$ 的 b 是：
-
-		\[
-
-			P^k - \Arrowvert 
-
-			\begin{bmatrix}
-
+	\begin{equation*}
+		P^k - \Arrowvert 
+		\begin{bmatrix}
 			X^k & Y^k & Z^k
-
-			\end{bmatrix}-
-
-			\begin{bmatrix}
-
-			X & Y & Z
-
-			\end{bmatrix}
-
-			\Arrowvert_2
-
-			-c\,dt
-
-		\]
-
+		\end{bmatrix}-
+		\begin{bmatrix}
+		
+		X & Y & Z
+		
+		\end{bmatrix}
+		\Arrowvert_2
+		-c\,dt
+	\end{equation*}
 	经过6次迭代后结果如下：
 
-		\[
-
-		\begin{split}
-
+	\begin{align*}
 		\hat{X} = 3427824.23 \\
-
 		\hat{Y} =  603665.35 \\
-
 		\hat{Z} = 5326882.42 \\
-
 		\hat{c\,dt} =  113058.30
-
-		\end{split}
-
-		\]
-
+	\end{align*}
 		与标准偏差为 2.3 m.
 	\subsection[加权最小二乘]{加权最小二乘\\Weighted Least Squares}
 	可以说，高度角较大的卫星的伪距观测较高度角较小的卫星更精确。让$a_0$和$a_1$作为常数，追踪高度角为h的卫星，高度角的截止角度为$h_0$。然后一个标准模型差为$\sigma_b = a_0 + a_1e^{-h/h_0}$。但是我们使用一个更简单的表达式$\sigma_b=1/\sin h$。权$c_i$通过$c_i=1/\sigma^2_b$计算得出。加权调整的结果为：
-
-		\[
-
-		\begin{split}
-
+		\begin{align*}
 			\hat{X} = 3427826.07 m \\
-
 			\hat{Y} =  603664.47 m \\
-
 			\hat{Z} = 5326883.17 m \\
-
-			\hat{c\,dt} = 113059.57 m. \\
-
-		\end{split}
-
-		\]
+			\hat{c\,dt} = 113059.57 m.
+		\end{align*}
 
 	偏离不超过1-2米的每个卫星未加权的结果是。单位权的标准差下降至0.7米。
-
-
 	\subsection[结论]{结论\\Conclusions}
 
 	一组的高斯方法设置了m个方程和n个未知数，m>n，两个历元后仍保持不变。如下
@@ -97,9 +62,7 @@
 	我们从协方差矩阵的最小二乘问题开始\ref{eq:9.22}:
 
 		\begin{equation}\label{eq:9.27}
-
 			\Sigma_{ECEF} = 
-
 			\begin{bmatrix}
 
 				\sigma^2_X & \sigma_{XY} & \sigma_{XZ} & \sigma_{X,c\,dt} \\
@@ -108,18 +71,15 @@
 
 				\sigma_{ZX}& \sigma_{ZY} & \sigma^2_Z & \sigma_{Z,c\,dt} \\
 
-				\sigma_{c\,dt,X} & \sigma_{c\,dt,Y} & \sigma_{c\,dt,Z} & \sigma^2_{c\,dt} \\
+				\sigma_{c\,dt,X} & \sigma_{c\,dt,Y} & \sigma_{c\,dt,Z} & \sigma^2_{c\,dt} 
 
 			\end{bmatrix}
-
 		\end{equation}
 
 	传播规则将$\Sigma_{ECEF}$转换为本地系统中表达的协方差矩阵坐标(E,N,U)。有趣的是3×3子矩阵S$\Sigma_{ECEF}$在\ref{eq:9.27}所示。转换矩阵是$F^T$,这个子矩阵S是：
 
 		\begin{equation}\label{eq:9.28}
-
 			\Sigma_{ENU} = 
-
 			\begin{bmatrix}
 
 				\sigma^2_E & \sigma_{EN} & \sigma_{EU} \\
@@ -127,17 +87,13 @@
 				\sigma_{NE}& \sigma^2_N  & \sigma_{NU} \\
 
 				\sigma_{UE}& \sigma_{UN} & \sigma^2_U \\
-
 			\end{bmatrix}
-
 			=F^TSF
-
 		\end{equation} 
 
 	F连接笛卡尔坐标和本地坐标系统的差异（纬度$\varphi$和经度$\lambda$）和ECEF坐标系，参考（3.28）这是衍生出的另一种方式。序列(E,N,U)确保当地和ECEF系统应当是右手坐标系：
 
 		\begin{equation}\label{eq:9.29}
-
 		\begin{array}{rcl}
 
 			F^T &=& R_3(\pi)R_2(\varphi-\frac{\pi}{2})R_3(\lambda-\pi) \\
@@ -181,11 +137,8 @@
 					\cos \varphi \cos \lambda & \cos \varphi \sin \lambda & \sin \varphi 
 
 					\end{bmatrix}
-
 		\end{array}	
-
 		\end{equation}
-
 	在实践中我们遇到一些形式的精度因子(缩写为DOP):
 
 		\begin{table}
@@ -208,43 +161,33 @@
 
 	注意,所有DOF值是无量纲的。他们用错误的范围表示位置的错误(大约)。而且我们有
 
-		\[
-
+		\begin{equation*}
 			GDOP^2=PDOP^2+TDOP^2=HDOP^2+VDOP^2+TDOP^2
-
-		\]
+		\end{equation*}
 
 	DOP值在规划观测时间是特别有用的。为此目的的历书没有比广播星历表更高的精度。历书数据允许预先计算卫星位置在几周和有足够的准确性(轨道的星历表表示是在很短的时间内有效)。任何人使用全球定位系统(GPS)时DOP是一个有用的工具，在一些卫星星座比其他的已知最好的卫星覆盖的时候。？？？
 
 	经验表明,良好的观测是位置误差$PDOP<5$,测量来自至少五个卫星。
 
 	备注9.1伪距观测b是未知的接收机坐标的非线性函数。我们主要线性化观测值和使用泰勒级数展开。
-		\[
-
+		\begin{equation*}
 			b=b_0+(X-X_0)^Tgrab\,b|_{X=X_0}+\frac{1}{2}(X-X_0)^TH|_{X=X_0}(X-X_0)+\ldots
-
-		\]	
+		\end{equation*}
 
 	$X_0$和$X$的是在展开点计算的，和Hessian H是二阶导数。我们的目标是估计二阶项的大小。这一项告诉我们关于截断一阶项后的系数的误差。对一组伪距这导致使用张量,所以我们开发一个简单的例子中,使用一个伪距为b。
 			
 	我们已经知道的梯度中给定的伪距\ref{eq:9.22}我们省略和时钟偏移相关的最后一列:
 
 		\begin{equation}\label{eq:9.30}
-
 			A=\begin{bmatrix}
-
 			-\dfrac{X^1-X_i}{\rho^1_i} & -\dfrac{Y^1-Y_i}{\rho^1_i} & -\dfrac{Z^1-Z_i}{\rho^1_i}
-
 			\end{bmatrix}
-
 		\end{equation}
 
 	二阶导数在Hessian收集:
 
 		\begin{equation}\label{eq:9.31}
-
 			H=
-
 			\begin{bmatrix}
 
 				\dfrac{(Y^1-Y_i)^2+(Z^1-Z_i)^2}{(\rho^1_i)^3} & \dfrac{(X^1-X_i)(Y^1-Y_i)}{(\rho^1_i)^3} 		& \dfrac{(X^1-X_i)(Z^1-Z_i)}{(\rho^1_i)^3} \\
@@ -252,24 +195,15 @@
 				\dfrac{(X^1-X_i)(Y^1-Y_i)}{(\rho^1_i)^3}       & \dfrac{(X^1-X_i)^2+(Z^1-Z_i)^2}{(\rho^1_i)^3}   & \dfrac{(Y^1-Y_i)(Z^1-Z_i)}{(\rho^1_i)^3} \\
 
 				\dfrac{(X^1-X_i)(Z^1-Z_i)}{(\rho^1_i)^3} 	  & \dfrac{(Y^1-Y_i)(Z^1-Z_i)}{(\rho^1_i)^3} 		& \dfrac{(X^1-X_i)^2+(Y^1-Y_i)^2}{(\rho^1_i)^3}		
-
 			\end{bmatrix}
-
 		\end{equation}
 
 	和
 
-		\[
-
-		\begin{split}
-
-		X^1=(-9138250.97,13331687.71,21338151.79)^T \\
-
-		X_0=(3427823.97,603665.739,5326881.602)^T
-
-		\end{split}
-
-		\]
+		\begin{align*}
+			X^1=(-9138250.97,13331687.71,21338151.79)^T \\
+			X_0=(3427823.97,603665.739,5326881.602)^T
+		\end{align*}
 
 	和$\alpha=\frac{1}{2}(X-X_0)^TH(X-X_0)$我们从下表中获得数据：
 		\begin{table}
