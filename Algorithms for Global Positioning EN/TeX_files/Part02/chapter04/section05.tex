@@ -1,0 +1,190 @@
+\section{Mean,Variance,and Covariance}
+As review, we recall the definition of the mean $\mu$ of a continuous distribution p(x). To find
+the “expected” value $\mu$, multiply outcome x by probability p(x) and integrate:
+\begin{equation}
+	mean=\mu=E{X}=\int^\infty_{-\infty}xp(x)dx.
+\end{equation} 
+This is usually different from the point x = m where the cumulative density $F(m)=\frac{1}{2}$.
+That point is the median, since there are equal (50\%) probabilities of $x\leq m $and $x \geq m $.
+
+The variance is written $\sigma^2$ and it is the expected value of $(X-mean)^2=(X-\mu)^2$.
+Multiply outcome times probability and integrate: 
+\begin{equation}
+\sigma^2=\int^\infty_{-\infty}((X-\mu)^2)p(x)dx
+\quad which\,equals\quad \int^\infty_{-\infty}x^2p(x)dx-\mu^2.
+\end{equation}
+The standard deviation (written $\sigma$) is the square root of $\sigma^2$.
+
+In practice we may repeat an observation many times. Usually, economy will dictate
+some limit. Each independent observation produces an outcome X. The average of the
+outcomes from N observations is $\hat{X}$:
+\begin{equation}
+\hat{X}=\frac{X_1+X_2+...+X_N}{N}=average\,outcome.
+\end{equation}
+Frequently all we know about the random variable X is its mean $\mu$ and variance $\sigma^2$. It is
+amazing how much information this gives about the average $\hat{X}$:
+
+Law of Averages: $\hat{X}$ is almost sure to approach $\mu$ as $N\textrightarrow \infty$.
+
+Central Limit Theorem: The sum of a large number of independent identically distributed
+random variables with finite means and variances, standardized to have mean 0 and
+variance 1, is approximately normally distributed.
+
+No matter what the probability for X, the probabilities for $\hat{X}$ move toward the normal bell-shaped curve. The standard deviation of the average is close to $\sigma/\sqrt{N}$, In the Law of Averages, “almost sure” means that the chance of $\hat{X}$ not approaching $\mu$ is zero.
+
+The quantity $\sigma/\mu$ is referred to as the relative accuracy or the variation coefficient.
+The inverse quantity $\mu/\sigma$ is the signal-to-noise ratio.
+
+Finally we derive some useful computational rules for means and variances. Let h
+be a real function (X still random). Then Y = h(x) is a random variable and we have 
+\begin{equation}
+E\{Y\}=E\{h(X)\}=\int^\infty_{-\infty}H(x)p(x)dx.
+\end{equation}
+If a and b are real numbers and h(x) = ax + b this yields
+\begin{equation}
+E\{aX+b\}=aE\{X\}+b.
+\end{equation}
+Evaluating (4.56) for $h(x)=(x-E\{X\})^2=(x-\mu)^2$ gives
+\begin{equation}
+\sigma^2\{X\}=\int^\infty_{-\infty}(x-E\{X\})^2p(x)dx.
+\end{equation}
+When we introduce a linear substitution aX + b, we get
+\begin{equation*}
+\begin{split}
+\sigma^2\{aX+b\}&=\int^\infty_{-\infty}(ax+b-E\{aX+b\})^2p(x)dx\\
+&=\int^\infty_{-\infty}(ax+b-aE\{X\}-b)^2p(x)dx\\
+&=a^2\int^\infty_{-\infty}(x-E\{X\})^2p(x)dx=a^2\sigma^2\{X\}.
+\end{split}
+\end{equation*}
+The shift by b leaves $\sigma^2$ unchanged. The scaling by a multiplies that variance by $a^2$:
+\begin{equation}
+\sigma^2{aX+b}=a^2\sigma^2\{X\}.
+\end{equation}
+In the formulation of mean value and standard deviation, the order of observations
+(or the time when an element is observed) is of no consequence.
+
+A time-ordered sequence of random variables is called a discrete random process. 
+
+	\subsection{Review of Covariance}
+	Next we make the step to two random variables $X_1$ and $X_2$, possibly correlated. Consider
+	the probability that $X_1$ falls between $x_1$ and $x_1+dx_1$ and in the same observation $X_2$ falls between $x_2$ and $x_2+dx_2$. This produces the joint probability density $p(x_1,x_2)dx_1dx_2$. Again its integral is 1:
+	\begin{equation}
+	Prob(-\infty<X_1,X_2<+\infty)=\int^\infty_{-\infty}\int^\infty_{-\infty}p(x_1,x_2)dx_1dx_2=1.
+	\end{equation}
+	The mean value $\mu_1$ of $X_1$, and the mean value of $\mu_2$ of $X_2$, are
+	\begin{equation*}
+	\mu_1=\int^\infty_{-\infty}\int^\infty_{-\infty}x_1p(x_1,x_2)dx_1dx_2
+	\quad and \quad
+	\mu_2=\int^\infty_{-\infty}\int^\infty_{-\infty}x_2p(x_1,x_2)dx_1dx_2.
+	\end{equation*}
+	The mean value of a function $\varphi(x_1,x_2)$ is
+	\begin{equation}
+	E\{\varphi(X_1,X_2)\}=\int^\infty_{-\infty}\int^\infty_{-\infty}\varphi(x_1,x_2)p(x_1,x_2)dx_1dx_2.
+	\end{equation}
+	For the important case $\varphi(X_1,X_2)=X_1+X_2$ we get
+	\begin{equation}
+	E\{X_1+X_2\}=\int^\infty_{-\infty}\int^\infty_{-\infty}(x_1+x_2)p(x_1,x_2)dx_1dx_2=E\{X_1\}+E\{X_2\}.
+	\end{equation}
+	The covariance between $X_1$ and $X_2$ is defined as
+	\begin{equation}
+	\sigma_{12}cov\{X_1,X_2\}=\int^\infty_{-\infty}\int^\infty_{-\infty}(x_1-\mu_1)(x_2-\mu_2)p(x_1,x_2)dx_1dx_2=E\{X_1X_2\}-\mu_1\mu_2.
+	\end{equation}
+	In case $X_2=X_1$ we get the variance $\sigma^2_1$ of the random variable $x_1$. The covariance of a variable with itself is its variance. Thus by convention $\sigma_{11}$ is written $\sigma^2_1$.
+	
+	Let $X_1$  denote the weight and $X_2$ the height of an individual. An observed value
+	of $X_2$ tends to be small if the corresponding value of $X_1$ is small and conversely. The
+	random variables $X_1$ and $X_2$, weight and height, are said to be dependent. They do not
+	satisfy the following requirement: Two random variables with probability densities $p_1(x_1)$
+	and $p_2(x_12)$ and joint probability density $p(x_1,x_2)$ are independent if
+	\begin{equation}
+	p(x_1,x_2)=p_1(x_1)p_2(x_2) \qquad for\,all\,x_1\,and\,x_2.
+	\end{equation}
+	Independence is an exceedingly important property. In general we do not know $p(x_1,x_2)$
+	from the separate probabilities.
+	
+	Finally we generalize to n random variables. We observe $X=(X_1,X_2,...,X_n)$.
+	The vector of means is $\mu=(\mu_1,\mu_2,...\mu_n)$ where $\mu_i=E\{X_i\}$. The most important
+	quantity in geodetic statistics is the expectation of the matrix $(X-\mu)(X-\mu)^T$ which
+	contains all the products $(X_i-\mu_i)(X_j-\mu_j)$ .The expectations of all these products enter
+	the covariance matrix $\Sigma_X$:
+	\begin{equation}
+	\Sigma_X=E\{(X-\mu)(X-\mu)^T\}=E\{XX^T\}-\mu\mu^T.
+	\end{equation}
+	This covariance matrix contains every $\sigma_{ij}=E\{(X_i-\mu_i)(X_j-\mu_j)\}$ and is symmetric:
+	\begin{equation}
+	\Sigma_X=
+	\begin{bmatrix}
+	\sigma^2_1 & \sigma_{12} &\cdots & \sigma_{1n}\\
+	\sigma_{21} & \sigma^2_2 &\cdots & \sigma_{2n}\\
+	\vdots & \vdots & \ddots &\vdots \\
+	\sigma_{n1} & \sigma_{n2} &\cdots & \sigma^2_n 
+	\end{bmatrix}
+	\end{equation}
+	Covariance is a measure of the stochastic dependence between two parameters $X_i$ and $X_j$.
+	Clearly $\sigma_{ij}$ measures a coupling between the errors of $X_i$ and the errors of $X_j$. One can speak about stochastic dependence or independence. If $X_i$ and $X_j$ have a tendency to deviate either both positively or both negatively, then $\sigma_{ij}$ will be positive. This does not imply that a positive $X_i-\mu_i$ cannot occur together with a negative $X_j-\mu_j$ — but it is less likely. Similarly $\sigma_{ij}$ will be negative if a positive $X_i-\mu_i$ prefers to be coupled to a negative $X_j-\mu_j$. It is important to note the difference between two random variables being independent and being uncorrelated. They are independent if and only if $p(x_1,x_2)=p_1(x_1)p_2(x_2)$. They are uncorrelated if $\sigma_{ij}=0$. Two independent random variables $X_i$ and $X_j$ are uncorrelated.
+	
+	The covariance  matrix $\Sigma_X$ is always positive definite (or at least semidefinite). For proof, note that any linear combination $l=c_1(X_1-\mu_1)+\cdots+c_n(X_n-\mu_n)$ has
+	\begin{equation}
+	0\leq E\{l^2\}=\Sigma\Sigma c_ic_j\sigma_{ij}=[c_1 \cdots c_n]\Sigma_X
+	\begin{bmatrix}
+	c_1\\
+	\vdots\\
+	c_n
+	\end{bmatrix}
+	\end{equation}
+	Thus $c^T\Sigma_Xc$ is nonnegative for any vector c, which makes $\Sigma_X$ semidefinite.
+	
+	The correlation coefficient $\rho_{ij}$ is a standardized covariance, never exceeding 1:
+	\begin{equation} 
+	\rho_{ij}=\sigma_{ij}/\sqrt{\sigma^2_i\sigma^2_i}=\sigma_{ij}/\sigma_i\sigma_j 
+	\quad and \quad
+	|\rho_{ij}|\leq 1.
+	\end{equation}
+	Example 4.9 Covariance matrices must be nonnegative definite (positive semidefinite). In
+	practice roundoff errors and other error sources may cause the matrix to become indefinite.
+	One or more small negative eigenvalues can appear for $\Sigma$. Whenever one encounters such
+	a matrix it must be repaired in some way.
+	
+	A good procedure is to build up a modified matrix using only the positive eigenvalues
+	and their eigenvectors. The following MATLAB code will do the job by keeping only the
+	positive eigenvalues of $\Sigma = S$):
+	
+	function R = repair (S) \qquad \qquad \qquad \qquad \qquad  M-file: repair
+	
+	\% Repair of indefinite covariance matrix
+	
+	[v,lambda] = eig (S);
+	
+	[n,n] = size (S);
+
+	R = zeros (n,n);
+	
+	for i = 1:n
+	
+	\quad if lambda (i,i)$>$ 0
+	
+	\quad s = lambda $(i,i)\ast v(:,i)\ast v(:,i)'$;
+	
+	\quad R = R + s;
+	
+	\quad end;
+	
+	end;
+	
+	For experienced geodesist readers Of course, the weights or the variances must be decided
+	before any least-squares estimation. In practice this happens in the following way. If we
+	want observation $X_2$ with variance $\sigma^2_2$ to have weight $c_2=1$, then the weight $c_1$ is given as $\sigma^2_2/\sigma^2_1$.
+	
+	Most of the time one starts with uncorrelated observations. (A typical correlated observation is the difference of original observations, and covariances are computed below.
+	This is particularly the case with GPS observations or angles derived from theodolite direction observations.) Uncorrelated observations imply that all covariances $\sigma_{ij}(i=j)$ are zero. Then the covariance matrix of the observations b is diagonal:
+	\begin{equation}
+	\Sigma_b=diag(\sigma^2_1,...,\sigma^2_n)=
+	\begin{bmatrix}
+	\sigma^2_1 & & \\
+	 & \ddots & \\
+	  & & \sigma^2_n
+	\end{bmatrix}
+	\end{equation} 
+	It is suitable to work with weights deviating as little as possible from 1.
+	
+	

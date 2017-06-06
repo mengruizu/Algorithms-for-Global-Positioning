@@ -1,0 +1,16 @@
+\section[模糊度的GOAD解法]{模糊度的GOAD方法\\The GOAD Method for Ambiguities}
+Above we introduced a filter to estimate the ambiguities for double differenced observations as described in equation (10.9). Now we describe a least-squares solution with subsequent manipulations that arrive at the same goal.
+
+For each satellite the least-squares solution in ( 10.37) yields two reals $n_{1}$ and $n_{2}$ from which we have to recover two integers $N_{1}$ and $N_{2}$. The estimated difference $n_{1}-n_{2}$ is rounded to the nearest integer and named $K_{1}$. The rounded value of $60n_{1}-77n_{2}$. we call $K_{2}$. The best integer estimates for $N_{1}$ and $N_{2}$ are then found as the solution
+\begin{equation}
+\hat{N}_{2}=(60K_{1}-K_{2})/17
+\end{equation}
+\begin{equation}
+\hat{N}_{1}=\hat{N}_{2}+K_{1}.
+\end{equation}
+The values for $K_{1}$ and $K_{2}$ are not free of error, but only particular combinations yield integer solutions for $N_{1}$ and $N_{2}$. Gradually these estimates improve as more epochs are processed . The numbers $K_{1}$ and $K_{2}$, in theory, become more reliable.
+
+We just described a simple and elegant procedure for estimation of integer ambiguities. It was suggested by Clyde C. Goad in the early 1980s. It can be characterized as an ad hoc method. Several such methods were proposed over the years. Below we introduce yet another one which is remarkable as it is based on a fully developed mathematical background and a partly developed statistical one.
+
+It is difficult to state which method is the most used in practice as the creators of
+commercial software never inform about the procedures used.

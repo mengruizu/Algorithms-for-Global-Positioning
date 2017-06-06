@@ -1,0 +1,75 @@
+\section[随机变量的线性变换]{随机变量的线性变换\\Linear Transformation of Random Variables}	
+\par\noindent
+In the case where $A$ had dependent columns, we circumvented this problem by introducing
+the solution vector of shortest length: $x^+$. That was the effect of augmenting $A^\mathsf{T}A$ and  producing the pseudoinverse.
+\par
+We shall try to analyze this situation from a random point of view. The nonunique
+solution was determined up to any additional solution from the nullspace. Any nonunique
+solution vector $\hat{x}$ is connected to a covariance matrix $\sum_{\hat{x}}$. But as the vector $\hat{x}$ differ, so do the covariance matrices $\sum_{\hat{x}}$ .Among all these possible covariance matrices we shall demonstrate that the covariance matrix corresponding to the pseudoinverse solution is the  one with \emph{smallest trace}. In statistical terms this means that the pseudoinverse solution $x^+$ gives the smallest overall variances of the unknowns.
+\par
+Let $\mathop{v}\limits_{m\ by\ 1} = \mathop{B}\limits_{m\ by\ n}\mathop{u}\limits_{n\ by\ 1}$ be given as a linear transformation between random variables $u$ and $v$. With zero means, $E{u} = 0$ leads to $E{uu^\mathsf{T}} = \sum_u$.
+\par
+Now we want to approximate $u$ by $Av$ and substitute
+\begin{equation*}
+\mathop{u}\limits_{n\ by\ 1}
+=\mathop{A}\limits_{n\ by\ m}\mathop{v}\limits_{m\ by\ 1} + \mathop{w}\limits_{n\ by\ 1}
+\end{equation*}
+where $w$ is the residual vector:
+\begin{equation}
+w
+=u - Av = (I - AB)u
+\end{equation}
+The covariance matrix $\sum_w$ for $w$ is
+\begin{equation}
+\sum\nolimits_w
+=(I - AB)\sum\nolimits_u(I - AB)^\mathsf{T}.
+\end{equation}
+We want to choose $B$ to minimize the trace of $\sum_w$. We shall prove that
+\par\noindent
+\textbf{Theorem 7.1} \emph{Trace of $\sum_w$ is a minimum for}
+\begin{equation}
+B
+=(A^\mathsf{T}A)^{-1}A^\mathsf{T}.
+\end{equation}
+The results are
+\begin{equation}
+\text{trace} \sum\nolimits_w
+=\text{trace} \sum\nolimits_u - \text{trace}(A^\mathsf{T}A)^{-1}A^\mathsf{T}\sum\nolimits_uA.
+\end{equation}
+and
+\begin{equation}
+\sum\nolimits_w
+=(I - A(A^\mathsf{T}A)^{-1}A^\mathsf{T})\sum\nolimits_u(I - A(A^\mathsf{T}A)^{-1}A^\mathsf{T})^\mathsf{T}.
+\end{equation}
+and
+\begin{equation}
+\sum\nolimits_v
+=(A^\mathsf{T}A)^{-1}A^\mathsf{T}\sum\nolimits_uA(A^\mathsf{T}A)^{-1}.
+\end{equation}
+This theorem shows a result which is different from that following from the usual
+least-squares estimation of $v = Bu$. Ordinary least-squares estimation, minimizing the
+square sum of weighted residuals, yields the result
+\begin{equation*}
+B = (A^\mathsf{T}\sum\nolimits_{u}^{-1}A)^{-1}A^\mathsf{T}\sum\nolimits_{u}^{-1} \qquad \text{where} \qquad \text{rank} \sum\nolimits_u = n.
+\end{equation*}
+In the present theorem we minimize the sum of variances of residuals $w$; $\sum_u$ may have any
+rank. When $\sum_u = I$ there is no difference between the two cases.
+\par\noindent
+\textbf{Proof} We start from (7.22) and get
+\begin{equation*}
+\sum\nolimits_w = (\sum\nolimits_u - AB\sum\nolimits_u)(I - B^\mathsf{T}A^\mathsf{T})
+= \sum\nolimits_u - \sum\nolimits_uB^\mathsf{T}A^\mathsf{T} - AB\sum\nolimits_u + AB\sum\nolimits_uB^\mathsf{T}A^\mathsf{T}.
+\end{equation*}
+The first term is independent of $B$ , so we get
+\begin{equation*}
+\text{trace} \sum\nolimits_w = \text{const}.
+- \text{trace}(\sum\nolimits_uB^\mathsf{T}A^\mathsf{T})
+- \text{trace}(AB\sum\nolimits_u)
++ \text{trace}(AB\sum\nolimits_uB^\mathsf{T}A^\mathsf{T}).
+\end{equation*}
+and
+\begin{equation*}
+\frac{\partial {\text{trace} \sum\nolimits_w}}{\partial{B}}
+= -2A^\mathsf{T}\sum\nolimits_u + 2A^\mathsf{T}AB\sum\nolimits_u = 0.
+\end{equation*}
+Therefore $B = (A^\mathsf{T}A)^{-1}A^\mathsf{T}$ which proves the theorem.

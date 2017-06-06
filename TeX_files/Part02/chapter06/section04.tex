@@ -1,1 +1,55 @@
 \section[条件数]{条件数\\The Condition Number}
+大地测量网络分析是基于这样的事实，当我们知道网络的拓扑(由$A$描述)和观测值的权重$C$时，我们可以建立$A^{T}CA$。 因此，我们可以计算输出$\hat{\textbf{\textit{x}}}$的协方差矩阵$ \Sigma_{x}=(A^{T}CA)^{-1} $，而不计算特定样本。 实际观测仅进入每个样品的$A^{T}C\textbf{\textit{b}}$。可以在不进行单个测量的情况下执行这么多的网络分析。
+
+用于比较各种网络的一个好的测量是$A$或$A^{T}CA$的条件数。矩阵的范数和条件数在大地测量的数值计算和设计问题中起着至关重要的作用。向量和矩阵的常数不等式通常用于估计舍入误差和观测误差的影响。条件数也可以在网络的最优设计中引入。这个数字有助于决定一个网络设计是否比另一个更好。
+
+以下矩阵是许多最小二乘问题$A^{T}A$ 的典型形式：
+\begin{align*}
+N=
+\begin{bmatrix}
+2     & -1          &        &        & \\
+-1     &  2      &  -1        &        & \\
+&        &       \ddots      &        & \\
+&        &         -1     &  2     & -1 \\
+&        &          &       -1     &  2
+\end{bmatrix}
+\end{align*} 
+这是几个$1-D$问题的正规方程中的系数矩阵：
+
+1 \ 沿着$\textbf{\textit{x}}$轴进行规则横移，在两端都有假设的横坐标。 仅测量距离并具有相等的权重。
+
+2 \ 两端均有假想高度的水平线。所有的观察都是相等权重。
+
+3 \ $N^{2}$是用假设$\textbf{\textit{y}}$沿$\textbf{\textit{x}}$轴的规则横移的系数矩阵值。所有角度应该用相等的权重来测量。
+
+$N$的特征向量是离散正弦向量，特征值是
+\begin{align}
+\lambda_{i}=4sin^{2}\dfrac{i\pi}{2(n+1)}, \quad  i=1,2,\cdots,n. 
+\end{align}
+正定矩阵的条件数是$ \lambda_{max}/\lambda_{min} $。对于这个例子，我们发现
+\begin{align*}
+c(N)=\dfrac{\lambda_{max}}{\lambda_{min}}=\dfrac{4sin^{2}\dfrac{n\pi}{2(n+1)}}{4sin^{2}\dfrac{\pi}{2(n+1)}}\approx(\frac{2(n+1)}{\pi})^{2}\approx0.4n^{2}.
+\end{align*}
+因为$N$是对称的，$ c(N)=c(N)^{2}\approx0.2n^{4} $。这表明随着$n$增加，数值不变性(但不是对于希尔伯特矩阵的指数爆炸)也增长。
+
+该特征值分析可以扩展到2维水平网络，被细分为$m$乘$n$个正方形的矩形区域。用相等的权重观察相邻点之间的所有高度差。$ 2-D$系数矩阵的特征值是
+\begin{align*}
+\lambda_{jk}=4(sin^{2}\dfrac{j\pi}{2(m+1)}+sin^{2}\dfrac{k\pi}{2(n+1)}), \quad
+\left\{
+\begin{aligned}
+j & = & 1,2,\cdots,m, \\
+k & = & 1,2,\cdots,n. 
+\end{aligned}
+\right.
+\end{align*}
+令$ \rho=max(m,n) $，我们得到网络条件的以下估计：
+\begin{align*}
+c=\dfrac{cos^{2}\dfrac{\pi}{2(m+1)}+cos^{2}\dfrac{\pi}{2(n+1)}}{sin^{2}\dfrac{\pi}{2(p+1)}}\approx\dfrac{8(p+1)^{2}}{\pi^{2}}<p^{2}, \quad 0<\dfrac{m}{n}<\text{常数}.
+\end{align*}
+比较这个条件数与来自水平线的条件数，我们看到条件数在从$1-D$到$2-D$的步骤中仅加倍。同时点的数量增加了$p$的平方。我们可以得出结论：如果两点之间的高度差必须尽可能确定，网络不能“狭窄”。具有$ \bigtriangleup x = \bigtriangleup y$的$2-D$网络具有更好的条件数。
+
+当然，与精度相比，运算量增加了很多。但是，这只是在确保准确性的情况下计算所做的运算量。
+
+
+
+

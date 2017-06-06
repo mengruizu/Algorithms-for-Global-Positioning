@@ -1,1 +1,61 @@
 \section[计算正交矩阵]{计算正交矩阵\\Computing with Orthogonal Matrices}
+从$m\times n$矩阵$A$开始，$Gram-Schmidt$过程到达正交矩阵$Q$.由于步骤的顺序，连接$A$到$Q$的矩阵$R$是上三角形。
+
+想法是不同的。它的目标是一个上三角矩阵$R$(就像消除一样)。连接$A$到$R$的矩阵被迫为正交的。一个大的优点是该$Q$是完全正交的(其中$Gram-Schmidt$可能通过舍入误差丢失正交性)。
+ 
+准确的来自于将$Q$创建为$Householder$反射矩阵的乘积。每个H来自选择一个向量$v$：
+\begin{align}
+H=I-2\frac{\textbf{\textit{v}}\textbf{\textit{v}}^{T}}{\textbf{\textit{v}}^{T}\textbf{\textit{v}}}
+\end{align}
+ 
+当然$H\textbf{\textit{v}}=\textbf{\textit{v}}-2\textbf{\textit{v}}=-\textbf{\textit{v}}$。对于与该$v$正交的矢量$w$的平面$ \textbf{\textit{v}}^{T}\textbf{\textit{w}}=0$也即 $ H\textbf{\textit{w}}=\textbf{\textit{w}}$。矩阵$H$将每个向量反映到其在该平面的另一侧上的图像。
+ 
+注意$H^{2}=I$。两次转置后是它本身。直接从（6.8）平方$H$确认了这张图像：
+\begin{align*}
+(I-2\frac{\textbf{\textit{v}}\textbf{\textit{v}}^{T}}{\textbf{\textit{v}}^{T}\textbf{\textit{v}}})^{2}=I-4\frac{\textbf{\textit{v}}\textbf{\textit{v}}^{T}}{\textbf{\textit{v}}^{T}\textbf{\textit{v}}}+4\frac{\textbf{\textit{v}}(\textbf{\textit{v}}^{T}\textbf{\textit{v}})\textbf{\textit{v}}^{T}}{(\textbf{\textit{v}}^{T}\textbf{\textit{v}})^{2}}=I
+\end{align*}
+ 
+$H$也是对称的($H^{T}=H$)，因此它必须是正交矩阵。要求$H^{T}H=I$是正确的，因为$H^{2}=I$。
+ 
+如何选择$\textbf{\textit{v}}$？从$A$到三角形$R$的第一步是在对角线下面的列$1$中获得零。由于$H$的长度不变，$A$和$R$的第一列将具有相同的长度:所以$\textbf{\textit{r}}_{1}$的列是
+$(\lVert\textbf{\textit{a}}_{1}\rVert,0,\ldots,0)$或 $(-\lVert\textbf{\textit{a}}_{1}\rVert,0,\ldots,0)$。这导致$Householder$矩阵$H_{1}$中的$\textbf{\textit{v}}_{1}$的两个选择。
+ 
+接下来是向量$\textbf{\textit{v}}_{2}$和矩阵$H_{2}$。它们的目的是揭示$R$的第二列$\textbf{\textit{r}}_{2}$。为了保持在第一列$\textbf{\textit{r}}_{1}$中获得的零，我们用零开始$\textbf{\textit{v}}_{2}$。选择$\textbf{\textit{v}}_{2}$的其余部分以在列$2$中的对角线下面得到零。因此，$H_{2}$在其右下角(大小为$n-1$)。当我们继续时，每个$v_{j+l}$从$j$个零开始，并且$H_{j+1}$的动作再次在其右下角(大小为$n-j$)。
+
+$Householder$的一个优点是每个矩阵$H_{j}$(通过其代数形式)完全正交。第二个优点是我们存储和使用向量$\textbf{\textit{v}}_{j}$而不是矩阵$H_{j}$。(乘以$Q$=\textit{product of the} $H_{j}$的乘积，一次只应用一个$H_{j}$)。第三个优点是这些正交矩阵是全尺寸(正方形)：
+\begin{center}
+格瑞姆-史密正交化 $A=QR=(m \  \text{by} \  n)(n \  \text{by}  \ n)$
+\end{center}
+\begin{center}
+常规的做法是 $A=QR=(m \  \text{by} \  m)(m \  \text{by} \  n)$.
+\end{center}
+
+$Gram-Schmidt$为$A$的列空间找到正交基$\textbf{\textit{q}}_{1},\cdots,\textbf{\textit{q}}_{n}$。$Householder$找到整个$m$维空间的正交基$\textbf{\textit{q}}_{1},\cdots,\textbf{\textit{q}}_{m}$ 。
+
+最后的$m-n$个向量$\textbf{\textit{q}}_{n+1},\cdots,\textbf{\textit{q}}_{m}$正交(因此它们求解$ A^{T}\textbf{\textit{q}}=\textbf{0}$)。他们可以有用：
+\begin{align*}
+A=
+\begin{bmatrix}
+Q \\
+\
+\end{bmatrix}
+\begin{bmatrix}
+R 
+\end{bmatrix} \ \ \   \text{变成} \  \  \ 
+A=
+\begin{bmatrix}
+Q \\
+\
+\end{bmatrix}
+\begin{bmatrix}
+R\\
+\textit{O} 
+\end{bmatrix}
+\end{align*}
+\begin{flushleft}
+	\text{其中} $\textit{O}$ \text{是} $(m-n)$ $\times$ $n$.
+\end{flushleft}
+
+$MATLAB$使用$Householder$来找到完整的第二个形式。它可以要求缩减第一种形式。我们将为$SVD$提供相同的选择。
+
+ 

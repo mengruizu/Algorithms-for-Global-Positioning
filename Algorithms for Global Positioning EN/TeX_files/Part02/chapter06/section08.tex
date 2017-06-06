@@ -1,0 +1,170 @@
+\section[等式约束的最小二乘]{等式约束的最小二乘\\Least Squares with Equality Constraints}
+\begin{flushleft}
+	The idea underlying weighted least squares is that observations with large weight shall influence the solution more than observations with smaller weights. Extending this idea to the extreme implies that giving an observation infinite weight will lead to that equation being exactly fulfilled. In other words, we have a numerical way of introducing linear equality in the least-squares problem: \textit{Observation equations with very large weights act as linear constraints}. This observation has been made by many geodesists.
+\end{flushleft}
+
+Often constraints follow from a mathematical or physical model. In its simplest form, certain coordinate values shall be left unchanged by the least-squaresprocedure. Much has been written about all possible conditions between the number of observations, the number of constraints, the number of unknowns and the rank of the matrices. We consider the ordinary case with more observations than unknowns, and with as many constraints as the rank of the matrix $B$ describing the constraints.
+\subsection{Exact Solution}
+
+\begin{flushleft}
+	Our starting point is again the observation equations $A\textbf{\textit{x}}=\textbf{\textit{b}}-\textbf{\textit{e}}$ with $p$ constraints described through $B\textbf{\textit{x}}=\textbf{\textit{d}}$. We assume that B is a $p$ by $n$ matrix of rank $p$. Then $B\textbf{\textit{x}}=\textbf{\textit{d}}$ is consistent (it has solutions).
+\end{flushleft}
+
+To minimize $ \lVert A\textbf{\textit{x}}-\textbf{\textit{b}} \rVert^{2}$ with constraints, introduce Lagrange multipliers $y_{1},\ldots,y_{p}$
+for each of the equations $B\textbf{\textit{x}}=\textbf{\textit{d}}$. The constraints are built into Lagrange's function
+\begin{align}
+L(\textbf{\textit{x}},\textbf{\textit{y}}) = \dfrac{1}{2} \lVert A\textbf{\textit{x}}-\textbf{\textit{b}} \rVert^{2} + \textbf{\textit{y}}^{T}(B\textbf{\textit{x}}-\textbf{\textit{d}}). 
+\end{align}
+Then the $n+p$ equations for minimizing $\textbf{\textit{x}}$ and the multipliers $\textbf{\textit{y}}$ are
+\begin{align*}
+\partial L/ \partial \textbf{\textit{x}} &= \textbf{0}  & &
+	A^{T}A\textbf{\textit{x}} + B^{T}\textbf{\textit{y}} = A^{T}\textbf{\textit{b}} \\
+\partial L/ \partial \textbf{\textit{y}} &= \textbf{0}  & & 
+B\textbf{\textit{x}}  = \textbf{\textit{d}} 	
+\end{align*}
+There are several ways to approach these equations, and we mention two ways.
+
+The problem is
+\begin{align}
+\min_{B\textbf{\textit{x}}=\textbf{\textit{d}}} \lVert A\textbf{\textit{x}}-\textbf{\textit{b}} \rVert^{2}.
+\end{align}
+When the rows of $B$ are orthogonalized, $B^{T}$ has the $QR$ factorization
+\begin{align*}
+Q^{T}B^{T} = 
+\begin{bmatrix}
+R\\
+\textit{O}
+\end{bmatrix}^{p}_{n-p}.
+\end{align*}
+Split $A Q$ and $Q^{T}\textbf{\textit{x}}$ in pieces with these sizes $p$ and $n-p$:
+\begin{align*}
+AQ = [\mathop{A_{1}}_{p}  \ \mathop{A_{2}}_{n-p}] \quad  and \quad  Q^{T}\textbf{\textit{x}} = 
+\begin{bmatrix}
+\textbf{\textit{y}}\\
+\textbf{\textit{z}}
+\end{bmatrix}
+^{p}_{n-p}.
+\end{align*}
+We get $ B = R^{T}Q^{T}$ and $ B\textbf{\textit{x}} =R^{T}Q^{T}\textbf{\textit{x}} = R^{T}\textbf{\textit{y}} $ and $ (AQ)(Q^{T} \textbf{\textit{x}}) = A\textbf{\textit{x}} = A_{1}\textbf{\textit{y}} + A_{2}\textbf{\textit{z}} $.With these transformations (6.63) has $\textbf{\textit{y}}$ (with constraints) and $\textbf{\textit{z}}$ (without constraints):
+\begin{align}
+\min_{R^{T}\textbf{\textit{y}}=\textbf{\textit{d}}} \lVert A_{1}\textbf{\textit{y}} + A_{2}\textbf{\textit{z}} -\textbf{\textit{b}} \rVert.
+\end{align}
+hence $ \textbf{\textit{y}}$ is determined from $ R^{T}\textbf{\textit{y}}=\textbf{\textit{d}}$ and $z$ is obtained by solving the unconstrained least-squares problem
+\begin{align}
+\min_{\textbf{z}} \lVert A_{2}\textbf{\textit{z}} -(\textbf{\textit{b}} - A_{1}\textbf{\textit{y}} )  \rVert.
+\end{align}
+With known $\textbf{\textit{y}}$ and $\textbf{\textit{z}}$ the solution $\textbf{\textit{x}}$ comes from multiplying $Q^{T}\textbf{\textit{x}}$ by $Q$:
+\begin{align*}
+\textbf{\textit{x}} = Q
+\begin{bmatrix}
+\textbf{\textit{y}}\\
+\textbf{\textit{z}}
+\end{bmatrix}.
+\end{align*}
+
+Alternatively we want to derive a solution using the $SVD$. The new issue is to find a simultaneous $SVD$ for both $A$ and $B$. This is called a \textit{generalized singular value decomposition}. Begin with the compound matrix $M$:
+\begin{align*}
+M = 
+\mathop{\begin{bmatrix}
+A\\
+B
+\end{bmatrix}}_{n}{}^{m}_{p}.
+\end{align*}
+Paige \& Saunders (1981) established the $C-S$ $\textit{decomposition}$ (analogous to cosines and sines).  There exist an $m$ by $m$ orthogonal matrix $U$, a $p$ by $p$ orthogonal matrix $V$, a (usually) square matrix $X$, and nonnegative diagonal matrices $C$ and $S$ so that
+\begin{align}
+A &= UCX^{T} \\
+B &= VSX^{T} \\
+C^{2}+S^{2} &= I
+\end{align}
+The matrix $ X$ is $n$ by $s$ where $s$ = min{$m+p, n$}.
+
+The diagonal entries are increasing in $C$, starting with $q$ zeros and ending with $n-p$ ones. The \textit{generalized singular values} are $ C_{ii}/S_{ii}$.In MATLAB $[U, V, X, C, S]$ =  $gsvd(A,B)$. If $m<n$, the nonzero diagonal of $C$ is diag$(C, n-m)$. This allows the diagonal entries to be ordered so that the generalized singular values are nondecreasing. $X$ and $M$ have the same number of nonzero singular values. We apply this result to problem (6.63):
+\begin{align*}
+\min_{\textbf{\textit{x}}} \lVert A\textbf{\textit{x}}-\textbf{\textit{b}} \rVert \quad subject \ to \quad
+B\textbf{\textit{x}} = \textbf{\textit{d}}.
+\end{align*}
+Multiply $ A\textbf{\textit{x}}-\textbf{\textit{b}}$ by an orthogonal matrix $U^{T}$ does not change its length. The constraints are multiplied by $V^{T}$:
+\begin{align*}
+\min_{\textbf{\textit{x}}} \lVert U^{T}A\textbf{\textit{x}}-U^{T}\textbf{\textit{b}} \rVert \quad subject \ to \quad
+V^{T}B\textbf{\textit{x}} = V^{T}\textbf{\textit{d}}.
+\end{align*}
+from (6.66) and (6.67) follows $U^{T}A = CX^{T} $ and $V^{T}B=SX^{T} $.The problem becomes
+\begin{align*}
+\min_{\textbf{\textit{x}}} \lVert  CX^{T}\textbf{\textit{x}}-U^{T}\textbf{\textit{b}} \rVert \quad subject \ to \quad
+SX^{T}\textbf{\textit{x}} = V^{T}\textbf{\textit{d}}.
+\end{align*}
+Introducing $U=[\textbf{\textit{u}}_{1},\cdots,\textbf{\textit{u}}_{m}]$，$V=[\textbf{\textit{v}}_{1},\cdots,\textbf{\textit{v}}_{p}]$，and $X=[\textbf{\textit{x}}_{1},\cdots,\textbf{\textit{x}}_{n}]$.we obtain
+\begin{align*}
+(X^{T}\textbf{\textit{x}})_{i} = 
+\left\{
+\begin{aligned}
+\dfrac{\textbf{\textit{v}}^{T}_{i}\textbf{\textit{d}}}{S_{ii}} \ for \ i&=1,\cdots,p \\
+\dfrac{\textbf{\textit{u}}^{T}_{i}\textbf{\textit{b}}}{C_{ii}} \ for \ i&=p+1,\cdots,n. 
+\end{aligned}
+\right.
+\end{align*}
+Now let $ (X^{T})^{-1} = W = [\textbf{\textit{w}}_{1},\cdots,\textbf{\textit{w}}_{1}]$. Then the constrained solution $\textbf{\textit{x}}_{c}$ to (6.63) is
+\begin{align}
+\textbf{\textit{x}}_{c} = 
+\sum_{i=1}^p\dfrac{\textbf{\textit{v}}^{T}_{i}\textbf{\textit{d}}}{S_{ii}}\textbf{\textit{w}}_{i} + 
+\sum_{i=p+1}^n\dfrac{\textbf{\textit{u}}^{T}_{i}\textbf{\textit{b}}}{C_{ii}}\textbf{\textit{w}}_{i}.
+\end{align}
+For reasons of comparison we quote the ordinary solution $\textbf{\textit{x}}$ without constraints
+\begin{align}
+\textbf{\textit{x}} = 
+\sum_{i=q+1}^p\dfrac{\textbf{\textit{u}}^{T}_{i}\textbf{\textit{b}}}{C_{ii}}\textbf{\textit{w}}_{i} + 
+\sum_{i=p+1}^n\textbf{\textit{u}}^{T}_{i}\textbf{\textit{b}}\textbf{\textit{w}}_{i}.
+\end{align}
+The residuals $ \textbf{\textit{e}} = \textbf{\textit{b}}-A\textbf{\textit{x}}$ are increased to $\textbf{\textit{e}}_{c}$ by the constraints, $\textbf{\textit{e}}_{c} - \textbf{\textit{e}} = A(\textbf{\textit{x}} -\textbf{\textit{x}}_{c}) $. Remember that $ A\textbf{\textit{x}}_{i} = C_{ii}\textbf{\textit{u}}_{ii}$ for $i=1,\cdots,n$. Then from (6.69) and (6.70),
+\begin{align*}
+\lVert \textbf{\textit{e}}_{c} \lVert^{2} =
+\lVert \textbf{\textit{e}} \lVert^{2} +
+\sum_{i=q+1}^p(\textbf{\textit{u}}^{T}_{i}\textbf{\textit{b}} -
+\dfrac{C_{ii}}{S_{ii}} \textbf{\textit{v}}^{T}_{i}\textbf{\textit{d}}
+)^{2}.
+\end{align*}
+
+    Both the $QR$ decomposition and the generalized singular value decomposition solution are coded in the $M$-file clsq.
+    
+    \subsection{Approximate Solution}
+    \begin{flushleft}
+    	Next we solve the unconstrained least-squares problem with a large weight $ \lambda $:
+    \end{flushleft}
+\begin{align*}
+\min_{\textbf{\textit{x}}} \left| \left| 
+  \begin{bmatrix}
+  A\\
+  \lambda B
+  \end{bmatrix} \textbf{\textit{x}} -
+    \begin{bmatrix}
+    \textbf{\textit{b}}\\
+    \lambda \textbf{\textit{d}}
+    \end{bmatrix}   \right| \right|   . 
+\end{align*}
+The normal equations are $(A^{T}A + \lambda ^{2} B^{T}B)\textbf{\textit{x}} = A^{T}\textbf{\textit{b}} + \lambda ^{2} B^{T} \textbf{\textit{d}} $. We substitute (6.66) and (6.67):
+\begin{align*}
+(XC_{T}U^{T}UCX^{T}+\lambda^{2}XS^{T}V^{T}VSX^{T})\textbf{\textit{x}}=XC^{T}U^{T}\textbf{\textit{b}}+\lambda^{2}XS^{T}V^{T}\textbf{\textit{d}}.
+\end{align*}
+Since $ U^{T}U=I$ and $ V^{T}V=I$ and $X$ is invertible, this becomes
+\begin{align*}
+(C_{T}C + \lambda^{2}S^{T}S )X^{T}\textbf{\textit{x}} =
+C^{T}U^{T}\textbf{\textit{b}}+\lambda^{2}S^{T}V^{T}\textbf{\textit{d}}.
+\end{align*}
+The solution is
+\begin{align}
+\textbf{\textit{x}}(\lambda) =
+\sum_{i=1}^p \dfrac{C_{ii}\textbf{\textit{u}}^{T}_{i}\textbf{\textit{b}} +
+\lambda^{2} S_{ii} \textbf{\textit{v}}^{T}_{i}\textbf{\textit{d}}
+}{C^{2}_{ii} + \lambda^{2}S^{2}_{ii}} \textbf{\textit{w}}_{i} +
+\sum_{i=p+1}^n
+\dfrac{\textbf{\textit{u}}^{T}_{i}\textbf{\textit{b}}}{C_{ii}}\textbf{\textit{w}}_{i}.
+\end{align}
+Subtracting (6.69) from (6.71) yields the error when the weight is $ \lambda$:
+\begin{align}
+\textbf{\textit{x}}(\lambda) - \textbf{\textit{x}}_{c} =
+\sum_{i=1}^p \dfrac{C_{ii}( S_{ii}\textbf{\textit{u}}^{T}_{i}\textbf{\textit{b}}  - C_{ii}\textbf{\textit{v}}^{T}_{i}\textbf{\textit{d}} ) 
+}{S_{ii} (C^{2}_{ii} + \lambda^{2}S^{2}_{ii})} \textbf{\textit{w}}_{i} 
+\end{align}
+For $ \lambda \rightarrow \infty$ $\textit{we have}$ $\textbf{\textit{x}}(\lambda) \rightarrow  \textbf{\textit{x}}_{c}$. The appeal of the method of weighting is that it does not call for special subroutines: an ordinary least-squares solver will do. This presentation relies heavily on Golub \& van Loan (1996) andBj$\ddot{o}$rck (1996).
+
+    We have implemented the procedure as $M$-file wlsq.

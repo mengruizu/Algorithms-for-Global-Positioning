@@ -1,0 +1,1 @@
+copy *.tex "d:\chapter04" & echo %date% %time% >> d:\chapter04\copy_bat_time.txt

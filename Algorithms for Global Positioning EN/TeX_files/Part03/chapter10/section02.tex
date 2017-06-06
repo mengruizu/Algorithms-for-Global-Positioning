@@ -1,0 +1,114 @@
+\section[计算模型的动机]{计算模型的动机\\Motivation for Computational Models}
+Suppose two receivers are reasonably close (say less than 50 kilometers apart). Then the signals from a satellite that is 20000+ kilometers away will reach the two receivers along very close paths. The delays in the ionosphere will be nearly identical. The errors due to an incorrect satellite clock are the same. So are the errors in the satellite orbits. Those errors will cancel in the difference of travel times to the two receivers.
+
+Time synchronization, atmospheric effects, and orbit errors are all proportional to station separation. Ionospheric gradients are typically 1 part in $10^{6}$. For precise positioning at a single frequency, a 100 km separation is much too large to neglect (the effect may reach 10mm even over 1-2 km). With two frequencies, those errors nearly cancel for any distance. Tropospheric effects are also important in precise positioning for separations over 1-2km. Errors in orbit computations are 1-2m, which is equivalent to 5 mm over 100 km. This is important for tectonics but not for routine surveying or navigation.
+
+Differential GPS (DGPS) is based on a simple idea. If the position of one �� home�� receiver is exactly known, then its distance from each satellite is easily computed. The travel time at the speed of light is then available (divide the distance by c). This theoretical travel time can be compared with the measured travel time. The error is found for each satellite in view, and these errors are transmitted by the home receiver. The second receiver (or any number of roving receivers) will pick up this information and correct their own travel times from the satellite, by that same amount.
+
+Thus the small investment in an extra receiver-transmitter enables us to cancel part
+of the natural effects of the ionosphere.
+
+The principle of working with differences is even more used in post processing of GPS data. Double differences (2 satellites as well as 2 receivers) are explained and constantly applied in this chapter. The accuracy achieved by DGPS is remarkable.
+
+The traditional observable in positioning and navigation has been the angle. This quantity
+is fundamental to geodesy. But since the 1960s geodesists additionally have used the electronically measured distance in their science. For GPS, distance is the basic observable.Thus triangulation is being largely replaced by trilateration.
+
+From a geodetical point of view a key feature of GPS is that the user can calculate coordi
+-nates to all visible satellites at any time. The calculation is done according to a complex algorithm, described in Chapter 9. The input is derived from the satellite signals;the receiver immediately finds the satellite coordinates. These coordinates relate to an Earth Centered and Earth Fixed (ECEF) system. The geocentric coordinates of the receiver are also related to this system. Any good receiver provides the position within 2 minutes from being switched on!
+
+Conceptually the satellites may be looked upon as points with known coordinates in space, continuously emitting information on their position. The receiver measures its distance to each satellite. In the field, the receiver coordinates ($X_{i},Y_{i},Z_{i}$) can be determined with an accuracy varying from 2m to 10m. The accuracy is greatly improved by using offset values from a fixed receiver, whose position is known. This is differential GPS.Geodesy deals exclusively with DGPS, it can attain centimeter accuracy.
+
+The frequency $f_{0}$ = 10.23 Mhz is fundamental for GPS. Each satellite transmits carrier waves on two frequencies (this is in 2011�� a new civilian frequency L5 will have full operational capability by approximately 2013). The LI signal uses the frequency $f_{1}$ = 154$f_{0}$  =1575.42 Mhz with wavelength $\lambda_{1}$ = 0.1905 m and the L2 signal uses frequency $f_{2}$ = 120$f_{0}$ = 1227.60 Mhz with wavelength $\lambda_{1}$ = 0.2445 m. The two frequencies are coherent because 154 and 120 are integers. LI carries a precise code and a coarse/acquisition code. L2 carries the precise P code only. A navigation data message is superimposed on all these codes.
+
+The most accurate distances are computed from phase observation. This consists of the difference in phase of the incoming satellite signal and a receiver generated signal with the same frequency. The phase difference is derived from the phase lock loop (PLL) and often with a resolution of $10^{-2}$ cycle or better. The initial observation only consists of the fractional part of the phase difference. When tracking is continued without loss of lock we still record a fractional part plus the integer number of cycles since the initial epoch. But the observation does not provide us with the initial integer ��the ambiguity N.
+
+The resolution of this ambiguity��counting the cycles without slips��is a crucial problem for GPS. This is particularly true for short observations, a few hours or less, of phases that are doubly differenced . The ambiguity problem is irrelevant for one-ways and single differenced observations because of the non-cancelling term $\varphi_{i}(t_{0})$ in (10.2).
+
+Precise GPS solutions depend highly on how well clock errors in satellites and receiver
+are eliminated. Since light travels 3 mm in 0.01 nanoseconds, usable GPS observations
+on millimeter level require that we can know the time to within nanosecond level .
+
+A standard observational method consists of phase observations by two or more receivers
+of four or more satellites at receiver epochs. An epoch is an instant of time. For double differenced observations we only need to know the sampling epoch to within a half microsecond. This can almost always be obtained from P code pseudoranges. Double diff
+-erences require only good short- term stability of the receiver oscillator; the long-term stability need be no better than your wrist watch , see Table 9.5.
+
+The original observation is a (one-way) difference between a receiver and a satellite.Diffe
+-rences between two receivers and one satellite eliminate errors common to the satellite. Next we make differences between two receivers and two satellites�� double differences. This double difference eliminates errors that are common to both receivers. The largest errors are; receiver clock offsets. Receiver clock drifts are not eliminated.
+
+The differencing technique is effective for repairing a not too perfect synchronization bet
+-ween the two receivers. The serious multipath errors do not cancel as they depend on the specific reflecting surface at each receiver. A better antenna design and a better signal pro
+-cessing is the goal of current research.
+
+The GPS signals may be interrupted by buildings or other constructions causing cycle slips. When lock of signal is established again , the integer ambiguity most likely is wrong and has to be determined anew. Today detection of cycle slips is based on efficient algorithms which assume that the epoch- to -epoch ionospheric changes are small. The combination $\lambda_{1}N_{1}-\lambda_{2}N_{2}$ therefore is sensitive to cycle slips. For time intervals smaller than a few seconds , the ionospheric variations are at the subcentimeter level. Cycle slips result in distance errors that are multiples of the wavelength $\lambda_{i}$�� too large for serious science.
+
+Signals at the high frequencies LI and L2 propagate relatively easily through the ionosphere. The ionospheric delay is inversely proportional to the square of the frequency.For dual frequency receivers this is utilized to eliminate most of the ionospheric delay.If we succeed in estimating the correct integer ambiguity value N we talk about a fixed solution (of the ambiguity). A float solution will have an incorrect and non-integer N.
+
+The final step of the data processing is a least-squares estimation of point coordinates bas
+-ed on the estimated vectors. The estimation yields an assessment of quality of the observations and a possible detection of gross errors. The result of a GPS survey is a network of points whose position is controlled through a least-squares estimation.
+
+\textbf{Example 10.1} (Features of the matrices A and $A_{T}A$)A typical coefficient matrix A can describe a single positioning situation with GPS. The row for each satellite contains its three direction cosines. The fourth entry is a 1 for the unknown receiver clock offset:
+
+$$
+A=\begin{bmatrix}
+0.4774 & -0.5691 & -0.6537 & 1\\
+-0.2082 & 0.7052 & -0.6758 & 1\\
+-0.6712 & 0.1884 & -0.7003 & 1\\
+-0.7080 & -0.5306 & -0.4532 & 1\\
+-0.6539 & 0.6756 & -0.3076 & 1\\
+-0.1139 & -0.9493 & 0.2533 & 1\\
+-0.7745 & -0.3964 & -0.4688 & 1\\
+\end{bmatrix}
+$$
+
+The averages of the first three columns give a mean direction
+
+$$
+e_{mean}=\begin{bmatrix}
+-0.38 & -0.13 & -0.43\\
+\end{bmatrix}
+$$
+
+If we invert the upper 4 by 4 block of A (from four satellites) we get
+
+$$
+A_{block}^{-1}=\begin{bmatrix}
+0.61 & 0.64 & -1.07 & -0.18\\
+-0.48 & 1.19 & -0.68 & -0.03\\
+-1.31 & 3.56 & -6.19 & 3.94\\
+-0.42 & 2.70 & -3.93 & 2.65\\
+\end{bmatrix}
+$$
+
+This block has the remarkable property that the first three row sums are zero, the fourth is 1. Why is this the case? ( Because these rows of $A^{-1}$ are orthogonal to the all-ones column of A.)
+
+The covariance matrix for the four unknowns is computed as $(A^{T}A)^{-1}$. From this 4 by 4 matrix we select the block pertaining to the three coordinates:
+
+$$
+\sum_{xyz}=\begin{bmatrix}
+0.89& 0.24& 0.20\\
+0.24& 0.58& 0.54\\
+0.20& 0.54& 2.01\\
+\end{bmatrix}
+$$
+
+This covariance matrix $\sum_{xyz}$ has eigenvalues
+
+$$
+\lambda_{\sum}=\begin{bmatrix}
+0.35& 0.89& 2.25
+\end{bmatrix}
+$$
+
+and eigenvectors
+
+$$
+V=\begin{bmatrix}
+-0.30& -0.93& 0.20\\
+0.92 &-0.22& 0.33\\
+-0.26& 0.28& 0.92\\
+\end{bmatrix}
+$$
+
+One might expect that the direction vector $e_{mean}$ will be more or less aligned with the eigenvector in column 3 of V��belonging to the largest eigenvalue. Our computations are motivated by the following fact: All tracked satellites are above the local horizon, and their mean direction is roughly upward. The Earth radius times $e_{mean}$ gives a good first approximation for the receiver position. All the computations are performed in the M-file testA.m.
+
+On these few pages we tried to give a brief introduction to how GPS is used for positional purposes. The following pages focus on computational aspects of GPS.

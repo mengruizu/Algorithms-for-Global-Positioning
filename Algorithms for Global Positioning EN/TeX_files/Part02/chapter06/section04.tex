@@ -1,0 +1,72 @@
+\section[条件数]{条件数\\The Condition Number}
+\begin{flushleft}
+	\textit{Geodetic network analysis} is based on the fact that we can build the left side of the normals $A^{T}CA$ when we know the topology of the network, described by $A$, and the weights $C$ of the observations. Hence we may calculate the covariance matrix of $ \Sigma_{x}=(A^{T}CA)^{-1} $ the output $\hat{\textbf{\textit{x}}}$, without computing particular samples. The actual observations only enter into $A^{T}C\textbf{\textit{b}}$ for each sample. So much network analysis can be performed without taking a single measurement.
+\end{flushleft}
+One good measure for comparing various networks is the \textit{condition number} of $A$ or $A^{T}CA$. The norm and condition number of a matrix play a vital role in the numerical calculations and design problems of geodesy. Norm inequalities for vectors and matrices often are used for \textit{estimating the influence of roundoff errors} and \textit{observational errors}. The condition number also can be introduced in the optimum \textit{design of networks}. This number helps to decide if one network design is better than another. 
+
+The following matrix is a typical form of $A^{T}A$ for many least-squares problem: 
+
+\begin{align*}
+N=
+\begin{bmatrix}
+ 2     & -1          &        &        & \\
+-1     &  2      &  -1        &        & \\
+ &        &       \ddots      &        & \\
+ &        &         -1     &  2     & -1 \\
+ &        &          &       -1     &  2
+\end{bmatrix}
+\end{align*}  
+\begin{flushleft}
+	This is the coefficient matrix in the normal equation for several 1-$D$ problems:
+\end{flushleft} 
+\begin{adjustwidth}{2em}{2em}
+	$A$ regular traverse along the $\textbf{\textit{x}}$-axis with postulated abscissas at both terminals. Only distances are measured and with equal weights.
+\end{adjustwidth}
+\begin{adjustwidth}{2em}{2em}
+	$A$ leveling line with postulated heights at both terminals. All observations are of equal weight.
+\end{adjustwidth}
+\begin{adjustwidth}{2em}{2em}
+	$N^{2}$ is the coefficient matrix for a regular traverse along the $\textbf{\textit{x}}$-axis with postulated $\textbf{\textit{y}}$ values at the terminals. All angles are supposed to be measured with equal weights.
+\end{adjustwidth}
+
+\begin{flushleft}
+	The eigenvectors of $N$ are discrete sine vectors, and the eigenvalues are
+\end{flushleft}
+
+\begin{align}
+\lambda_{i}=4sin^{2}\dfrac{i\pi}{2(n+1)}, \quad  i=1,2,\cdots,n. 
+\end{align}
+
+\begin{flushleft}
+	The condition number of a positive definite matrix is $ \lambda_{max}/\lambda_{min} $.For this example we find
+\end{flushleft}
+\begin{align*}
+c(N)=\dfrac{\lambda_{max}}{\lambda_{min}}=\dfrac{4sin^{2}\dfrac{n\pi}{2(n+1)}}{4sin^{2}\dfrac{\pi}{2(n+1)}}\approx(\frac{2(n+1)}{\pi})^{2}\approx0.4n^{2}.
+\end{align*}
+
+\begin{flushleft}
+	Because $N$ is symmetric, $ c(N)=c(N)^{2}\approx0.2n^{4} $.This shows growth in numerical inotability (but not an exponential explosion as for a Hilbert matrix) as $n$ increases.
+\end{flushleft}
+
+This eigenvalue analysis can be extended to a 2-dimensional leveling network, covering a rectangular area subdivided into $m$ by $n$ squares. All differences of height between neighboring points are observed with equal weight. The eigenvalues for the 2-$D $coefficient matrix are
+
+\begin{align*}
+\lambda_{jk}=4(sin^{2}\dfrac{j\pi}{2(m+1)}+sin^{2}\dfrac{k\pi}{2(n+1)}), \quad
+ \left\{
+\begin{aligned}
+j & = & 1,2,\cdots,m, \\
+k & = & 1,2,\cdots,n. 
+\end{aligned}
+\right.
+\end{align*}
+\begin{flushleft}
+	Let $ \rho=max(m,n) $ and we get the following estimate of the condition of the network:
+\end{flushleft}
+\begin{align*}
+c=\dfrac{cos^{2}\dfrac{\pi}{2(m+1)}+cos^{2}\dfrac{\pi}{2(n+1)}}{sin^{2}\dfrac{\pi}{2(p+1)}}\approx\dfrac{8(p+1)^{2}}{\pi^{2}}<p^{2}, \quad 0<\dfrac{m}{n}<\text{constant}.
+\end{align*}
+\begin{flushleft}
+	Comparing this condition number with the one from the leveling line we see that the contion number is only doubled in the step from 1-$D$ to 2-$D$. At the same time the number of points increased by the square of $\textit{\textbf{p}}$. We may conclude: \textit{If the difference of height between two points has to be determined as accicrately as possible, the network cannot be "narrow."} $A$ 2-$D$ \textit{network with} $ \bigtriangleup x = \bigtriangleup y$ \textit{has better condition number}. 
+\end{flushleft}
+
+Of course, the observational work increases tremendously compared to the accuracy.But this just confirms that accuracy costs money.    

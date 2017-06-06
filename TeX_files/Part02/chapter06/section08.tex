@@ -1,1 +1,165 @@
 \section[等式约束的最小二乘]{等式约束的最小二乘\\Least Squares with Equality Constraints}
+加权最小二乘法的想法是，具有大权重的观测结果应当比具有更小权重的观测结果影响解决方案。将这个想法扩展到极端意味着给予观测无限重量将导致该方程被完全满足。换句话说，我们有一个数值方法在最小二乘问题中引入线性等式：具有非常大的权重的观测方程作为线性约束。这个观测是由许多大地测量学家做的。
+
+通常约束遵循数学或物理模型。在其最简单的形式中，某些坐标值应该通过最小二乘法保持不变。关于观测的数目，约束的数目，未知数的数目和矩阵的秩之间的所有可能的条件已经写了很多。我们考虑具有比未知数更多的观测的普通情况，并且具有与描述约束的矩阵$B$的秩一样多的约束。
+
+\subsection{精确解决方案}
+
+我们的起点再次是具有通过$B\textbf{\textit{x}}=\textbf{\textit{d}}$描述的$p$约束的观测方程$A\textbf{\textit{x}}=\textbf{\textit{b}}-\textbf{\textit{e}}$。我们假设$B$是秩为$p$的$p$乘$n$矩阵。那么$B\textbf{\textit{x}}=\textbf{\textit{d}}$是一致的(它有解)。
+
+为了最小化$ \lVert A\textbf{\textit{x}}-\textbf{\textit{b}} \rVert^{2}$约束，引入拉格朗日乘子$y_{1},\ldots,y_{p}$
+对于每个方程$B\textbf{\textit{x}}=\textbf{\textit{d}}$。约束是建立在拉格朗日函数中的
+\begin{align}
+L(\textbf{\textit{x}},\textbf{\textit{y}}) = \dfrac{1}{2} \lVert A\textbf{\textit{x}}-\textbf{\textit{b}} \rVert^{2} + \textbf{\textit{y}}^{T}(B\textbf{\textit{x}}-\textbf{\textit{d}}).
+\end{align}
+然后用于最小化$\textbf{\textit{x}}$和乘数$\textbf{\textit{y}}$的$n+p$个等式
+\begin{align*}
+\partial L/ \partial \textbf{\textit{x}} &= \textbf{0}  & &
+A^{T}A\textbf{\textit{x}} + B^{T}\textbf{\textit{y}} = A^{T}\textbf{\textit{b}} \\
+\partial L/ \partial \textbf{\textit{y}} &= \textbf{0}  & & 
+B\textbf{\textit{x}}  = \textbf{\textit{d}} 	
+\end{align*}
+有几种方法来处理这些方程，我们提到两种方法。
+
+问题是
+\begin{align}
+\min_{B\textbf{\textit{x}}=\textbf{\textit{d}}} \lVert A\textbf{\textit{x}}-\textbf{\textit{b}} \rVert^{2}.
+\end{align}
+当$B$的行被正交化时，$B^{T}$具有$QR$因式分解
+\begin{align*}
+Q^{T}B^{T} = 
+\begin{bmatrix}
+R\\
+\textit{O}
+\end{bmatrix}^{p}_{n-p}.
+\end{align*}
+将$AQ$和$Q^{T}\textbf{\textit{x}}$分割成具有这些大小$p$和$n-P$的片段：
+\begin{align*}
+AQ = [\mathop{A_{1}}_{p}  \ \mathop{A_{2}}_{n-p}] \quad  \text{和} \quad  Q^{T}\textbf{\textit{x}} = 
+\begin{bmatrix}
+\textbf{\textit{y}}\\
+\textbf{\textit{z}}
+\end{bmatrix}
+^{p}_{n-p}.
+\end{align*}
+我们得到$ B = R^{T}Q^{T}$和$ B\textbf{\textit{x}} =R^{T}Q^{T}\textbf{\textit{x}} = R^{T}\textbf{\textit{y}} $和$ (AQ)(Q^{T} \textbf{\textit{x}}) = A\textbf{\textit{x}} = A_{1}\textbf{\textit{y}} + A_{2}\textbf{\textit{z}} $。这些变换(6.63)有$\textbf{\textit{y}}$(有约束)和$\textbf{\textit{z}}$(没有约束)：
+\begin{align}
+\min_{R^{T}\textbf{\textit{y}}=\textbf{\textit{d}}} \lVert A_{1}\textbf{\textit{y}} + A_{2}\textbf{\textit{z}} -\textbf{\textit{b}} \rVert.
+\end{align}
+因此$ \textbf{\textit{y}}$由$ R^{T}\textbf{\textit{y}}=\textbf{\textit{d}}$确定，$z$通过求解无约束最小二乘问题得到
+\begin{align}
+\min_{\textbf{z}} \lVert A_{2}\textbf{\textit{z}} -(\textbf{\textit{b}} - A_{1}\textbf{\textit{y}} )  \rVert.
+\end{align}
+使用已知的$\textbf{\textit{y}}$和$\textbf{\textit{z}}$，解$\textbf{\textit{x}}$来自$Q$乘以$Q^{T}\textbf{\textit{x}}$:
+\begin{align*}
+\textbf{\textit{x}} = Q
+\begin{bmatrix}
+\textbf{\textit{y}}\\
+\textbf{\textit{z}}
+\end{bmatrix}.
+\end{align*}
+或者，我们希望使用$SVD$计算解。新问题是为$A$和$B$找到同时的$SVD$。这被称为广义奇异值分解。从复合矩阵$M$开始：
+\begin{align*}
+M = 
+\mathop{\begin{bmatrix}
+	A\\
+	B
+	\end{bmatrix}}_{n}{}^{m}_{p}.
+\end{align*}
+Paige \& Saunders (1981) 建立了$C-S$分解(类似于余弦和正弦)。存在$m \times m$的正交矩阵$U$，$p \times p$正交矩阵$V$，(通常)正方形矩阵$X$和非负对角矩阵$C$和$S$，使得
+\begin{align}
+A &= UCX^{T} \\
+B &= VSX^{T} \\
+C^{2}+S^{2} &= I
+\end{align}
+矩阵$ X$是$n$乘以$s$，其中$s$ = $min\{ m+p, n \}$。
+
+对角线条目在$C$中增加，从$q$个零开始并且以$n-p$个结束。广义奇异值是$ C_{ii}/S_{ii}$。在$MATLAB[U,V,X,C,S]$中的广义奇异值为$gsvd(A,B)$，如果$m<n$，则$C$的非零对角线是$diag(C,n-m)$。这允许对角元素被排序，使得广义奇异值不是递减的顺序。$X$和$M$具有相同数目的非零奇异值。我们将此结果应用于问题(6.63)：
+\begin{align*}
+\min_{\textbf{\textit{x}}} \lVert A\textbf{\textit{x}}-\textbf{\textit{b}} \rVert \quad subject \ to \quad
+B\textbf{\textit{x}} = \textbf{\textit{d}}.
+\end{align*}
+正交矩阵$U^{T}$乘以$ A\textbf{\textit{x}}-\textbf{\textit{b}}$不会改变其长度。约束乘以$V^{T}$：
+\begin{align*}
+\min_{\textbf{\textit{x}}} \lVert U^{T}A\textbf{\textit{x}}-U^{T}\textbf{\textit{b}} \rVert \quad subject \ to \quad
+V^{T}B\textbf{\textit{x}} = V^{T}\textbf{\textit{d}}.
+\end{align*}
+从(6.66)和(6.67)如下$U^{T}A = CX^{T} $ 和 $V^{T}B=SX^{T} $。问题变成
+\begin{align*}
+\min_{\textbf{\textit{x}}} \lVert  CX^{T}\textbf{\textit{x}}-U^{T}\textbf{\textit{b}} \rVert \quad subject \ to \quad
+SX^{T}\textbf{\textit{x}} = V^{T}\textbf{\textit{d}}.
+\end{align*}
+引入$U=[\textbf{\textit{u}}_{1},\cdots,\textbf{\textit{u}}_{m}]$，$V=[\textbf{\textit{v}}_{1},\cdots,\textbf{\textit{v}}_{p}]$，和$X=[\textbf{\textit{x}}_{1},\cdots,\textbf{\textit{x}}_{n}]$，我们得到
+\begin{align*}
+(X^{T}\textbf{\textit{x}})_{i} = 
+\left\{
+\begin{aligned}
+\dfrac{\textbf{\textit{v}}^{T}_{i}\textbf{\textit{d}}}{S_{ii}} \ for \ i&=1,\cdots,p \\
+\dfrac{\textbf{\textit{u}}^{T}_{i}\textbf{\textit{b}}}{C_{ii}} \ for \ i&=p+1,\cdots,n. 
+\end{aligned}
+\right.
+\end{align*}
+现在让$ (X^{T})^{-1} = W = [\textbf{\textit{w}}_{1},\cdots,\textbf{\textit{w}}_{1}]$。然后约束解$\textbf{\textit{x}}_{c}$到(6.63)是
+\begin{align}
+\textbf{\textit{x}}_{c} = 
+\sum_{i=1}^p\dfrac{\textbf{\textit{v}}^{T}_{i}\textbf{\textit{d}}}{S_{ii}}\textbf{\textit{w}}_{i} + 
+\sum_{i=p+1}^n\dfrac{\textbf{\textit{u}}^{T}_{i}\textbf{\textit{b}}}{C_{ii}}\textbf{\textit{w}}_{i}.
+\end{align}
+为了比较的原因，我们引用普通解$\textbf{\textit{x}}$没有约束
+\begin{align}
+\textbf{\textit{x}} = 
+\sum_{i=q+1}^p\dfrac{\textbf{\textit{u}}^{T}_{i}\textbf{\textit{b}}}{C_{ii}}\textbf{\textit{w}}_{i} + 
+\sum_{i=p+1}^n\textbf{\textit{u}}^{T}_{i}\textbf{\textit{b}}\textbf{\textit{w}}_{i}.
+\end{align}
+残差$ \textbf{\textit{e}} = \textbf{\textit{b}}-A\textbf{\textit{x}}$由约束增加到$\textbf{\textit{e}}_{c}$，$\textbf{\textit{e}}_{c} - \textbf{\textit{e}} = A(\textbf{\textit{x}} -\textbf{\textit{x}}_{c}) $。记住$ A\textbf{\textit{x}}_{i} = C_{ii}\textbf{\textit{u}}_{ii}$，其中$i=1,\cdots,n$。然后从(6.69) 和 (6.70)，
+\begin{align*}
+\lVert \textbf{\textit{e}}_{c} \lVert^{2} =
+\lVert \textbf{\textit{e}} \lVert^{2} +
+\sum_{i=q+1}^p(\textbf{\textit{u}}^{T}_{i}\textbf{\textit{b}} -
+\dfrac{C_{ii}}{S_{ii}} \textbf{\textit{v}}^{T}_{i}\textbf{\textit{d}}
+)^{2}.
+\end{align*}
+ $QR$分解和广义奇异值分解解都在$M$文件$clsq$中编码。
+
+ \subsection{近似解决方案}
+ 
+ 接下来我们解一个大的约束$ \lambda $最小二乘问题：
+ \begin{align*}
+ \min_{\textbf{\textit{x}}} \left| \left| 
+ \begin{bmatrix}
+ A\\
+ \lambda B
+ \end{bmatrix} \textbf{\textit{x}} -
+ \begin{bmatrix}
+ \textbf{\textit{b}}\\
+ \lambda \textbf{\textit{d}}
+ \end{bmatrix}   \right| \right|   . 
+ \end{align*}
+ 正常方程为$(A^{T}A + \lambda ^{2} B^{T}B)\textbf{\textit{x}} = A^{T}\textbf{\textit{b}} + \lambda ^{2} B^{T} \textbf{\textit{d}} $。我们用(6.66) 和(6.67)代替：
+ \begin{align*}
+ (XC_{T}U^{T}UCX^{T}+\lambda^{2}XS^{T}V^{T}VSX^{T})\textbf{\textit{x}}=XC^{T}U^{T}\textbf{\textit{b}}+\lambda^{2}XS^{T}V^{T}\textbf{\textit{d}}.
+ \end{align*}
+ 既然$ U^{T}U=I$和$ V^{T}V=I$和$X$是可逆的，这就变成了
+ \begin{align*}
+ (C_{T}C + \lambda^{2}S^{T}S )X^{T}\textbf{\textit{x}} =
+ C^{T}U^{T}\textbf{\textit{b}}+\lambda^{2}S^{T}V^{T}\textbf{\textit{d}}.
+ \end{align*}
+ 解是
+ \begin{align}
+ \textbf{\textit{x}}(\lambda) =
+ \sum_{i=1}^p \dfrac{C_{ii}\textbf{\textit{u}}^{T}_{i}\textbf{\textit{b}} +
+ 	\lambda^{2} S_{ii} \textbf{\textit{v}}^{T}_{i}\textbf{\textit{d}}
+ }{C^{2}_{ii} + \lambda^{2}S^{2}_{ii}} \textbf{\textit{w}}_{i} +
+ \sum_{i=p+1}^n
+ \dfrac{\textbf{\textit{u}}^{T}_{i}\textbf{\textit{b}}}{C_{ii}}\textbf{\textit{w}}_{i}.
+ \end{align}
+ 从(6.71)减去 (6.69)得出当权重为$ \lambda$时的误差：
+ \begin{align}
+ \textbf{\textit{x}}(\lambda) - \textbf{\textit{x}}_{c} =
+ \sum_{i=1}^p \dfrac{C_{ii}( S_{ii}\textbf{\textit{u}}^{T}_{i}\textbf{\textit{b}}  - C_{ii}\textbf{\textit{v}}^{T}_{i}\textbf{\textit{d}} ) 
+ }{S_{ii} (C^{2}_{ii} + \lambda^{2}S^{2}_{ii})} \textbf{\textit{w}}_{i} 
+ \end{align}
+ 对于$ \lambda \rightarrow \infty$ 我们有 $\textbf{\textit{x}}(\lambda) \rightarrow  \textbf{\textit{x}}_{c}$。加权方法的吸引力在于它不需要特殊的子程序：一个普通的最小二乘法求解器就可以计算。这个演示很大程度上依赖于Golub \& van Loan (1996) 和 Bj$\ddot{o}$rck (1996)。
+ 
+ 我们已经将该过程实现为$M-file wlsq$。
+ 

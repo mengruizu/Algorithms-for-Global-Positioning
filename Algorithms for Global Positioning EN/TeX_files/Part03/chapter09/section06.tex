@@ -1,0 +1,164 @@
+\section{Alternative Algorithms}
+	We consider various least-squares formulations: In order to estimate the receiver position j from given satellite coordinates and pseudoranges we consider ordinary least squares and weighted least squares. The following examples are based on the numerical values displayed in Table \ref{tab:9.4}. The computations are done by the M-file rp.m.
+	\subsection{Ordinary Least Squares}
+		The model is described by A x — b + e. The general row in A is
+		\[ 
+			\begin{bmatrix}
+				-\dfrac{X^k-X_i}{\rho^k_1} & -\dfrac{Y^k-Y_i}{\rho^k_1} & -\dfrac{Z^k-Z_i}{\rho^k_1} & 1
+			\end{bmatrix} 
+		\]
+		The corresponding element $b_k$ of b is
+		\[
+			P^k - \Arrowvert 
+			\begin{bmatrix}
+			X^k & Y^k & Z^k
+			\end{bmatrix}-
+			\begin{bmatrix}
+			X & Y & Z
+			\end{bmatrix}
+			\Arrowvert_2
+			-c\,dt
+		\]
+		After 6 iterations the result is given as
+		\[
+		\begin{split}
+		\hat{X} = 3427824.23 \\
+		\hat{Y} =  603665.35 \\
+		\hat{Z} = 5326882.42 \\
+		\hat{c\,dt} =  113058.30
+		\end{split}
+		\]
+		with standard deviation 2.3 m.
+	
+	\subsection{Weighted Least Squares}
+		It can be argued that pseudoranges measured to satellites with high elevation angle are measured more accurately than pseudoranges to lower satellites. Let $a_0$ and $a_1$ be given constants and h the elevation angle of the tracked satellite and ho the cut-off elevation angle. Then a model for the standard deviation like $\sigma_b = a_0 + a_1e^{-h/h_0}$ has been introduced. However we use an even simpler expression $\sigma_b=1/\sin h$. The weight c/ is computed as $c_i=1/\sigma^2_b$. The weighted adjusted result is
+		\[
+		\begin{split}
+			\hat{X} = 3427826.07 m \\
+			\hat{Y} =  603664.47 m \\
+			\hat{Z} = 5326883.17 m \\
+			\hat{c\,dt} = 113059.57 m. \\
+		\end{split}
+		\]
+		which deviates less than 1-2 meters in every component from the unweighted result. The standard deviation of unit weight drops to 0.7 meter.
+	
+	\subsection{Conclusions}
+		The Gauss method for a set of m equations in n unknowns, m > n, is still unbeaten after two centuries. It gives
+		\begin{itemize}
+			\item A unique (weighted) least-squares solution with smallest variance
+			\item A measurefor the accuracy (the covariance) of that solution.
+		\end{itemize}
+			
+		In the early days of GPS, m — n was often a small integer. The computational facilities were limited, so it became natural to look for non-optimal solutions. Most often the uniqueness was given up. Now we do much better.
+		
+		Example 9.1 (Dilution of Precision) The covariance $matrix_{ECEF}$ for $(x_i,y_i,z_i,c\,dt)$ contains information about the geometric quality of the position determination. $\Sigma$ is smaller (and $\hat{x}$ is more accurate) when the satellites are well spaced. The trace of $\Sigma_{ECEF}$ compresses this information into a single number and we cannot recover the confidence ellipsoid. The coordinate trace is the system sum of the four variances $\sigma^2_X+\sigma^2_Y+\sigma^2_Z+\sigma^2_{c\,dt}$,and it is independent of the coordinate system. In addition to the information on the geometry these variances involve the accuracy of the observations.This can be eliminated by division by$\sigma^2_0$.
+			
+		We start from the covariance matrix of the least squares problem (9.22):
+		\begin{equation}\label{eq:9.27}
+			\Sigma_{ECEF} = 
+			\begin{bmatrix}
+				\sigma^2_X & \sigma_{XY} & \sigma_{XZ} & \sigma_{X,c\,dt} \\
+				\sigma_{YX}& \sigma^2_Y  & \sigma_{YZ} & \sigma_{Y,c\,dt} \\
+				\sigma_{ZX}& \sigma_{ZY} & \sigma^2_Z & \sigma_{Z,c\,dt} \\
+				\sigma_{c\,dt,X} & \sigma_{c\,dt,Y} & \sigma_{c\,dt,Z} & \sigma^2_{c\,dt} \\
+			\end{bmatrix}
+		\end{equation}
+		
+		The propagation law transforms $\Sigma_{ECEF}$ into the covariance matrix expressed in a local system with coordinates (E,N,U).The interesting 3 by 3 submatrix S of $\Sigma_{ECEF}$ is shown in \ref{eq:9.27}.After the transformation by $F^T$,this submatrix S becomes
+		\begin{equation}\label{eq:9.28}
+			\Sigma_{ENU} = 
+			\begin{bmatrix}
+				\sigma^2_E & \sigma_{EN} & \sigma_{EU} \\
+				\sigma_{NE}& \sigma^2_N  & \sigma_{NU} \\
+				\sigma_{UE}& \sigma_{UN} & \sigma^2_U \\
+			\end{bmatrix}
+			=F^TSF
+		\end{equation} 
+			
+		F connects Cartesian coordinate differences in the local system (at latitude $\varphi$ and longitude $\lambda$.) and the ECEF system, see (3.28) which is derived in an alternative way. The sequence (E,N,U) assures that both the local and the ECEF systems shall be right handed:
+		\begin{equation}\label{eq:9.29}
+		\begin{array}{rcl}
+			F^T &=& R_3(\pi)R_2(\varphi-\frac{\pi}{2})R_3(\lambda-\pi) \\
+				&=&\begin{bmatrix}
+						0 & -1 & 0 \\
+						1 &  0 & 0 \\
+						0 &  0 & 1
+					\end{bmatrix}
+					\begin{bmatrix}
+					\sin \varphi & 0 & \cos \varphi \\
+					0 & 1 & 0 \\
+					-\cos \varphi& 0 & \sin \varphi
+					\end{bmatrix}
+					\begin{bmatrix}
+					-\cos \lambda & -\sin \lambda & 0 \\
+					\sin \lambda & -\cos \lambda & 0 \\
+					0 & 			0 & 1 
+					\end{bmatrix} \\
+				 &=&\begin{bmatrix}
+					-\sin \lambda & \cos \lambda & 0 \\
+					-\sin \varphi \cos \lambda & -\sin \varphi \sin \lambda & \cos \varphi \\
+					\cos \varphi \cos \lambda & \cos \varphi \sin \lambda & \sin \varphi 
+					\end{bmatrix}
+		\end{array}	
+		\end{equation}
+			
+		In practice we meet several forms of the dilution of precision (abbreviated DOP):
+		\begin{table}
+			\begin{tabularx}{\textwidth}{lX}
+				Geometric: & $GDOP=\sqrt{\sigma^2_E+\sigma^2_N+\sigma^2_U+\sigma^2_{c\,dt}}/\sigma_0=\sqrt{trace(\Sigma_{ECEF})}/\sigma_0$ \\
+				Horizontal:&$HDOP=\sqrt{\sigma^2_E+\sigma^2_N}/\sigma_0$ \\
+				Position:  & $PDOP=\sqrt{\sigma^2_E+\sigma^2_N+\sigma^2_U}/\sigma_0=\sqrt{\sigma^2_X+\sigma^2_Y+\sigma^2_Z}/\sigma_0=\sqrt{trace(\Sigma_{ENU})}/\sigma_0 $ \\
+				Time:	   &$TDOP=\sigma_{c\,dt}/\sigma_0$ \\
+				Vertical:  &$VDOP=\sigma_U/\sigma_0$ 
+			\end{tabularx}
+		\end{table}
+		
+		Note that all DOP values are dimensionless. They multiply the range errors to give the position errors (approximately). Furthermore we have
+		\[
+			GDOP^2=PDOP^2+TDOP^2=HDOP^2+VDOP^2+TDOP^2
+		\]
+			
+		The DOP values are especially useful when planning the observational periods. For this purpose almanacs without high accuracy are better than transmitted ephemerides. Almanac data allow for pre-computation of satellite positions over a few weeks and with sufficient accuracy (the ephemerides representation df the orbits is valid over a short period of time).Some satellite constellations are better than others and the knowledge of the time of best satellite coverage is a useful tool for anybody using GPS.
+			
+		Experience shows that good observations are achieved when $PDOP<5$ and when measurements come from at least five satellites.
+			
+		Remark 9.1 Pseudorange observations b are non-linear functions of the unknown receiver coordinates. Mostly we work with linearized observations and the Taylor series is
+		\[
+			b=b_0+(X-X_0)^Tgrab\,b|_{X=X_0}+\frac{1}{2}(X-X_0)^TH|_{X=X_0}(X-X_0)+\ldots
+		\]	
+		The values $X_0$ are $X$ computed at the expansion point, and the Hessian H holds second derivatives. Our goal is to estimate the magnitude of that second order term. This term tells about the error we make by truncating the series after the first order term. For a set of pseudoranges this leads to use of tensors, so we develop a simpler example, using one pseudorange for b.
+			
+		We already know the gradient of the pseudorange as given in (9.22) we omit the last column pertaining to the clock offset:
+		\begin{equation}\label{eq:9.30}
+			A=\begin{bmatrix}
+			-\dfrac{X^1-X_i}{\rho^1_i} & -\dfrac{Y^1-Y_i}{\rho^1_i} & -\dfrac{Z^1-Z_i}{\rho^1_i}
+			\end{bmatrix}
+		\end{equation}
+			
+		The second order derivatives are collected in the Hessian:
+		\begin{equation}\label{eq:9.31}
+			H=
+			\begin{bmatrix}
+				\dfrac{(Y^1-Y_i)^2+(Z^1-Z_i)^2}{(\rho^1_i)^3} & \dfrac{(X^1-X_i)(Y^1-Y_i)}{(\rho^1_i)^3} 		& \dfrac{(X^1-X_i)(Z^1-Z_i)}{(\rho^1_i)^3} \\
+				\dfrac{(X^1-X_i)(Y^1-Y_i)}{(\rho^1_i)^3}       & \dfrac{(X^1-X_i)^2+(Z^1-Z_i)^2}{(\rho^1_i)^3}   & \dfrac{(Y^1-Y_i)(Z^1-Z_i)}{(\rho^1_i)^3} \\
+				\dfrac{(X^1-X_i)(Z^1-Z_i)}{(\rho^1_i)^3} 	  & \dfrac{(Y^1-Y_i)(Z^1-Z_i)}{(\rho^1_i)^3} 		& \dfrac{(X^1-X_i)^2+(Y^1-Y_i)^2}{(\rho^1_i)^3}		
+			\end{bmatrix}
+		\end{equation}
+		With
+		\[
+		\begin{split}
+		X^1=(-9138250.97,13331687.71,21338151.79)^T \\
+		X_0=(3427823.97,603665.739,5326881.602)^T
+		\end{split}
+		\]
+		and $\alpha=\frac{1}{2}(X-X_0)^TH(X-X_0)$we get the values in the following table:
+		\begin{table}
+			\begin{tabular}{cccc}
+				\hline
+				$X-X_0[m]$ & (1,1,1) & (100,100,100) & (10000,10000,10000) \\ 
+				$\alpha [m]$ & $3\times10^{-8}$ & $3\times10^{-4}$ & 3.02 \\ 
+				\hline
+			\end{tabular} 
+		\end{table}
+		The success of any ambiguity solution depends on well observed pseudoranges; we just witnessed that omitting the second order term a under normal circumstances is risk free!
+			

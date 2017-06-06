@@ -1,0 +1,128 @@
+\section[秩亏的标准方程]{秩亏的标准方程\\Rank Deficient Normal Equations}	
+\par \noindent
+So far we have assumed that $A^\mathsf{T}A$ is invertible. The columns of $A$ are independent. The normal equations have a unique solution. However, in geodetic practice we also encounter least-squares problems with \emph{dependent columns} in $A$. The matrix is �� rank-deficient.��
+\par
+The outstanding example is the \emph{incidence matrix} $A$ for a network with \emph{m} edges and \emph{n} nodes. The \emph{n} values of potential or voltage or height or pressure at the nodes form the unknown vector $x$. Each row of $A$ corresponds to an edge (so \emph{m} rows). The row produces the potential difference across the edge! If the \emph{i}th edge goes from node \emph{j}
+to node \emph{k} , then row \emph{i} of $A$ finds the difference between $x_j$ and $x_k$.
+Here is a typical 6 by 4 incidence matrix multiplying the 4 nodal values $x = (x_1,x_2,x_3,x_4)$ to produce six differences:
+\renewcommand\theequation{7.1}
+\begin{equation}
+	\begin{bmatrix}
+		-1 & 1  & 0  & 0\\
+		-1 & 0  & 1  & 0\\
+		0  & -1 & 1  & 0\\
+		-1 & 0  & 0  & 1\\
+		0  & -1 & 0  & 1\\
+		0  & 0  & -1 & 1
+	\end{bmatrix}
+	\begin{bmatrix}
+		x_1\\
+		x_2\\
+		x_3\\
+		x_4\\
+	\end{bmatrix}
+	=\begin{bmatrix}
+		x_2-x_1\\
+		x_3-x_1\\
+		x_3-x_2\\
+		x_4-x_1\\
+		x_4-x_2\\
+		x_4-x_3
+	\end{bmatrix}
+\end{equation}
+\par
+Certainly $A$ is rank-deficient, with dependent columns. There is a line of vectors in 4-dimensional space that solves $Ax = 0$:
+%\renewcommand\theequation{7.2}
+\begin{equation}
+	\emph{Nullspace of}\ A\  Ax = \mathbf{0}\  \text{when}\ x=
+	\begin{pmatrix}
+		\varepsilon,\varepsilon,\varepsilon,\varepsilon
+	\end{pmatrix}
+\end{equation}
+Equal potentials have zero differences. The four columns of the matrix add to the zero column (because every row adds to zero). When $Ax = 0$ we have $A^\mathsf{T}Ax = 0$, so\emph{the normal equations will be singular}.
+\par
+An important fact from linear algebra is the converse statement: \emph{If} $A^\mathsf{T}Ax = \mathbf{0}$ then we have $Ax = 0$. If $A^\mathsf{T}Ax = 0$ then$x^\mathsf{T}A^\mathsf{T}Ax = (Ax)^\mathsf{T}{Ax} = 0$ which means $Ax = 0$.
+\par
+So dependent columns in $A$ mean a singular matrix$A^\mathsf{T}A$. Nearly dependent columns in $A$ means an \emph{ill-conditioned} matrix $A^\mathsf{T}A$. The previous chapter dealt with ill-conditioning by choosing a numerical method for $A^\mathsf{T}A\hat{x} = A^\mathsf{T}b$\ that is more stable than elimination.
+Usually we orthogonalize the columns by $A= QR$, or ��double orthogonalize�� by the SVD to $A = U{\Sigma V}^\mathsf{T}$.
+\par
+This chapter deals with the truly singular case. For networks there is a familiar way to remove the column dependency in $A$ and the singularity of  $A^\mathsf{T}A$: \emph{Fix the potential at one or more nodes}. (In an electrical network, \emph{ground a node}). In a leveling network for surveying or geodesy, postulate one of the heights. When flows are based on pressure differences or temperature differences, fix the pressure or temperature at one node: \emph{Set}\ ${A}_n = 0$.
+\par
+In GPS applications the nodal values ${\mathbf{x}}_j$ are often \emph{vectors} instead of scalars. Then there are more dependencies in $A$, and more ways to remove them. In a typical use ${x}_j$ may be a position vector
+$\begin{pmatrix}
+{X}_j , {Y}_j , {Z}_j
+\end{pmatrix}$
+in three dimensions. If $Ax$ measures differences in position, then \emph{any rigid motion} (a translation or a rigid rotation) corresponds to a solution of $Ax = 0$. This is a vector in the nullspace of $A$, and now the dimension of that nullspace is greater than 1. So more dependencies must be removed!
+\par
+Here is a count of dependencies when the nodal values ${x}_j$ are positions in $d$-dimensional space:
+
+\begin{center}
+	\par
+	$d = 1$ \qquad (point on a line) \qquad  1 translation
+	\par
+	\qquad$d = 2$ \qquad (point in a plane)\qquad  2 tanslation + 1 rotation
+	\par
+	$d = 3$ \qquad (point on a line) \qquad  1 translation
+	\par
+	\qquad$d = 2$ \qquad (point in a plane)\qquad  2 tanslation + 1 rotation
+\end{center}
+\par \noindent
+In general there will be $d$ rigid translations and $d(d - l)/2$ rigid rotations.
+\par \noindent
+\textbf{Remark 7.1} We emphasize one point that is often missed (by the authors too). When $A$ has dependent columns, so its rank is $r < n$, we are sure that $A^\mathsf{T}A$ is singular. The rank of $A^\mathsf{T}A$ is also $r$. The normal equations $A^\mathsf{T}A\hat{x} = A^\mathsf{T}b$ are not quite as normal as usual,since $A^\mathsf{T}A$ has no inverse. But here is the point: $A^\mathsf{T}A\hat{x} = A^\mathsf{T}b$\ \emph{always has a solution}. With $r < n$ it has \emph{many solutions}.
+\par
+How do we know there are solutions to $A^\mathsf{T}A\hat{x} = A^\mathsf{T}b$�� Because the right side $A^\mathsf{T}b$ is orthogonal to every $x_n$ in the nullspace of $A^\mathsf{T}A$ = nullspace of $A$. Proof: The dot product $x_n^ \mathsf{T}( A^\mathsf{T}b)$ equals $(Ax_n)^\mathsf{T}b$ which is $\mathbf{0}^\mathsf{T}b = 0$.
+\par
+Our problem is to choose one of those solutions. Whichever choice we make, the normal equations say that we are minimizing the length of the error vector = residual vector = $\mathbf{b} - A\hat{x}$. The choice of $\hat{x}$ may be made by fixing $n - r$ components or by adding some other set of $n - r$ suitable chosen constraints.
+\par
+Or the choice may be made by choosing the \emph{shortest solution} ${x^+}$ to the normal equations. This is the choice that comes from the \emph{pseudoinverse} of $A$, which is described below. In this case ${x^+}$ is chosen to be a combination of the rows of $A$. In the language of constraints this means that ${x^+}$ is perpendicular to the nullspace of $A$ (which is also the nullspace of $A^\mathsf{T}A$!). This provides the $n - r$ constraints that determine the choice ${x^+}$.
+\par
+MATLAB can choose ${x^+}$ if we ask for it, for example by the command pinv$(A) * b$. It is a special and particular choice that comes through the SVD. But it is not the only choice, and may not be the best.
+\par
+Before describing the applications in GPS, and the algorithms to deal with their dependencies, we briefly explain the pseudoinverse. The equation $Ax = b$ may have no solution or infinitely many solutions depending on $b$. The matrix $A$ is $m$ by $n$ and its rank is $r$ :
+\par
+\begin{center}
+	No solution \qquad $r < m$ \qquad Dependent rows.   Solve $A^\mathsf{T}A\hat{x} = A^\mathsf{T}b$
+	\par
+	Infinitely many \qquad  $r < n$ \qquad Dependent columns.  Find the $shortest \hat{x}$.
+\end{center}
+\par
+Let us be more specific about the shortest solution. The rank is less than $m$ when we have many observations. The rank is less than $n$ when we have column dependencies in $A$ (as we do for �� free�� networks). Frequently both difficulties are present: $r < m\ and\ also\ r < n$. This situation leads to the \textbf{pseudoinverse} (written ${A}^+$ instead of ${A}^{-1}$). The vector ${x}^+ = {A}^+b$  is the combination of the rows of $A$ that provides the shortest solution to the normal equations.
+\par
+Everything is clearest when the $m$ by $n$ matrix is \emph{diagonal}. In that case we will call it $\Sigma$. This symbol refers to the diagonal matrix in the middle of the SVD factorization ${\color{red}{UNKOWN}} =U\Sigma V^\mathsf{T}$, and \emph{not} to a covariance matrix! The point is that $U$ and $V$ are invertible, so they present no difficulty.
+\par
+The real problem appears most clearly for $\Sigma$, which has positive diagonal entries $\sigma_1,...,\sigma_r$ and is otherwise zero. The system $\Sigma x = c$ splits into $m$ simple equations for $n$ unknowns:$\Sigma x = c$ is $\sigma_1{x_1}=c_1,...,\sigma_r{x_r}=c_r$ followed by 0 = $c_{r+1}$,. ..,0 = $c_m$.The normal equations will be $\Sigma^{\mathsf{T}}\Sigma x=\Sigma^\mathsf{T}c: {\sigma_1}^2{{\hat{x}}_1}={\sigma_1}{c_1},...,{\sigma_r}^2{{\hat{x}}_r}={\sigma_r}{c_r}$ followed by $n - r$ "empty equations" $0{\hat{x}}_{r+1}$= 0,..., $O{\hat{x}}_{n}$= 0.
+\par
+This determines the $r$ components ${\hat{x}}_{1} = c_1/\sigma_1$ up to ${\hat{x}}_{r} = c_r/\sigma_r$. In case $r = n$, the ${\hat{x}}$ is fully determined. The $n$ columns of $\Sigma$ are independent and $\Sigma^\mathsf{T}\Sigma$ = diag$({\sigma_1}^2,...,{\sigma_r}^2)$ has only the zero vector in its nullspace; it is invertible.
+\par
+Now suppose $r < n$. Then the first components are still ${x}_{1} = c_1/\sigma_1 ,...,{x}_{r} = c_r/\sigma_r$.The question is how to choose$x_{r+1},...,x_n$��which do not even appear in the equations $\Sigma x = c$!
+\par
+The obvious choice is all zeros: $x_{r+1} = 0,...,x_n = 0$. This certainly gives the shortest solution $x^+ = ( c_1 / \sigma_1,...,c_r / \sigma_r,0, ...,0)$.That solution is exactly $x = \sigma^+c$,where the pseudoinverse of $\Sigma$ is also a diagonal matrix�� \emph{but} $\Sigma^+$ \emph{is} $n$ \emph{by} $m$:
+\begin{equation}
+	Pseudoinverse \Sigma^+ =
+	\begin{bmatrix}
+		{\sigma_1}^{-1} & & & &\\
+		& \ddots & & \emph{0}\\
+		&  & {\sigma_r}^{-1} \\
+		% \hdashline[2pt/2pt]
+		&  \emph{0} & & \emph{0}
+	\end{bmatrix}
+\end{equation}
+\par \noindent
+with zero matrices of size $r \times ( m - r ), (n - r ) \times r$ , and $(n - r ) \times (m - r )$.
+\par
+Perhaps we can state here that for any $A = U\Sigma V^\mathsf{T}$,\emph{the pseadoinverse is} $A^+ = U\Sigma^+U^\mathsf{T}$.Those orthogonal matrices $U$ and $V$ don�� t change lengths. So the shortest solution using $A^\mathsf{T}A$ comes from knowing the shortest solution using $\Sigma^\mathsf{T}\Sigma$.
+\par
+Now we come to the applications of rank deficient matrices in GPS. Starting with the older world of geodesy and surveying, a basic example is a leveling network without any postulated heights. Then $Ax$ involves only \emph{differences} of heights. There is an arbitrary constant in all the heights, which cannot be determined. (It is removed when we postulate one height, like grounding one node). The constant height vector $x = e = (1, 1,...,1)$ has differences $Ax = (0,0,...,0)$. Then$A^\mathsf{T}Ax = \mathbf{0}$ and $A^\mathsf{T}A$ is not invertible.
+\par
+The same is true for two- and three-dimensional control networks in GPS, for the same reason. Still we can define a meaningful and unique solution, by fixing one or more components of $A$. We shall study both geometrical and statistical properties for these types of solutions. They are studied via extensive use of the \emph{pseudoinverse} matrix $A^+$.
+\par
+For these rank deficient matrices $A$,there does not exist any unbiased linear estimator $\hat{x} = Pb$. This would require $E\{\hat{x}\}= PAx = x$ for all $x$, or $PA = I$ which is impossible when $A$ has dependent columns. But there do exist linear functions of $x$ which allow unbiased estimates (expected value equal to true mean). Basically, we must have no component in the direction of a singular vector such as (1,1,...,1). Our discussion focuses on suitable choices of such linear functions and how to interpret them geometrically.
+\par
+In general, the purpose of using a least-squares procedure for geodetic networks is to determine coordinates of the unknown points. Points with postulated coordinates keep these values;the network is ��pin-pointed�� at those points.
+\par
+Although the least-squares estimation of such a network furnishes us with a covariance matrix for the coordinates of the new points, this covariance matrix is greatly influenced by the presence and distribution of the postulated points.So the covariance matrix tells less about the general features of the network,because it also reflects possible internal errors between the known coordinates.
+\par
+In 1962 Meissl proposed a least-squares procedure for geodetic networks that allowed for \emph{singular normal equations} combined with certain linear constraints. The idea was to give equal states to all network points.
+\par
+There exists a close connection between the constrained least-squares problem and a similarity transformation of the same network. We start by deriving the singular vectors connected to the most common types of geodetic observations in case of a rank deficient matrix $A$. They solve $Ax = 0$.	

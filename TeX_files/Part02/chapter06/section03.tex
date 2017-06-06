@@ -1,1 +1,204 @@
 \section[奇异值]{奇异值\\Singular Value Decomposition(SVD)}
+在本节中，我们要介绍新的坐标系统，其中最小二乘问题变得更简单，因此更加清晰。在坐标变换之后，我们说我们已经获得了最小二乘问题的“规范形式”，我们先介绍线性代数中的$SVD$，然后回到应用程序。
+
+奇异值分解是线性代数的亮点。$A$是任何$m$乘$n$矩阵，正方形或矩形。它的秩是$r$。我们将对角线化这个$A$，但不是$S^{-1}AS$。$S$中的特征向量有三个大问题：它们通常不是正交的，并不总是有足够的特征向量，而且要求$A$为正方形。$A$的奇异向量以完美的方式解决所有这些问题。
+
+我们付出的代价是有两套奇异向量，$\textbf{\textit{u}}$和$\textbf{\textit{v}}$。 $\textbf{\textit{u}}$是$AA^{T}$的特征向量，$\textbf{\textit{v}}$是$A^{T}A$的特征向量。由于这些矩阵都是对称的，因此它们的特征向量可以选择正交。在下面的等式(6.14)中，$A$乘$A^{T}A$与$AA^{T}$乘$A$相同的简单事实将导致这些$\textbf{\textit{u}}$和$\textbf{\textit{v}}$的显着性质：
+\begin{align}
+" A \ \text{是对角矩阵}\  \textquotedblright \ \ \ 
+A\textbf{\textit{v}}_{1}=\sigma_{1}\textbf{\textit{u}}_{1} \ \ 
+A\textbf{\textit{v}}_{2}=\sigma_{2}\textbf{\textit{u}}_{2} \ \cdots \ 
+A\textbf{\textit{v}}_{r}=\sigma_{r}\textbf{\textit{u}}_{r}
+\end{align}
+奇异向量$\textbf{\textit{v}}_{1},\cdots,\textbf{\textit{v}}_{r}$ 在$A$的行空间中。输出$\textbf{\textit{u}}_{1},\cdots,\textbf{\textit{u}}_{r}$在$A$的列空间中。奇异值$ \sigma_{1},\cdots,\sigma_{r}$都是正数。当$\textbf{\textit{v}}$和$\textbf{\textit{u}}$进入$V$，$U$的列时，正交性给出$V^{T}V=I$和$U^{T}U=I$。$Q$进入对角矩阵$D$.
+
+正如$ A\textbf{\textit{x}}_{i}=\lambda_{i}\textbf{\textit{x}}_{i}$引出对角化$AS=S\Lambda$，方程$A\textbf{\textit{v}}_{i}=\sigma_{i}\textbf{\textit{u}}_{i}$逐列告诉我们$AV = UD$：
+\begin{align}
+\begin{array}{l}
+(m \ \times \ n)(n \ \times \ r) \\
+\ \text{=} \\              
+(m \ \times \ r) (r \ \times \ r)
+\end{array}  A
+\begin{bmatrix}
+\ \\
+\textbf{\textit{v}}_{1} \ \cdots \ \textbf{\textit{v}}_{r}\\
+\ 
+\end{bmatrix}=
+\begin{bmatrix}
+\ \\
+\textbf{\textit{u}}_{1} \ \cdots \ \textbf{\textit{u}}_{r}\\
+\ 
+\end{bmatrix}
+\begin{bmatrix}
+\sigma_{1}  & & \\
+& \ddots &\\
+& & \sigma_{r} 
+\end{bmatrix}
+\end{align}
+这是$SVD$的核心，但还有更多。这些$\textbf{\textit{v}}$和$\textbf{\textit{u}}$说明了$A$的行空间和列空间。我们需要从零空间$ \textbf{N}(A)$和左零空间$ \textbf{N}(A^{T})$得到$n-r$个更多的$\textbf{\textit{v}}$和$m-r$个更多的$\textbf{\textit{u}}$。它们可以是这两个空间的正交基(然后自动正交于第一个$r$ $\textbf{\textit{v}}$和$\textbf{\textit{u}}$的)。包括所有在$V$和$U$的$\textbf{\textit{v}}$和$\textbf{\textit{u}}$，所以这些矩阵变成方阵。我们仍然有$AV = UD$。
+\begin{align}
+\begin{array}{l}
+(m \ \times \ n)(n \ \times \ n) \\
+\text{equals} \\              
+(m \ \times \ m) (m \ \times \ n)
+\end{array}  A
+\begin{bmatrix}
+\ \\
+\textbf{\textit{v}}_{1} \ \cdots \ \textbf{\textit{v}}_{r} \ \cdots \textbf{\textit{v}}_{n}\\
+\ 
+\end{bmatrix}=
+\begin{bmatrix}
+\ \\
+\textbf{\textit{u}}_{1} \ \cdots \ \textbf{\textit{u}}_{r} \ \cdots \textbf{\textit{u}}_{m}\\
+\ 
+\end{bmatrix}
+\begin{bmatrix}
+\sigma_{1}  & & &\\
+& \ddots & &\\
+& & \sigma_{r} & \\
+& & & & 
+\end{bmatrix}
+\end{align}
+新的$D$是$m$乘$n$。它只是旧的$r$乘$r$矩阵(称为$D_{r}$)，其中$m-r$个新的零行和$n-r$个新的零列。真实的变化是$U$和$V$和$D$的形状.而且$V^{T }V = I$和$U^{T }U=I$，大小为$n$和$m$。
+
+$V$现在是正方形正交矩阵，具有逆$V^{-1}=V^{T}$。因此$AV=UD$可以变为$A=UDV^{T}$。这是奇异值分解：
+\begin{align}
+SVD & &  A=UDV^{T}=\textbf{\textit{u}}_{1}\sigma_{ 1}\textbf{\textit{v}}^{T}_{1}+\cdots+\textbf{\textit{u}}_{r}\sigma_{ r}\textbf{\textit{v}}^{T}_{ r}
+\end{align}
+我们将早期的“减少的$SVD$”从等式($6.10$)写为$A=U_{r}D_{r}V^{T}$。这同样是真的，在$D$中没有额外的零。这个减少的$SVD$给出了$A$的相同的分裂为$r$个矩阵的总和，每个矩阵的秩为1。
+
+我们将看到$ \sigma^{2}_{i}=\lambda_{i}$是$A^{T}A$和$AA^{T}$的特征值。当我们按照降序排列奇异值时，，公式（6.12）中的分裂给出了重要性顺序中的$r$个一阶$A$.
+
+示例6.2 $UDV^{T}$(奇异值)何时与$SAS^{-1}$(特征值)相同？
+
+解:我们需要$S=U$中的正交特征向量。我们需要非负特征值$ \Lambda = D $。因此$A$必须是正半定式(或确定)对称矩阵$Q \Lambda Q^{T}$。
+
+例6.3 如果$A=\textbf{\textit{x}}\textbf{\textit{y}}^{T}$单位矢量$\textbf{\textit{x}}$和$\textbf{\textit{y}}$，$A$的$SVD$是多少？
+
+解决方案（6.10）中的减少的$SVD$恰好是$\textbf{\textit{x}}\textbf{\textit{y}}^{T}$，秩为1。它有$\textbf{\textit{u}}_{1}=\textbf{\textit{x}}$和$\textbf{\textit{v}}_{1}=y$和$\sigma_{1}=1$。对于完整的$SVD$，完成$\textbf{\textit{u}}_{1}=\textbf{\textit{x}}$到$\textbf{\textit{u}}$的正交基，并完成$\textbf{\textit{v}}_{1}=\textbf{\textit{y}}$到$\textbf{\textit{v}}$的正交基。没有新的$\sigma$。
+
+矩阵$U$和$V$包含所有四个子空间的正交基：
+\begin{align*}
+&   &r&                &V\text{的列:}&          &A\text{的行空间} \\ 
+&   &n-r&               &V\text{的列: }&         &A\text{的零空间 }\\
+&   &r &               &V\text{的列:}&         &A\text{的列空间} \\
+&   &m-r &             &V\text{的列:}&          &A^{T} \text{的零空间}.
+\end{align*}
+第一列$\textbf{\textit{v}}_{1},\cdots,\textbf{\textit{v}}_{r}$和$\textbf{\textit{u}}_{1},\cdots,\textbf{\textit{u}}_{r}$是$A^{T}A$和$AA^{T}$的特征向量。我们现在解释为什么$A\textbf{\textit{v}}_{i}$落在$\textbf{\textit{u}}_{i}$的方向。最后的$\textbf{\textit{v}}$和$\textbf{\textit{u}}$的(在零空间)更容易。只要那些向量是正交的，$SVD$将是正确的。
+
+$SVD$的证明从$A^{T}A\textbf{\textit{v}}_{i}=\sigma^{2}_{i}\textbf{\textit{v}}_{i}$开始，它给出了$\textbf{\textit{v}}$和$\sigma$的值。乘以$ \textbf{\textit{v}}^{T}_{i}$得到$ \lVert A\textbf{\textit{v}}_{i} \lVert ^{2}$，为了证明$ A\textbf{\textit{v}}_{i}=\sigma_{ i}\textbf{\textit{u}}_{i}$，关键一步是乘以$A$：
+\begin{align}
+\textbf{\textit{v}}^{T}_{i}A^{T}A\textbf{\textit{v}}_{i}=\sigma^{2}_{i}\textbf{\textit{v}}^{T}_{i}\textbf{\textit{v}}_{i}  & & \text{令} & &     \lVert A\textbf{\textit{v}}_{i} \lVert^{2}=\sigma^{2}_{i}
+&  & \text{所以} & & \lVert  A\textbf{\textit{v}}_{i} \lVert = \sigma_{i}
+\end{align}
+\begin{align}
+AA^{T}A\textbf{\textit{v}}_{i}=\sigma^{ 2}_{i}A\textbf{\textit{v}}_{i} & & \text{令} & & \textbf{\textit{u}}_{i}=A\textbf{\textit{v}}_{i}/\sigma_{ i} & & \text{作为单位特征向量} & AA^{T}.
+\end{align}
+方程(6.13)使用了放置括号的小技巧在$(\textbf{\textit{v}}^{T}_{i}A^{T})(A\textbf{\textit{v}}_{i})=\lVert A\textbf{\textit{v}}_{i} \lVert ^{2}$。方程(6.14)将所有重要的括号放在$(AA^{T})(A\textbf{\textit{v}}_{i}) $中。这表明$A\textbf{\textit{v}}_{i}$是$AA^{T}$的特征向量。除以长度$\sigma_{i}$得到单位向量$\textbf{\textit{u}}_{i}=A\textbf{\textit{v}}_{i}/\sigma_{ i} $。
+
+这完成了$SVD$背后的“理论”。
+
+现在是应用！使线性化观测方程为
+\begin{align}
+A\textbf{\textit{x}}=\textbf{\textit{b}}
+\end{align}
+其中$\textbf{\textit{x}}$是描述对未知(坐标)的校正的$n$维向量，并且$\textbf{\textit{b}}$是观察的$m$维向量。它们被假定为不相关和相等的权重。换句话说，观察的协方差矩阵是$ \Sigma_{b}=I$。
+
+奇异值分解$SVD$表明找到正交矩阵$V$(在$A$的行空间或坐标空间中)和正交$U$(在$A$或观察空间的列空间中)总是有效的，使得$U^{T}AV$是奇异值的对角矩阵$\sigma_{1},\sigma_{2},\cdots,\sigma_{r} $通常表示为$ \Sigma$，但我们使用$D$来区别协方差矩阵。现在将$\textbf{\textit{x}}$和$\textbf{\textit{b}}$更改为$\textbf{\textit{y}}$和$\textbf{\textit{c}}$：
+\begin{align}
+\textbf{\textit{x}}=V\textbf{\textit{y}}  \ \ \text{和} \ \ \textbf{\textit{b}}=U\textbf{\textit{c}}. 
+\end{align}
+\begin{flushleft}
+	然后 $A \textbf{\textit{x}}=\textbf{\textit{b}}$ 成为
+\end{flushleft}
+\begin{align}
+B\textbf{\textit{y}}=\textbf{\textit{c}}
+\end{align}
+\begin{flushleft}
+	\text{其中}
+\end{flushleft}
+\begin{align}
+B=U^{T}AV
+\end{align}
+\begin{flushleft}
+	 $SVD$ 选择 $U$ 和 $V$ 所以$ B$ 的形式是
+\end{flushleft}
+\begin{align}
+B
+\end{align}
+\begin{flushleft}
+	与对角矩阵$D$(通常称为$ \Sigma$，这里是协方差)：
+\end{flushleft}
+\begin{align}
+D=
+\begin{bmatrix}
+\sigma_{1}  & & &\\
+& \sigma_{1} & &\\
+& & \ddots & \\
+& & & \sigma_{n} 
+\end{bmatrix}.
+\end{align}
+矩阵$O$是($m-n$)乘$n$的矩阵。此外，奇异值按递减排序
+\begin{align*}
+\sigma_{1}\geq \sigma_{2} \geq \sigma_{3} \ldots \geq \sigma_{n}\geq 0
+& & 
+(\text{假设} \ \sigma_{r+1} = 0) .
+\end{align*}
+显然我们有
+\begin{align}
+B^{T}B=VA^{T}U^{T}UAV^{T}=VA^{T}AV^{T}=D^{2}
+\end{align}
+和
+\begin{align}
+BB^{T}=UAV^{T}VA^{T}U^{T}=UAA^{T}U^{T}=
+\begin{bmatrix}
+D^{2} & \textit{O} \\
+\textit{O} & \textit{O}
+\end{bmatrix}
+\end{align}
+记住正交矩阵$Q$有$ Q^{T}Q=QQ^{T}=I$，现在，我们让
+\begin{align}
+V^{T}=(\varphi_{1},\varphi_{2},\cdots,\varphi_{n}),
+\end{align}
+和
+\begin{align}
+UT=(\psi_{1},\psi_{2},\cdots,\psi_{n},\rho_{1},\rho_{2},\cdots,\rho_{m-n}),
+\end{align}
+其中$ \{ \varphi_{i} \}  $表示$ A^{T}A $的特征向量的正交集合，并且$ \{\psi_{i}\}\cup\{\rho_{i}\}$是$AA^{T}$的特征向量的正交集合。等式(6.16)的转置版本表示$\textbf{\textit{y}}$可以被看作系数$\{\varphi_{i}\}$中的向量$\textbf{\textit{x}}$的扩展，并且相应地，$\textbf{\textit{c}}$包含在$ \{\psi_{i}\} $和$ \{\rho_{i}\} $的扩展中$\textbf{\textit{b}}$的系数。我们称$ \{\varphi_{i}\} $，$ \{\psi_{i}\} $和 $ \{\rho_{i}\} $为第一，第二和第三组标准向量，即使它们没有被唯一地确定。
+
+最小二乘问题的规范形式的统计解释由Scheff$\acute{e}$ (1959)的第一章给出。$ \{\rho_{i}\} $向量所跨越的空间被称为误差空间，$ \{\varphi_{i}\} $是估计空间。
+
+在(6.18)和(6.19)的基础上，我们显示下面的前两组规范向量之间的关系是有效的：
+\begin{align}
+A\varphi_{i}=\sigma_{i}\psi_{i}, & &  i=1,2,\cdots,n.
+\end{align}
+类似地，从(6.18)和(6.19)中
+\begin{align}
+A^{T}\psi_{i}=\sigma_{i}\varphi_{i}, & &  i=1,2,\cdots,n
+\end{align}
+\begin{align}
+A^{T}\rho_{i}=0, & &  i=1,2,\cdots,m-n.
+\end{align}
+在$\textbf{\textit{b}}$的正交变换$U$中留下在(6.17)权重归一化的观察值$\textbf{\textit{c}}$，我们可以通过对角化的正规方程来求解最小二乘问题
+\begin{align}
+B^{T}B\textbf{\textit{y}}=B^{T}\textbf{\textit{c}}
+\end{align}
+或
+\begin{align*}
+\sigma^{2}_{i}y_{i}=\sigma_{i}c_{i}, & & i=1,2,\cdots,n  &  & \text{或}&  & y_{j}=\dfrac{c_{j}}{\sigma_{j}},& & j=1,2,\cdots,r
+\end{align*}
+其中A的秩$r$是非零$ \sigma_{j}'s $的数目，并且拉丁下标$j$表示这些向量$\textbf{\textit{y}}$和$\textbf{\textit{c}}$的分量。
+
+ 这些事实导致以下重要后果：
+
+1 \ 关于第一组规范向量：最好确定的$\textbf{\textit{x}}$的组成部分是那些在$ \varphi_{i} $有着$ \sigma_{i} $定义的方向上的;有$ \sigma_{i}=0 $的$ \varphi_{i} $的条目完全不确定。
+
+为了正确地解释该结果，必须在大致相同的单位中测量坐标的校正。通常希望 $\textbf{\textit{x}}$的所有条目以相同的精度确定。
+
+2 \ 第二组显示应该用更大的权重执行观察。这是因为我们扩大了个人观察。举个例子，$ \{\psi_{i}\} $和$ \{\rho_{i}\} $中的单位向量，并随后选择具有主导系数并且$ \sigma_{i}\neq0 $。这些系数可以通过检查矩阵$U$来找到。这是属性$U^{T}U=I$的结果，其也可以被视为产生单位向量扩展成集合的$ \{\psi_{i}\} $ 和$ \{\rho_{i}\} $。
+
+3 \ 对于第三组，我们认识到在$ \{\rho_{i}\} $确定的方向上的观察项的条目不给出关于坐标的任何新的信息。这也适用于$ \psi_{i} $，其中$i>r$，即对应于奇异值的奇异向量$ \sigma_{i}=0 $。定义第$i$次观测的冗余可能是相关的
+\begin{align}
+red_{i}=\sqrt{p = \sum_{j=r+1}^mu^{2}_{ji}.}
+\end{align}
+ 

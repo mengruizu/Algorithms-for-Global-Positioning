@@ -1,1 +1,186 @@
 \section[格瑞姆-史密正交化系数阵$A$和乔利斯基分解用于$A^{T}A$]{格瑞姆-史密正交化系数阵$A$和乔利斯基分解用于$A^{T}A$\\Gram-Schmidt on $A$ and Cholesky on $A^{T}A$}
+
+\begin{flushleft}
+	线性系统是 $A\textbf{\textit{x}}=\textbf{\textit{b}}$。 矩阵$A$是$m$乘$n$，其$n$列是独立的，因此$m> n$。 然后$n$ \texttimes $n$矩阵$A^{T}A$ (或 $A^{T}CA$)也是可逆的和对称的和正定的。
+\end{flushleft}
+允许我们评论：当矩形矩阵$A$进入应用数学时，方阵$A^{T}A$将很快出现。最小二乘回到高斯，但最好的算法是更新。\AA{}ke Bj\"{o}rck的百科全书作品表达了在这个根本问题上的持续进步。
+
+最小二乘法产生点\textbf{\textit{b}}到$A$的列空间上的正交投影。该空间包含$A$的列$\textbf{\textit{a}}_{1}$,…，$\textbf{\textit{a}}_{n}$的所有组合$A\textbf{\textit{x}}$。这是$m$维空间的$n$维线性子空间$\textbf{\textit{R}}^{m}$，但是其轴 ($A$的列)通常不正交。 $\textbf{\textit{b}}$的（加权）投影是 $A\hat{\textbf{\textit{x}}}$，其中$\hat{\textbf{\textit{x}}}$满足(加权)正态方程$A^{T}CA\hat{\textbf{\textit{x}}}=A^{T}C\textbf{\textit{b}}$。 未加权案件具有$\textbf{\textit{C}}=\textbf{\textit{I}}$。
+
+在最小二乘中我们写$\textbf{\textit{b}}$作为组合
+\begin{equation}\label{eq:6.1}
+\textbf{\textit{b}}=\hat{x}_{1}\textbf{\textit{a}}_{1}+\hat{x}_{2}\textbf{\textit{a}}_{2}+\cdots+\hat{x}_{n}\textbf{\textit{a}}_{n}+error\textbf{\textit{e}}=A\hat{\textbf{\textit{x}}}+\textbf{\textit{e}}
+\end{equation}
+令任何两个向量$\textbf{\textit{a}}$和$\textbf{\textit{b}}$之间的内积定义为 ($\textbf{\textit{a}}$, $\textbf{\textit{b}}$)= $\textbf{\textit{a}}^{T}C\textbf{\textit{b}}$。 对称正定矩阵$C$是权重矩阵。 经常$C=\sum^{-1}$。
+
+首先，我们要证明$Cholesky$的消除方法(在$A^{T}CA$上)等价于$A$的列上的$Gram-Schmidt$正交化。
+
+使正交化列为$\textbf{\textit{q}}_{i}$。 这些是在“$C$内积”中的正交，使得$(\textbf{\textit{q}}_{i},\textbf{\textit{q}}_{j})=\textbf{\textit{q}}^T_iC\textbf{\textit{q}}_{j}=\delta_{ij}$. 向量$\textbf{\textit{q}}_{i}$被收集为矩阵$Q$的列。因此，我们有$Q^{T}CQ=I $。我们用$Q^{-1} A$定义矩阵$R$，这样
+$$A=QR.$$
+矩阵$R$是具有非负对角线条目的上三角形。这是从执行$Gram-Schmidt$正交化的顺序$-$一次一个向量。
+
+使用正交和三角矩阵，$Q$和$R$在数值上更安全。我们总是修改$Gram-Schmidt$算法，一次减去一个投影，或者用$Householder$的更好的方法来替换$Gram-Schmidt$来构造$Q$和$R$. 大多数应用程序足够安全(和更快)直接与$A^{T}CA$工作。
+
+\subsection{ 由 $Q$ 和 $A$计算$R$ }
+
+从$Gram-Schmidt$过程的顺序，每个新的$A_{i}$是最新的列$\textbf{\textit{a}}_{i}$和已经设置的向量$A_{1}$，$\cdots$，$A_{i-1}$的组合。 当$A$被归一化为单位向量$A_{1}$，$\cdots$，$A_{i-1}$的时，每个新的$\textbf{\textit{q}}_{i}$是$\textbf{\textit{a}}_{i}$和$\textbf{\textit{q}}_{1}$，$\cdots$，$\textbf{\textit{q}}_{ i-1}$的组合。因此$a_{i}$是$\textbf{\textit{q}}_{1}$，$ \cdots$，$\textbf{\textit{q}}_{i}$的组合。早期$\textbf{\textit{q}}$不涉及后来的$\textbf{\textit{a}}$。 一个早期的$\textbf{\textit{a}}$不涉及一个后来的$ \textbf{\textit{q}}$！
+
+我们可以将其表达为增长的三角形：
+\begin{align}
+	\textbf{\textit{a}}_{1}&=(\textbf{\textit{q}}_{1},\textbf{\textit{a}}_{1})\textbf{\textit{q}}_{1}
+	\\
+	\textbf{\textit{a}}_{2}&=(\textbf{\textit{q}}_{1},\textbf{\textit{a}}_{2})\textbf{\textit{q}}_{1}+(\textbf{\textit{q}}_{2},\textbf{\textit{a}}_{2})\textbf{\textit{q}}_{2}
+	\\
+	\textbf{\textit{a}}_{3}&=(\textbf{\textit{q}}_{1},\textbf{\textit{a}}_{3})\textbf{\textit{q}}_{1}+(\textbf{\textit{q}}_{2},\textbf{\textit{a}}_{3})\textbf{\textit{q}}_{2}+(\textbf{\textit{q}}_{3},\textbf{\textit{a}}_{3})\textbf{\textit{q}}_{3}.
+\end{align}
+在矩阵形式中，这恰恰是$A=QR$。 条目$r_{ij}$是$\textbf{\textit{q}}_{i}$与$\textbf{\textit{a}}_{j}$的内积。 为了看到这一点，将这些方程乘以$\textbf{\textit{q}}^T_1$。记住($\textbf{\textit{q}}_{i}$,$\textbf{\textit{q}}_{j}$)=$0$，除非$i =j$。
+\begin{align*}
+   r_{11}=(\textbf{\textit{q}}_{1},\textbf{\textit{a}}_{1})\\
+   r_{12}=(\textbf{\textit{q}}_{1},\textbf{\textit{a}}_{2})\\
+   r_{13}=(\textbf{\textit{q}}_{1},\textbf{\textit{a}}_{3})
+\end{align*}
+此外，具有$\textbf{\textit{q}}_{2}$和$\textbf{\textit{q}}_{3}$的内积是
+\begin{align*}
+r_{22}=(\textbf{\textit{q}}_{2},\textbf{\textit{a}}_{2})\\
+r_{23}=(\textbf{\textit{q}}_{2},\textbf{\textit{a}}_{3})\\
+r_{33}=(\textbf{\textit{q}}_{3},\textbf{\textit{a}}_{3})
+\end{align*}
+在下面的步骤中，我们使用表达式(6.2)，(6.3)和(6.4)形成内部产品$ (\textbf{\textit{q}}_{i},\textbf{\textit{a}}_{j})=\textbf{\textit{q}}^T_{i}C\textbf{\textit{a}}_{j}$，并将系统布置成递归解决方案：
+\begin{align*}
+	(\textbf{\textit{a}}_{1},\textbf{\textit{a}}_{1})&=(\textbf{\textit{q}}_{1},\textbf{\textit{a}}_{1})^{2} \\
+	r_{11}=(\textbf{\textit{q}}_{1},\textbf{\textit{a}}_{1})&=\sqrt{(\textbf{\textit{a}}_{1},\textbf{\textit{a}}_{1})}\\
+	(\textbf{\textit{a}}_{1},\textbf{\textit{a}}_{2})&=(\textbf{\textit{q}}_{1},\textbf{\textit{a}}_{1})(\textbf{\textit{q}}_{1},\textbf{\textit{a}}_{2})\\
+	r_{12}=(\textbf{\textit{q}}_{1},\textbf{\textit{a}}_{2})&=\frac{(\textbf{\textit{a}}_{1},\textbf{\textit{a}}_{2})}{(\textbf{\textit{q}}_{1},\textbf{\textit{a}}_{1})}=\frac{ (\textbf{\textit{a}}_{1},\textbf{\textit{a}}_{2})}{\sqrt{(\textbf{\textit{a}}_{1},\textbf{\textit{a}}_{1})}}\\
+	(\textbf{\textit{a}}_{1},\textbf{\textit{a}}_{3})&=(\textbf{\textit{q}}_{1},\textbf{\textit{a}}_{1})(\textbf{\textit{q}}_{1},\textbf{\textit{a}}_{3})\\
+	r_{13}=(\textbf{\textit{q}}_{1},\textbf{\textit{a}}_{3})&=\frac{ (\textbf{\textit{a}}_{1},\textbf{\textit{a}}_{3})}{\sqrt{(\textbf{\textit{a}}_{1},\textbf{\textit{a}}_{1})}}\\
+	(\textbf{\textit{a}}_{2},\textbf{\textit{a}}_{2})&=(\textbf{\textit{q}}_{1},\textbf{\textit{a}}_{2})^{2}+(\textbf{\textit{q}}_{2},\textbf{\textit{a}}_{2})^{2}(Pythagoras)\\
+	r_{22}=(\textbf{\textit{q}}_{2},\textbf{\textit{a}}_{2})&=\sqrt{(\textbf{\textit{a}}_{2},\textbf{\textit{a}}_{2})-(\textbf{\textit{q}}_{1},\textbf{\textit{a}}_{2})^{2}}\\
+	(\textbf{\textit{a}}_{2},\textbf{\textit{a}}_{3})&=(\textbf{\textit{q}}_{1},\textbf{\textit{a}}_{2})(\textbf{\textit{q}}_{1},\textbf{\textit{a}}_{3})+(\textbf{\textit{q}}_{2},\textbf{\textit{a}}_{2})(\textbf{\textit{q}}_{2},\textbf{\textit{a}}_{3})\\
+	r_{23}=(\textbf{\textit{q}}_{2},\textbf{\textit{a}}_{3})&=\frac{(\textbf{\textit{a}}_{2},\textbf{\textit{a}}_{3})-(\textbf{\textit{q}}_{1},\textbf{\textit{a}}_{2})(\textbf{\textit{q}}_{1},\textbf{\textit{a}}_{3})}{(\textbf{\textit{q}}_{2},\textbf{\textit{a}}_{2})}=\frac{(\textbf{\textit{a}}_{2},\textbf{\textit{a}}_{3})-(\textbf{\textit{q}}_{1},\textbf{\textit{a}}_{2})(\textbf{\textit{q}}_{1},\textbf{\textit{a}}_{3})}{\sqrt{(\textbf{\textit{a}}_{2},\textbf{\textit{a}}_{2})-(\textbf{\textit{q}}_{1},\textbf{\textit{a}}_{2})^{2}}}\\
+	(\textbf{\textit{a}}_{3},\textbf{\textit{a}}_{3})&=(\textbf{\textit{q}}_{1},\textbf{\textit{a}}_{3})^{2}+(\textbf{\textit{q}}_{2},\textbf{\textit{a}}_{3})^{2}+(\textbf{\textit{q}}_{3},\textbf{\textit{a}}_{3})^{2}(Pythagoras)\\
+	r_{33}=(\textbf{\textit{q}}_{3},\textbf{\textit{a}}_{3})&=\sqrt{(\textbf{\textit{a}}_{3},\textbf{\textit{a}}_{3})-(\textbf{\textit{q}}_{2},\textbf{\textit{a}}_{3})^{2}-(\textbf{\textit{q}}_{1},\textbf{\textit{a}}_{3})^{2}}
+\end{align*}
+为简单起见，$C = I$，所以每个 $(\textbf{\textit{q}}_{i}, \textbf{\textit{a}}_{j})$只是$\textbf{\textit{q}}^{T}_{i}\textbf{\textit{a}}_{j} $。$A = QR$中的上三角矩阵$R$也是矩阵$A^{T}A$的$Cholesky$因子。 如果$A = QR$那么$A^{T}A=(QR)^{T}QR $。 这等于$R^{T} Q^{T} QR$，也就是$R^{T}R$：
+
+$A^{T}A$ 因子转换为$R^{T}R$ =(下三角形)×(上三角形)= $Cholesky$因子。实际计算这提供了两种方法来计算$\hat{x}$：
+\begin{flushleft}
+	1 \ \  将$Gram-Schrnidt$应用于$A$，然后求解$R\hat{x}$=$Q^{T} C b $(见下文)。
+\end{flushleft} 
+\begin{flushleft}
+	2 \ \   使用系数矩阵$A^{T}A$ 或 $A^{T}CA$。
+\end{flushleft}
+第一种方法稍慢。对于完整的矩阵，$Gram-Schmidt$需要大约$mn^{2}$个单独的乘法。这种方法在数值上更稳定(我们指的是修改$GramSchmidt$或$Householder$)。误差与条件数 $c(A)$成比例.
+
+第二种方法(正解方程的直接解)更快。对于完整的矩阵，需要$\frac{1}{2}mn^{2}$乘法和加法来计算$A^{T}A$的$n^{2}$条目($\frac{1}{2}$来自对称性，我们考虑$C=I$)。然后，消除需要再次减去$\frac{1}{6}n^{3}$从$\frac{1}{3}n^{2}$。这种方法直接与正常方程一起工作，它是迄今为止在实践中最常用的选择，尽管在数值上它不是很稳定。
+\begin{flushleft}
+	\textbf{Example 6.1} 我们使用这个算法与 $C= I$ 
+\end{flushleft}
+\begin{align*}
+	\begin{bmatrix}
+		1&2&3 \\	
+		-1&0&-3 \\		
+		0&-2&3 \\	
+	\end{bmatrix}
+\end{align*}
+$MATLAB$命令$[Q,R]=qr(A)$结果显示$Q$中的正交列：
+\begin{align*}
+	Q=
+	\begin{bmatrix}
+		-0.7071&-0.4082&0.5774 \\	
+		0.7071 &-0.4082&0.5774 \\		
+		0      &0.8165 &0.5774 \\	
+	\end{bmatrix}
+	\approx
+	\begin{bmatrix}
+		-\frac{1}{\sqrt{2}}&-\frac{1}{\sqrt{6}}& \frac{1}{\sqrt{3}} \\	
+		\frac{1}{\sqrt{2}}&-\frac{1}{\sqrt{6}}& \frac{1}{\sqrt{3}} \\		
+		0         &-\frac{2}{\sqrt{6}}& \frac{1}{\sqrt{3}} \\	
+	\end{bmatrix}
+\end{align*}
+\begin{align*}
+	R=
+	\begin{bmatrix}
+		-1.4142&-1.4142&-4.2426 \\	
+		0      &-2.4495& 2.4495 \\		
+		0      &0      & 1.7321 \\	
+	\end{bmatrix}
+	\approx
+	\begin{bmatrix}
+		-\sqrt{2}&-\sqrt{2}&-\sqrt{18} \\	
+		0        &-\sqrt{6}& \sqrt{6 } \\		
+		0        &0        & \sqrt{3} \\	
+	\end{bmatrix}
+\end{align*}
+现在假设$C$不一定是$I$.正规方程矩阵是$A^{T}CA$。我们仍然具有$A=QR$，但现在列$\textbf{\textit{q}}_{i}$在$C$内积中是正交的：
+$$
+\textbf{\textit{q}}^{T}_{i}C\textbf{\textit{q}}_{j}=
+\begin{cases}
+1& \text{if}\ i=j\\
+0& \text{其他}
+\end{cases} \ 
+\text{因此} \  Q^{T}CQ=I.
+$$
+矩阵$R$仍然是$Cholesky$因子！
+$$ 
+N=A^{T}CA=(QR)^{T}C(QR)=R^{T}(Q^{T}CQ)R=R^{T}R.
+$$
+正常方程式变为$R^{T}R\hat{\textbf{\textit{x}}}=A^{T}C\textbf{\textit{b}}=(QR)TC\textbf{\textit{b}}=R^{T}Q^{T}C\textbf{\textit{b}} $ 所以 $ R\hat{\textbf{\textit{x}}}=Q^{T}C\textbf{\textit{b}}$ .
+
+计算程序
+\begin{flushleft}
+	1 \ \      在$A$上使用$Gram-Schmidt$（权重在$C$中）以获得$R$.\\
+	2 \ \     计算 $z=Q^{T} C \textbf{\textit{b}}$。\\
+	3  \ \     通过反向替换求解$R\hat{\textbf{\textit{x}}}= z$。
+\end{flushleft}
+因此，求解正规方程。
+
+更复杂的过程是将正常矩阵增加$\textbf{\textit{b}}$到$\tilde{N}$：
+\begin{align}
+\tilde{N}=
+\begin{bmatrix}
+A^{T} \\	
+\textbf{\textit{b}}^{T}
+\end{bmatrix}C
+\begin{bmatrix}
+A &	 \textbf{\textit{b}}
+\end{bmatrix}=
+\begin{bmatrix}
+A^{T}CA&A^{T}C\textbf{\textit{b}} \\	
+\textbf{\textit{b}}^{T}CA&\textbf{\textit{b}}^{T}C\textbf{\textit{b	}}
+\end{bmatrix}
+\begin{bmatrix}
+R^{T}R&R^{T}Q^{T}C\textbf{\textit{b}} \\	
+\textbf{\textit{b}}^{T}CQR&\textbf{\textit{b}}^{T}C\textbf{\textit{b}}
+\end{bmatrix}.
+\end{align}
+同时，我们增加矩阵$R$：
+\begin{align}
+\tilde{R}=
+\begin{bmatrix}
+R          &  z\\	
+\textbf{0} &  s
+\end{bmatrix}
+\end{align}
+然后
+\begin{align}
+\tilde{R}^{T}\tilde{R}=
+\begin{bmatrix}
+R^{T}      &  0\\	
+z^{T}      &  s
+\end{bmatrix}
+\begin{bmatrix}
+R          &  z\\	
+\textbf{0} &  s
+\end{bmatrix}
+\begin{bmatrix}
+R^{T}R        & R^{T}z\\	
+z^{T}R        &  z^{T}z+s^{2}
+\end{bmatrix}
+\end{align}
+比较(6.5)我们得到
+$$ z^{T}z+s^{2}=\textbf{\textit{b}}^{T}C\textbf{\textit{b}} $$
+重复$Step2$上面我们有$ z=Q^{T}C\textbf{\textit{b}}$和
+$$ z^{T}z= \textbf{\textit{b}}^{T}CAR^{-1}R^{-T}ATC\textbf{\textit{b}}=\textbf{\textit{b}}^{T}CA\hat{\textbf{\textit{x}}} \ \ \text{和} \ \ s^{2}=\textbf{\textit{b}}^{T}C\textbf{\textit{b}}-\textbf{\textit{b}}CA\hat{\textbf{\textit{x}}}=\hat{\textbf{e}}^{T}C\hat{\textit{e}}$$
+如果我们将$\textbf{\textit{b}}^{T}C\textbf{\textit{b}}$放在$R$的左下方条目中，那么在解决方案之后，我们在相同的地方恢复$\hat{\textbf{e}}^{T}C\hat{\textbf{e}}$。 这个残差的平方和对于估计许多后验方差是有价值的。残差定义为$\hat{e}=\textbf{\textit{b}}-A\hat{\textbf{\textit{x}}}$。
+
+ 

@@ -1,0 +1,268 @@
+\section[奇异值]{奇异值\\Singular Value Decomposition(SVD)}
+\begin{flushleft}
+	In this section we want to introduce new coordinate systems in which the least-squares problem becomes simpler and thus more lucid. After the coordinate transformation we say that we have obtained the "canonical form” of the least-squares problem. We go directly to the linear algebra of the $SVD$-and then back to the applications.
+\end{flushleft}
+The Singular Value Decomposition is a highlight of linear algebra. $A$ is any $m$ by $n$ matrix, square or rectangular. Its rank is $r$. We will diagonalize this $A$, but not by $S^{-1}AS$. The eigenvectors in $S$ have three big problems: They are usually not orthogonal, there are not always enough eigenvectors, and $ A\textbf{\textit{x}}=\lambda\textit{\textbf{x}}$ requires $A $to be square. The \textit{singular vectors} of $A$ solve all those problems in a perfect way.
+
+The price we pay is to have two sets of singular vectors, $\textbf{\textit{u}}$'s and $\textbf{\textit{v}}$'s. The $\textbf{\textit{u}}$'s are eigenvectors of $AA^{T}$ and the $\textbf{\textit{v}}$'s are eigenvectors of $A^{T}A$.Since those matrices are both symmetric, their eigenvectors can be chosen orthonormal. In equation (6.14) below, the simple fact that $A$ times $A^{T}A$ is the same as $AA^{T}$ times $A$ will lead to a remarkable property of these $\textbf{\textit{u}}$'s and $\textbf{\textit{v}}$'s:
+\begin{align}
+" A \ \textit{is diagonaliaed}\  \textquotedblright \ \ \ 
+A\textbf{\textit{v}}_{1}=\sigma_{1}\textbf{\textit{u}}_{1} \ \ 
+A\textbf{\textit{v}}_{2}=\sigma_{2}\textbf{\textit{u}}_{2} \ \cdots \ 
+A\textbf{\textit{v}}_{r}=\sigma_{r}\textbf{\textit{u}}_{r}
+\end{align}
+
+\begin{flushleft}
+	The singular vectors $\textbf{\textit{v}}_{1},\cdots,\textbf{\textit{v}}_{r}$ are in the row space of $A$. The outputs $\textbf{\textit{u}}_{1},\cdots,\textbf{\textit{u}}_{r}$ are in the \textit{column space} of $A$. The \textit{singular values} $ \sigma_{1},\cdots,\sigma_{r}$ are all positive numbers. When the $\textbf{\textit{v}}$'s and $\textbf{\textit{u}}$'s go into the columns of, $V$ and $U$, orthogonality gives $V^{T}V=I$ and $U^{T }U=I$. The $\sigma$'s go into a diagonal matrix $D$.
+\end{flushleft}
+
+Just as $ A\textbf{\textit{x}}_{i}=\lambda_{i}\textbf{\textit{x}}_{i}$led to the diagonalization $AS=S\Lambda $,the equations $ A\textbf{\textit{v}}_{i}=\sigma_{i}\textbf{\textit{u}}_{i}$tell us column by column that $AV=UD$:
+
+\begin{align}
+\begin{array}{l}
+(m \ \text{by} \ n)(n \ \text{by} \ r) \\
+\text{equals} \\              
+(m \ \text{by} \ r) (r \ \text{by} \ r)
+\end{array}  A
+\begin{bmatrix}
+\ \\
+\textbf{\textit{v}}_{1} \ \cdots \ \textbf{\textit{v}}_{r}\\
+\ 
+\end{bmatrix}=
+\begin{bmatrix}
+\ \\
+\textbf{\textit{u}}_{1} \ \cdots \ \textbf{\textit{u}}_{r}\\
+\ 
+\end{bmatrix}
+\begin{bmatrix}
+\sigma_{1}  & & \\
+& \ddots &\\
+& & \sigma_{r} 
+\end{bmatrix}
+\end{align}
+\begin{flushleft}
+	This is the heart of the $SVD$, but there is more. Those $\textbf{\textit{v}}$'s and $\textbf{\textit{u}}$'s account for the row space and column space of $A$. We need $n-r$ more $\textbf{\textit{v}}$'s and $m-r$ more $\textbf{\textit{u}}$'s, from the nullspace $ \textbf{N}(A)$ and the left nullspace $\textbf{N}(A^{T})$. They can be orthonormal bases for those two nullspaces (and then automatically orthogonal to the first $r$ $\textbf{\textit{v}}$'s and $\textbf{\textit{u}}$'s). Include all the $\textbf{\textit{v}}$'s and $\textbf{\textit{u}}$'s in $V$ and $U$, so these
+	matrices become \textit{sguare}. We still have $AV=UD$.
+\end{flushleft}
+\begin{align}
+\begin{array}{l}
+(m \ \text{by} \ n)(n \ \text{by} \ n) \\
+\text{equals} \\              
+(m \ \text{by} \ m) (m \ \text{by} \ n)
+\end{array}  A
+\begin{bmatrix}
+\ \\
+\textbf{\textit{v}}_{1} \ \cdots \ \textbf{\textit{v}}_{r} \ \cdots \textbf{\textit{v}}_{n}\\
+\ 
+\end{bmatrix}=
+\begin{bmatrix}
+\ \\
+\textbf{\textit{u}}_{1} \ \cdots \ \textbf{\textit{u}}_{r} \ \cdots \textbf{\textit{u}}_{m}\\
+\ 
+\end{bmatrix}
+\begin{bmatrix}
+\sigma_{1}  & & &\\
+& \ddots & &\\
+& & \sigma_{r} & \\
+& & & & 
+\end{bmatrix}
+\end{align}
+
+\begin{flushleft}
+	The new $D$ is $m$ by $n$. It is just the old $r$ by $r$ matrix (call that $D_{r}$) with $m-r$ new zero rows and $n-r$ new zero columns. The real change is in the shapes of $U$ and $V$ and $D$. Still$V^{T }V = I$ and $U^{T }U=I$,with sizes $n$ and $m$.
+\end{flushleft}
+
+$V$ is now a square orthogonal matrix, with inverse $V^{-1}=V^{T}$. So $AV=UD$ can become $A=UDV^{T}$. This is the \textit{Singular Value Decomposition}:
+\begin{align}
+SVD & &  A=UDV^{T}=\textbf{\textit{u}}_{1}\sigma_{ 1}\textbf{\textit{v}}^{T}_{1}+\cdots+\textbf{\textit{u}}_{r}\sigma_{ r}\textbf{\textit{v}}^{T}_{ r}
+\end{align}
+
+\begin{flushleft}
+	We would write the earlier "reduced $SVD$" from equation (6.10) as $A=U_{r}D_{r}V^{T}$. That is equally true, without the extra zeros in $D$. This reduced $SVD$ gives the same splitting of $A$ into a sum of $r$ matrices, each of rank one.
+\end{flushleft}
+
+We will see that$ \sigma^{2}_{i}=\lambda_{i}$is an eigenvalue of $A^{T}A$ and also $AA^{T}$. When we put the singular values in descending order, $\sigma_{1}\geq \sigma_{2} \geq \ldots \geq \sigma_{r}> 0$，the splitting in equation (6.12) gives the $r$ rank-one pieces of $A$ \textit{in order of importance}.
+
+\begin{flushleft}
+	\textbf{Example 6.2} When is $UDV^{T}$ (singular values) the same as $SAS^{-1}$ (eigenvalues)?
+\end{flushleft}
+\begin{flushleft}
+	$ \textbf{Solution} $ We need orthonormal eigenvectors in $S=U$. We need nonnegative eigenvalues in $ \Lambda = D $. So $A$ must be a \textit{positive semidefinite} (\textit{or definite}) \textit{symmetric matrix} $Q \Lambda Q^{T}$.
+\end{flushleft}
+\begin{flushleft}
+	\textbf{Example 6.3} If $A=\textbf{\textit{x}}\textbf{\textit{y}}^{T}$ with unit vectors $\textbf{\textit{x}}$ and $\textbf{\textit{y}}$, what is the $SVD$ of$ A$?
+\end{flushleft}
+\begin{flushleft}
+	\textbf{Solution} The reduced $SVD$ in (6.10) is exactly $\textbf{\textit{x}}\textbf{\textit{y}}^{T}$，with rank $r$=1. It has $\textbf{\textit{u}}_{1}=\textbf{\textit{x}}$ and
+	$\textbf{\textit{v}}_{1}=y$ and $\sigma_{1}=1$. For the full $SVD$, complete $\textbf{\textit{u}}_{1}=\textbf{\textit{x}}$ to an orthonormal basis of $\textbf{\textit{u}}$'s,
+	and complete $\textbf{\textit{v}}_{1}=\textbf{\textit{y}}$ to an orthonormal basis of $\textbf{\textit{v}}$'s. No new $\sigma$'s.
+\end{flushleft}
+
+\textit{The matrices $U$ and $V$ contain orthonormal bases for all four subspaces:}
+
+\begin{align*}
+&first  &r&                &columns \ of\ V:&          &row \  space \ of A \\ 
+&last  &n-r&              &columns \ of \ V:  &         &nullspace \ of A \\
+&first  &r &               &columns \ of\ U: &         &column \ space \ of A \\
+&last  &m-r &             &columns \ of \ U: &          &nullspace\ of A^{T}.
+\end{align*}
+
+The first columns $\textbf{\textit{v}}_{1},\cdots,\textbf{\textit{v}}_{r}$ and $\textbf{\textit{u}}_{1},\cdots,\textbf{\textit{u}}_{r}$ are eigenvectors of $A^{T}A$ and $AA^{T}$. We now explain why $A\textbf{\textit{v}}_{i}$ falls in the direction of $\textbf{\textit{u}}_{i}$. The last $\textbf{\textit{v}}$'s and $\textbf{\textit{u}}$'s (in the nullspaces) are easier. As long as those are orthonormal, the $SVD$ will be correct.
+
+\begin{flushleft}
+	\textit{Proof of the} $SVD$   Start from $ A^{T}A\textbf{\textit{v}}_{i}=\sigma^{2}_{i}\textbf{\textit{v}}_{i}$, which gives the $\textbf{\textit{v}}$'s and $\sigma$'s. Multiplying
+by $ \textbf{\textit{v}}^{T}_{i}$ leads to $ \lVert A\textbf{\textit{v}}_{i} \lVert ^{2}$.To prove that $ A\textbf{\textit{v}}_{i}=\sigma_{ i}\textbf{\textit{u}}_{i}$ ,the key step is to multiply by $A$:
+\end{flushleft}
+\begin{align}
+\textbf{\textit{v}}^{T}_{i}A^{T}A\textbf{\textit{v}}_{i}=\sigma^{2}_{i}\textbf{\textit{v}}^{T}_{i}\textbf{\textit{v}}_{i}  & & \text{gives} & &     \lVert A\textbf{\textit{v}}_{i} \lVert^{2}=\sigma^{2}_{i}
+ &  & \text{so that} & & \lVert  A\textbf{\textit{v}}_{i} \lVert = \sigma_{i}
+\end{align}
+\begin{align}
+AA^{T}A\textbf{\textit{v}}_{i}=\sigma^{ 2}_{i}A\textbf{\textit{v}}_{i} & & \text{gives} & & \textbf{\textit{u}}_{i}=A\textbf{\textit{v}}_{i}/\sigma_{ i} & & \text{as unit eigenvector of} & AA^{T}.
+\end{align}
+
+\begin{flushleft}
+	Equation (6.13) used the small trick of placing parentheses in $(\textbf{\textit{v}}^{T}_{i}A^{T})(A\textbf{\textit{v}}_{i})=\lVert A\textbf{\textit{v}}_{i} \lVert ^{2}$.
+Equation (6.14) placed the all-important parentheses in $(AA^{T})(A\textbf{\textit{v}}_{i}) $. This shows that $A\textbf{\textit{v}}_{i}$ is an eigenvector of $AA^{T}$. Divide by its length $ \sigma_{i}$ to get the unit vector $\textbf{\textit{u}}_{i}=A\textbf{\textit{v}}_{i}/\sigma_{ i} $.
+\end{flushleft}
+
+This completes the "theory" behind the $SVD$.
+
+\begin{flushleft}
+	Now the applications! Let the linearized observation equations be
+\end{flushleft}
+\begin{align}
+A\textbf{\textit{x}}=\textbf{\textit{b}}
+\end{align}
+
+\begin{flushleft}
+	Where $\textbf{\textit{x}}$ is an $n$-dimensional vector describing the corrections to the unknowns (coordinates), and $\textbf{\textit{b}}$ is the $m$-dimensional vector of observations. They are presumed uncorrelated and with equal weight. In other words, the covariance matrix for the observations is $ \Sigma_{b}=I$。
+\end{flushleft}
+
+The singular value decomposition ($SVD$) demonstrates that it is always possitive to find an orthogonal matrix $V$ (in the row space of $A$ or the coordinate space)and an orthogonal $U$ (in the column space of $A$ or the observation space) so that $U^{T}AV$ \textit{is diagonal}. This diagonal matrix of singular values  $\sigma_{1},\sigma_{2},\cdots,\sigma_{r} $ is usually denoted by $ \Sigma$ but we use $D$ to distinguish it from the covariance matrix. Now change $\textbf{\textit{x}}$ ana $\textbf{\textit{b}}$ to $\textbf{\textit{y}}$ and $\textbf{\textit{c}}$:
+
+\begin{align}
+\textbf{\textit{x}}=V\textbf{\textit{y}}  \ \ \text{and} \ \ \textbf{\textit{b}}=U\textbf{\textit{c}}. 
+\end{align}
+\begin{flushleft}
+	Then $A \textbf{\textit{x}}=\textbf{\textit{b}}$ becomes
+\end{flushleft}
+\begin{align}
+B\textbf{\textit{y}}=\textbf{\textit{c}}
+\end{align}
+\begin{flushleft}
+	Where
+\end{flushleft}
+\begin{align}
+B=U^{T}AV
+\end{align}
+\begin{flushleft}
+	The $SVD$ chooses $U$ and $V$ so that$ B$ is of the form
+\end{flushleft}
+\begin{align}
+B
+\end{align}
+\begin{flushleft}
+	with the diagonal matrix $D$ (often called $ \Sigma$, which here is a covariance):
+\end{flushleft}
+\begin{align}
+D=
+\begin{bmatrix}
+\sigma_{1}  & & &\\
+& \sigma_{1} & &\\
+& & \ddots & \\
+& & & \sigma_{n} 
+\end{bmatrix}.
+\end{align}
+\begin{flushleft}
+	The matrix $\textit{O}$ is an ($m-n$) by $n$ zero matrix. Furthermore the singular values are ordered decreasingly
+\end{flushleft}
+\begin{align*}
+\sigma_{1}\geq \sigma_{2} \geq \sigma_{3} \ldots \geq \sigma_{n}\geq 0
+ & & 
+(\text{taking} \ \sigma_{r+1} = 0) .
+\end{align*}
+\begin{flushleft}
+	Evidently we have
+\end{flushleft}
+\begin{align}
+B^{T}B=VA^{T}U^{T}UAV^{T}=VA^{T}AV^{T}=D^{2}
+\end{align}
+\begin{flushleft}
+	and
+\end{flushleft}
+\begin{align}
+BB^{T}=UAV^{T}VA^{T}U^{T}=UAA^{T}U^{T}=
+\begin{bmatrix}
+D^{2} & \textit{O} \\
+\textit{O} & \textit{O}
+\end{bmatrix}
+\end{align}
+\begin{flushleft}
+	Remember that an orthogonal matrix $Q$ has $ Q^{T}Q=QQ^{T}=I$.Now put
+\end{flushleft}
+\begin{align}
+V^{T}=(\varphi_{1},\varphi_{2},\cdots,\varphi_{n}),
+\end{align}
+\begin{flushleft}
+	and
+\end{flushleft}
+\begin{align}
+UT=(\psi_{1},\psi_{2},\cdots,\psi_{n},\rho_{1},\rho_{2},\cdots,\rho_{m-n}),
+\end{align}
+
+\begin{flushleft}
+	where  $ \{ \varphi_{i} \}  $ denotes an orthonormal set of eigenvectors of $ A^{T}A $，and$ \{\psi_{i}\}\cup\{\rho_{i}\}$ is an orthonormal set of eigenvectors of $AA^{T}$.The transposed version of equation (6.16) shows that $\textbf{\textit{y}}$ can be looked upon as the coefficients in the expansion of the vector $\textbf{\textit{x}}$ on the set $\{\varphi_{i}\}$,and correspondingly $\textbf{\textit{c}}$ contains coefficients in the expansion of $\textbf{\textit{b}}$ on $ \{\psi_{i}\} $and $ \{\rho_{i}\} $. We call $ \{\varphi_{i}\} $，$ \{\psi_{i}\} $and $ \{\rho_{i}\} $ the \textit{first}, the \textit{second}, and the \textit{third} set of \textit{canonical vectors} even though they are not determined uniquely.
+\end{flushleft}
+
+$A$ statistical interpretation of the canonical form of the least-squares problem is given by Scheff$\acute{e}$ (1959), Chapter $I$. The space spanned by the  $ \{\rho_{i}\} $vectors is called the \textit{error} space, and the space spanned by the $ \{\varphi_{i}\} $ is the \textit{estimation space}.
+
+On the basis of (6.18) and (6.19) we show below that the following relation between the first two sets of canonical vectors is valid:
+
+\begin{align}
+A\varphi_{i}=\sigma_{i}\psi_{i}, & &  i=1,2,\cdots,n.
+\end{align}
+\begin{flushleft}
+	Similarly, from the transformed version of (6.18) and (6.19) follows
+\end{flushleft}
+\begin{align}
+A^{T}\psi_{i}=\sigma_{i}\varphi_{i}, & &  i=1,2,\cdots,n
+\end{align}
+\begin{align}
+A^{T}\rho_{i}=0, & &  i=1,2,\cdots,m-n.
+\end{align}
+\begin{flushleft}
+	At the orthogonal transformation $U$ of $\textbf{\textit{b}}$ leaves the observations $\textbf{\textit{c}}$ in (6.17) weight normalized we can solve the least-squares  problem via the diagonalized normal equations
+\end{flushleft}
+\begin{align}
+B^{T}B\textbf{\textit{y}}=B^{T}\textbf{\textit{c}}
+\end{align}
+\begin{flushleft}
+	or
+\end{flushleft}
+
+\begin{align*}
+\sigma^{2}_{i}y_{i}=\sigma_{i}c_{i}, & & i=1,2,\cdots,n  &  & \text{or finally}&  & y_{j}=\dfrac{c_{j}}{\sigma_{j}},& & j=1,2,\cdots,r
+\end{align*}
+\begin{flushleft}
+	where the rank $r$ ($A$) is the number of nonzero $ \sigma_{j}'s $ and the Latin subscript $j$ denotes the $ j$'th  component of these vectors $\textbf{\textit{y}}$ and $\textbf{\textit{c}}$.
+\end{flushleft}
+
+These facts lead to the following important consequences:
+
+\begin{adjustwidth}{2em}{2em}
+  About the \textit{first} set of canonical vectors: The components of $\textbf{\textit{x}}$ which are best determined are those in directions defined by$ \varphi_{i} $ with large $ \sigma_{i} $; entries in the directionof $ \varphi_{i} $ with $ \sigma_{i}=0 $ are totally undetermined.
+\end{adjustwidth}
+\begin{adjustwidth}{2em}{2em}
+	In order that this result be interpreted correctly the corrections of the coordinates must be measured in approximately the same unit. Usually one wants that all entries of $\textbf{\textit{x}}$ are determined with equal accuracy.
+\end{adjustwidth}
+\begin{adjustwidth}{2em}{2em}
+	The \textit{second} set reveals the observations which should have been performed with larger weight. It is so because we expand the individual observations\textthreequartersemdash i.e. the unit vectors in the observation space-in $ \{\psi_{i}\} $ and $ \{\rho_{i}\} $ and subsequently choose those with dominating coefficients and corresponding to small values of $ \sigma_{i}\neq0 $. These coefficients can be found by inspection of the matrix $U$. This is a consequence of the property $U^{T}U=I$ which again can be taken as the one which yields the expansion of unit vectors into the sets $ \{\psi_{i}\} $ and $ \{\rho_{i}\} $.
+\end{adjustwidth}
+\begin{adjustwidth}{2em}{2em}
+For the \textit{third} set we realize that the entries of the observations in directions determined by $ \{\rho_{i}\} $ do not give any new information about the coordinates. This is also valid for $ \psi_{i} $ with $i>r$, i.e. the singular vectors corresponding to singular values
+$ \sigma_{i}=0 $. It may be relevant to define the \textit{redundancy} for the $i$'th observation as
+\end{adjustwidth}
+\begin{align}
+red_{i}=\sqrt{p = \sum_{j=r+1}^mu^{2}_{ji}.}
+\end{align}

@@ -1,0 +1,192 @@
+\section[GPS和时间]{GPS和时间\\GPS and Time}
+The following pages deal with a most important issue for GNSS:time. GPS provides an important and valuable utility for timekeeping as well as positioning. The following description is based upon Lewandowski \& Azoubib \& Klepczynski (1999). For positioning we need four satellites: three to get the position and one to determine the offset of the receiver clock from GPST. Since timekeepers know their fixed locations a and b, they only need one GPS satellite to get that clock offset from GPS time.
+
+\subsection{Difference of Clock Offsets Between Two Receivers}
+
+GPS syncronizes clocks through a technique known as GPS common view (CV). In this CV technique, two receivers simultaneously observe the same GPS satellite. All receivers record the difference between their local clock T and GPS time at the same instant using the same satellite. A GPST transfer unit is a special GPS receiver programmed to compute and display items of interest to the timing community:
+$$
+User\,\,A\,\,observes\,\,\,A=T_{a}-T_{GPS}\,\,\,\,\,and\,\,\,\,\,
+User\,\,B\,\,observes\,\,\,B=T_{b}-T_{GPS}.
+$$
+
+Two users must observe the same satellite at the same instant. Then $A - B = T_{a} - T_{b}$, is the difference between the local clocks because the common GPS clock drops out. This is a very simple but powerful process because it is independent of GPST.
+
+At present the estimated uncertainty of operational single-channel GPS C/A-code time transfer is about 7ns for a single CV observation and about 3ns for a daily average.That corresponds to a few parts in $10^{14}$ in terms of frequency transfer.
+
+In one-site comparisons, common views(CVs) are computed between two GPST receiving systems located at the same site and connected to the same clock. Comparisons at short distances like 3m allow the cancelation of common clock errors. If the receivers use identical software, no error should arise from satellite broadcast ephemerides, antenna coordinates, or imperfect modeling of the ionosphere and troposphere. Any constant bias arises from delay differences in the receiver itself, antenna, cables,etc.
+
+So the most important issue is calibration. The US Naval Observatory is now working this problem out. It is also designing a receiver to attenuate other problems.
+
+Suppose you know the positions of two receivers and have access to precise ephemerides. Assume your receivers observe P code and phase on both L1 and L2. You want to estimate the difference between the clock offsets at the two receivers.
+
+The basic equation(9.19) applies to a code observation between a satellite k and a receiver i. Omitting multipath and receiver hardware delays we get
+$$
+P_{1,i}^{k}=\rho_{i}^{k}+c(dt_{i}-dt^{k})+I_{i}^{k}+T_{i}^{k}-e_{1,i}^{k}
+$$
+$$
+P_{2,i}^{k}=\rho_{i}^{k}+c(dt_{i}-dt^{k})+\alpha I_{i}^{k}+T_{i}^{k}-e_{2,i}^{k}
+$$
+Let $N_{1,i}^{*,k}=N_{1,i}^{k}+\varphi_{i}(t_{0})-\varphi^{k}(t_{0})$ where the $\varphi$-terms denote initial phases. Following (10.2) the basic equation for a phase observation is
+$$
+\Phi_{1,i}^{k}=\rho_{i}^{k}+c(dt_{i}-dt^{k})-I_{i}^{k}+T_{i}^{k}+\lambda_{1}N_{1,i}^{*,k}-\epsilon_{1,i}^{k}
+$$
+$$
+\Phi_{2,i}^{k}=\rho_{i}^{k}+c(dt_{i}-dt^{k})-\alpha I_{i}^{k}+T_{i}^{k}+\lambda_{2}N_{2,i}^{*,k}-\epsilon_{2,i}^{k}
+$$
+We introduce a new variable $\rho_{i}^{0}=\rho_{i}^{k}+\varphi_{i}(t_{0})-\varphi^{k}(t_{0})$ and rearrange the equations:
+\begin{equation}
+\begin{split}
+P_{1,i}^{k}-\rho_{i}^{0}+e_{1,i}^{k}=cdt_{i}+I_{i}^{k}\\
+P_{2,i}^{k}-\rho_{i}^{0}+e_{2,i}^{k}=cdt_{i}+\alpha I_{i}^{k}\\
+\Phi_{1,i}^{k}-\rho_{i}^{0}+\epsilon_{1,i}^{k}=cdt_{i}-I_{i}^{k}+\lambda_{1}N_{1,i}^{*,k}\\
+\Phi_{2,i}^{k}-\rho_{i}^{0}+\epsilon_{2,i}^{k}=cdt_{i}-\alpha I_{i}^{k}+\lambda_{2}N_{2,i}^{*,k}
+\end{split}
+\end{equation}
+Our basic idea is to use single differences for estimating the difference of clock offsets
+between the two receivers i and j . So we write down for receiver j a set of equations
+similar to (10.58 ), and take the difference��skipping the error terms:
+\begin{equation}
+\begin{split}
+P_{1,i}^{k}-P_{1,j}^{k}-\rho_{ij}^{0}=cdt_{ij}+I_{ij}^{k}\\
+P_{2,i}^{k}-P_{2,j}^{k}-\rho_{ij}^{0}=cdt_{ij}+\alpha I_{ij}^{k}\\
+\Phi_{1,i}^{k}-\Phi_{1,j}^{k}-\rho_{ij}^{0}=cdt_{ij}-I_{ij}^{k}+\lambda_{1}N_{1,ij}^{*,k}\\
+\Phi_{2,i}^{k}-\Phi_{2,j}^{k}-\rho_{ij}^{0}=cdt_{ij}-\alpha I_{ij}^{k}+\lambda_{2}N_{2,ij}^{*,k}
+\end{split}
+\end{equation}
+Here we used the abbreviations:
+$$
+\rho_{ij}^{0}=\rho_{i}^{k}-\rho_{j}^{k}+T_{i}^{k}-T_{j}^{k}
+$$
+$$
+dt_{ij}=dt_{i}-dt_{j}
+$$
+$$
+I_{ij}^{k}=I_{i}^{k}-I_{j}^{k}
+$$
+$$
+N_{1,ij}^{*,k}=N_{1,i}^{k}-N_{1,j}^{k}+\varphi_{i}(t_{0})-\varphi_{j}(t_{0})
+$$
+This may be put together as the. matrix equation b=Ax:
+\begin{equation}
+\begin{bmatrix}
+P_{1}-\rho^{0}\\
+\Phi_{1}-\rho^{0}\\
+P_{2}-\rho^{0}\\
+\Phi_{2}-\rho^{0}
+\end{bmatrix}
+=\begin{bmatrix}
+1&1&0&0\\
+1&-1&\lambda_{1}&0\\
+1&\alpha&0&0\\
+1&-\alpha&0&\lambda_{2}
+\end{bmatrix}
+\begin{bmatrix}
+cdt\\I\\N_{1}^{*}\\N_{2}^{*}
+\end{bmatrix}
+\end{equation}
+This equation is to be used with single differences.
+
+For each satellite k, the components of b are differences of the observations from i and from j. The vector x has 3 unknowns $I,N_{1},N_{2}$ for each satellite k, plus one common unknown cdt. Any additional satellite augments A by 3 columns and 4 rows. For s satellites, A has 1 + 3s columns and 4s rows and m - n=s - 1 degrees of freedom.
+
+The covariance matrix for the four observations in (10.60) (from one satellite) is
+$$
+C=\begin{bmatrix}
+0.3^{2}&&&\\
+&0.005^{2}&&\\
+&&0.3^{2}&\\
+&&&0.005^{2}
+\end{bmatrix}
+$$
+Then the complete coefficient matrix has B repeated s times ( thus 4s rows):
+\begin{equation}
+\mathop{A}\limits_{4s\,\,by\,\,3s+1}=
+\begin{bmatrix}
+e&I\bigotimes&B
+\end{bmatrix}\,\,\,\,with \,\,\,\,
+B=\begin{bmatrix}
+1&0&0\\
+-1&\lambda_{1}&0\\
+\alpha&0&0\\
+-\alpha&0&\lambda_{2}
+\end{bmatrix}
+\end{equation}
+The covariance is $\mathop{I}\limits_{s\,by\,s}$ $\bigotimes$ $\mathop{C}\limits_{4\,by\,4}$. The observation vector is $\mathop{b}\limits_{4s\, by\, 1}$ and e holds s ones.
+
+Our model never parameterizes using position (X, Y, Z). Rather we exploit that we know precise satellite orbits and precise positions of both receivers. In this case the estimation of $dt_{ij}=dt_{i}-dt_{j}$ is a linear problem.
+
+So far we have concentrated on one epoch , when $cdt_{ij}$ is common to all satellites. However $cdt_{ij}$ changes from epoch to epoch. In case the two receivers are close we expect that I varies a few meters. But when it is night at one receiver and day at the other receiver,I may be tens of meters.
+
+The M-file d\_offset demonstrates an implementation of (10.61). It is possible to work with one-way ranges directly and then to split $dt_{ij}$ into individual offsets $dt_{i}$ and $dt_{j}$.
+
+\subsection{Improving the Accuracy from Externally Estimated Satellite Clock Offsets}
+
+We cannot resist to include some ideas generously shared by Clyde C. Goad on how to
+estimate satellite clock offset in real time. Such thoughts were especially relevant before
+May 2000 when SA was active. However such thinking may be useful even today when
+we want to obtain a deeper knowledge on how to model errors .
+
+The idea is to estimate the offsets of the individual satellite clocks every one second ,
+and next apply this information to the observations from a dual-frequency receiver. The
+idea can be extended to comprise the ionospheric delay too.
+
+The satellite clock offsets are estimated front dual-frequency observations taken at a reference station. We only deal with one- way observations and focus on estimation of time. We watch for possible offsets between the way the epochs are defined by the receiver for both phase and code observations, on the L1 as well as the L2 frequencies. In general a possible time offset a cannot be separated from the pseudorange $\rho+cdt_{i}$. So we set the nominal epoch time to equal the time of the pseudorange observations on L1. The other relative offsets are called a , b , and c. The code observations are
+\begin{equation}
+P_{1}=\rho+I+c(dt_{i}-dt^{k})+0
+\end{equation}
+\begin{equation}
+P_{2}=\rho+\alpha I+c(dt_{i}-dt^{k})+a.
+\end{equation}
+We define the coefficients $\alpha_{1}$,$\alpha_{2}$,and $\alpha$:
+$$
+\alpha_{1}=f_{1}^{2}/(f_{1}^{2}-f_{2}^{2})=2.5457\cdots
+$$
+$$
+\alpha_{2}=-f_{2}^{2}/(f_{1}^{2}-f_{2}^{2})=-1.5457\cdots
+$$
+$$
+\alpha=(f_{1}/f_{2})^{2}=1.6469444\cdots
+$$
+Adding the error term e , the ionosphere free combination of pseudoranges is
+\begin{equation}
+\alpha_{1}P_{1}+\alpha_{2}P_{2}=\rho+c(dt_{i}-dt^{k})+\alpha_{1}0+\alpha_{2}a+e.
+\end{equation}
+This combination of pseudoranges we met already in (10.23). Phases are similar:
+\begin{equation}
+\Phi_{1}=\rho-I+c(dt_{i}-dt^{k})+154\lambda_{1}(\varphi_{0,i}-\varphi_{0}^{k})+\lambda_{1}N_{1}+b
+\end{equation}
+\begin{equation}
+\Phi_{2}=\rho-\alpha I+c(dt_{i}-dt^{k})+120\lambda_{2}(\varphi_{0,i}-\varphi_{0}^{k})+\lambda_{2}N_{2}+c.
+\end{equation}
+Adding the error term $\epsilon$ the ionosphere free combination of phase observations is
+\begin{equation}
+\alpha_{1}\Phi_{1}+\alpha_{2}\Phi_{2}=\rho+c(dt_{i}-dt^{k})+(\varphi_{0,i}-\varphi_{0}^{k})+\alpha_{1}\lambda_{1}N_{1}+\alpha_{2}\lambda_{2}N_{2}+\alpha_{1}b+\alpha_{1}c+\epsilon
+\end{equation}
+Again we expect that $\alpha_{1}b+\alpha_{1}c$ is absorbed into $\rho+cdt_{i}$. Subtract (10.64) from (10.67):
+\begin{equation}
+\alpha_{1}\Phi_{1}+\alpha_{2}\Phi_{2}-(\alpha_{1}P_{1}+\alpha_{2}P_{2})=\varphi_{0,i}-\varphi_{0}^{k}+\alpha_{1}\lambda_{1}N_{1}+\alpha_{2}\lambda_{2}N_{2}+\epsilon-e
+\end{equation}
+There are s one-way equations of type (10.68) from tracking s satellites. The errors e and $\epsilon$ are supposed to be normally distributed. If we average the individual equations (10.68) over say 100 epochs, and we have correct estimates of $N_{1}$ and $N_{2}$, we get good estimates for $\varphi_{0,i}-\varphi_{0}^{k}$. This value can be inserted into (10.67) to estimate $dt^{k}$ from
+$$
+\rho+c(dt_{i}-dt^{k}),\,\,\,\,\,for\,k=1,2,\cdots,
+$$
+$dt^{k}$ should be accurate to a few dm. The biases a, b, c can be a few tens of meters.
+
+It is important to work with epoch intervals not larger than one second. This allows us to linearly interpolate changes in $dt^{k}$. Knowing $dt^{k}$ we insert this value into (10.62) and the accuracy of the original pseudorange is improved dramatically.
+
+The very same argument applies to the ionospheric delay I that can be estimated from (10.66) assuming b = c .There is no way to separate I from b or c��
+
+\textbf{Example 10.6} (Estimation of receiver clock offset by extended Kalman filter) The M-file kalclock uses an extended filter. After filtering all observations in each epoch we add:
+
+if ext$\hat{}$nded\_filter == 1
+
+pos (1:3,1 ) = pos(1:3,1) + x(1:3,1);
+
+x(1:3,1) = [0;0;0];
+
+end
+
+rec\_clk\_offset = [rec\_clk\_offset x(4,1)];
+
+This code implies that the first iteration yields an updated position which deviates only a
+little from the position computed in the batch run. For the file pta.96o the discrepancy is
+(0.12,0.54,-0.19) m. So this small deviation is what we pay for a much faster computation,one iteration instead of three. The result is shown in Figure 9.5 on \textbf{page 265 should modify}.

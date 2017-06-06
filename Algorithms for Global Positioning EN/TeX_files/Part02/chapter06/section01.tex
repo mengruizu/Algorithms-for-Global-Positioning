@@ -1,0 +1,233 @@
+\section[格瑞姆-史密正交化系数阵$A$和乔利斯基分解用于$A^{T}A$]{格瑞姆-史密正交化系数阵$A$和乔利斯基分解用于$A^{T}A$\\Gram-Schmidt on $A$ and Cholesky on $A^{T}A$}
+\begin{flushleft}
+The linear system is $A\textbf{\textit{x}}=\textbf{\textit{b}}$. The matrix $A$ is $m$ by $n$ and its $n$ columns are independent, so $m \geq n$. Then the $n$ by $n$ matrix $A^{T}A$ (also $A^{T}CA$) is invertible and symmetric and positive definite.	
+\end{flushleft}
+
+Allow us to comment: When a rectangular matrix $A$ enters applied mathematics, the square matrix $A^{T}A$ will soon appear. Least squares goes back to Gauss but the best algorithms are much newer. The encyclopedic work of \AA{}ke Bj\"{o}rck expresses the continuing progress on this fundamental problem.
+
+The method of least squares yields an orthogonal projection of a point \textbf{\textit{b}} onto the column space of $A$. This space contains all combinations $A\textbf{\textit{x}}$ of the columns $\textbf{\textit{a}}_{1}$,…，$\textbf{\textit{a}}_{n}$ of $A$. This is an $n$-dimensional linear subspace of $m$-dimensional space $\textbf{\textit{R}}^{m}$, but its axes (columns of $A$) are generally not orthogonal. The (weighted) projection of $\textbf{\textit{b}}$ is the conbination $A\hat{\textbf{\textit{x}}}$, where $\hat{\textbf{\textit{x}}}$ satisfies the (weighted) normal equation$A^{T}CA\hat{\textbf{\textit{x}}}=A^{T}C\textbf{\textit{b}}$. The unweighted case has$\textbf{\textit{C}}=\textbf{\textit{I}}$.
+
+In least squares we write $\textbf{\textit{b}}$ as the combination
+
+	\begin{equation}\label{eq:6.1}
+	\textbf{\textit{b}}=\hat{x}_{1}\textbf{\textit{a}}_{1}+\hat{x}_{2}\textbf{\textit{a}}_{2}+\cdots+\hat{x}_{n}\textbf{\textit{a}}_{n}+error\textbf{\textit{e}}=A\hat{\textbf{\textit{x}}}+\textbf{\textit{e}}
+		\end{equation}
+		
+Let the inner product between any two vectors $\textbf{\textit{a}}$ and $\textbf{\textit{b}}$ be defined as ($\textbf{\textit{a}}$, $\textbf{\textit{b}}$)= $\textbf{\textit{a}}^{T}C\textbf{\textit{b}}$. The symmetric positive definite matrix $C$ is the weight matrix. Often$C=\sum^{-1}$.
+
+First we want to demonstrate that Cholesky's elimination method (on $A^{T}CA$) is equivalent to Gram-Schmidt orthogonalization on the columns of $A$.
+
+Let the orthonormalized columns be $\textbf{\textit{q}}_{i}$ . These are orthonormal in the "$C$-inner product" so that$(\textbf{\textit{q}}_{i},\textbf{\textit{q}}_{j})=\textbf{\textit{q}}^T_iC\textbf{\textit{q}}_{j}=\delta_{ij}$。The vectors $\textbf{\textit{q}}_{i}$ are collected as columns of the matrix $Q$. Therefore we have$Q^{T}CQ=I $. We define the matrix $R$ by $Q^{-1} A$, so that
+$$A=QR.$$
+
+\begin{flushleft}
+The matrix $R$ is upper triangular with nonnegative diagonal entries. This follows from the order in which the Gram-Schmidt orthogonalization is executed-one vector at a time.
+\end{flushleft}
+
+It is numerically safer to work with orthogonal and triangular matrices, $Q$ and $R$. We always modify the Gram-Schmidt algorithm, \textit{to subtract one projection at a time}, or we replace Gram-Schmidt by Householder's better way to construct $Q$ and $R$. In most applications it is safe enough (and faster) to work directly with $A^{T}CA$.
+  
+    	\subsection{Calculation of $R$ from $Q$ and $A$}
+    	
+\begin{flushleft}
+	From the order of the Gram-Schmidt process, each new $A_{i}$ is a combination of the newest
+column $\textbf{\textit{a}}_{i}$ and the vectors $A_{1}$，$\cdots$，$A_{i-1}$ that are already set. When the $A$'s are normalized to unit vectors (the $\textbf{\textit{q}}$'s), each new $\textbf{\textit{q}}_{i}$ is a combination of $\textbf{\textit{a}}_{i}$ and $\textbf{\textit{q}}_{1}$，$\cdots$，$\textbf{\textit{q}}_{ i-1}$.Therefore $a_{i}$ is a combination of $\textbf{\textit{q}}_{1}$，$ \cdots$，$\textbf{\textit{q}}_{i}$. An early $\textbf{\textit{q}}$ does not involve a later $\textbf{\textit{a}}$. An early $\textbf{\textit{a}}$ does not involve a later$ \textbf{\textit{q}}$!
+\end{flushleft}
+
+We can express this as a growing triangle:
+
+\begin{align}
+\textbf{\textit{a}}_{1}&=(\textbf{\textit{q}}_{1},\textbf{\textit{a}}_{1})\textbf{\textit{q}}_{1}
+ \\
+\textbf{\textit{a}}_{2}&=(\textbf{\textit{q}}_{1},\textbf{\textit{a}}_{2})\textbf{\textit{q}}_{1}+(\textbf{\textit{q}}_{2},\textbf{\textit{a}}_{2})\textbf{\textit{q}}_{2}
+\\
+\textbf{\textit{a}}_{3}&=(\textbf{\textit{q}}_{1},\textbf{\textit{a}}_{3})\textbf{\textit{q}}_{1}+(\textbf{\textit{q}}_{2},\textbf{\textit{a}}_{3})\textbf{\textit{q}}_{2}+(\textbf{\textit{q}}_{3},\textbf{\textit{a}}_{3})\textbf{\textit{q}}_{3}.
+\end{align}
+
+\begin{flushleft}
+	In matrix form this is exactly $A=QR$. The entry $r_{ij}$ is the inner product of $\textbf{\textit{q}}_{i}$ with $\textbf{\textit{a}}_{j}$ . To see this, multiply those equations by $\textbf{\textit{q}}^T_1$ .Remember that ($\textbf{\textit{q}}_{i}$,$\textbf{\textit{q}}_{j}$)=$0$ unless $i =j$.
+\end{flushleft}
+
+$$r_{11}=(\textbf{\textit{q}}_{1},\textbf{\textit{a}}_{1})$$
+$$r_{12}=(\textbf{\textit{q}}_{1},\textbf{\textit{a}}_{2})$$
+$$r_{13}=(\textbf{\textit{q}}_{1},\textbf{\textit{a}}_{3})$$
+
+\begin{flushleft}
+	Furthermore, inner products with $\textbf{\textit{q}}_{2}$ and then $\textbf{\textit{q}}_{3}$ are
+\end{flushleft}
+
+$$r_{22}=(\textbf{\textit{q}}_{2},\textbf{\textit{a}}_{2})$$
+$$r_{23}=(\textbf{\textit{q}}_{2},\textbf{\textit{a}}_{3})$$
+$$r_{33}=(\textbf{\textit{q}}_{3},\textbf{\textit{a}}_{3})$$
+
+\begin{flushleft}
+	In the following steps we use the expressions ($6.2$), ($6.3$), and ($6.4$) to form the inner products $ (\textbf{\textit{q}}_{i},\textbf{\textit{a}}_{j})=\textbf{\textit{q}}^T_{i}C\textbf{\textit{a}}_{j}$, and we arrange the system into a recursive solution:
+\end{flushleft}
+
+\begin{align*}
+(\textbf{\textit{a}}_{1},\textbf{\textit{a}}_{1})&=(\textbf{\textit{q}}_{1},\textbf{\textit{a}}_{1})^{2} \\
+ r_{11}=(\textbf{\textit{q}}_{1},\textbf{\textit{a}}_{1})&=\sqrt{(\textbf{\textit{a}}_{1},\textbf{\textit{a}}_{1})}\\
+ (\textbf{\textit{a}}_{1},\textbf{\textit{a}}_{2})&=(\textbf{\textit{q}}_{1},\textbf{\textit{a}}_{1})(\textbf{\textit{q}}_{1},\textbf{\textit{a}}_{2})\\
+ r_{12}=(\textbf{\textit{q}}_{1},\textbf{\textit{a}}_{2})&=\frac{(\textbf{\textit{a}}_{1},\textbf{\textit{a}}_{2})}{(\textbf{\textit{q}}_{1},\textbf{\textit{a}}_{1})}=\frac{ (\textbf{\textit{a}}_{1},\textbf{\textit{a}}_{2})}{\sqrt{(\textbf{\textit{a}}_{1},\textbf{\textit{a}}_{1})}}\\
+ (\textbf{\textit{a}}_{1},\textbf{\textit{a}}_{3})&=(\textbf{\textit{q}}_{1},\textbf{\textit{a}}_{1})(\textbf{\textit{q}}_{1},\textbf{\textit{a}}_{3})\\
+ r_{13}=(\textbf{\textit{q}}_{1},\textbf{\textit{a}}_{3})&=\frac{ (\textbf{\textit{a}}_{1},\textbf{\textit{a}}_{3})}{\sqrt{(\textbf{\textit{a}}_{1},\textbf{\textit{a}}_{1})}}\\
+ (\textbf{\textit{a}}_{2},\textbf{\textit{a}}_{2})&=(\textbf{\textit{q}}_{1},\textbf{\textit{a}}_{2})^{2}+(\textbf{\textit{q}}_{2},\textbf{\textit{a}}_{2})^{2}(Pythagoras)\\
+ r_{22}=(\textbf{\textit{q}}_{2},\textbf{\textit{a}}_{2})&=\sqrt{(\textbf{\textit{a}}_{2},\textbf{\textit{a}}_{2})-(\textbf{\textit{q}}_{1},\textbf{\textit{a}}_{2})^{2}}\\
+ (\textbf{\textit{a}}_{2},\textbf{\textit{a}}_{3})&=(\textbf{\textit{q}}_{1},\textbf{\textit{a}}_{2})(\textbf{\textit{q}}_{1},\textbf{\textit{a}}_{3})+(\textbf{\textit{q}}_{2},\textbf{\textit{a}}_{2})(\textbf{\textit{q}}_{2},\textbf{\textit{a}}_{3})\\
+ r_{23}=(\textbf{\textit{q}}_{2},\textbf{\textit{a}}_{3})&=\frac{(\textbf{\textit{a}}_{2},\textbf{\textit{a}}_{3})-(\textbf{\textit{q}}_{1},\textbf{\textit{a}}_{2})(\textbf{\textit{q}}_{1},\textbf{\textit{a}}_{3})}{(\textbf{\textit{q}}_{2},\textbf{\textit{a}}_{2})}=\frac{(\textbf{\textit{a}}_{2},\textbf{\textit{a}}_{3})-(\textbf{\textit{q}}_{1},\textbf{\textit{a}}_{2})(\textbf{\textit{q}}_{1},\textbf{\textit{a}}_{3})}{\sqrt{(\textbf{\textit{a}}_{2},\textbf{\textit{a}}_{2})-(\textbf{\textit{q}}_{1},\textbf{\textit{a}}_{2})^{2}}}\\
+ (\textbf{\textit{a}}_{3},\textbf{\textit{a}}_{3})&=(\textbf{\textit{q}}_{1},\textbf{\textit{a}}_{3})^{2}+(\textbf{\textit{q}}_{2},\textbf{\textit{a}}_{3})^{2}+(\textbf{\textit{q}}_{3},\textbf{\textit{a}}_{3})^{2}(Pythagoras)\\
+  r_{33}=(\textbf{\textit{q}}_{3},\textbf{\textit{a}}_{3})&=\sqrt{(\textbf{\textit{a}}_{3},\textbf{\textit{a}}_{3})-(\textbf{\textit{q}}_{2},\textbf{\textit{a}}_{3})^{2}-(\textbf{\textit{q}}_{1},\textbf{\textit{a}}_{3})^{2}}
+\end{align*}
+
+For simplicity take $C=I$, so that each $(\textbf{\textit{q}}_{i}, \textbf{\textit{a}}_{j})$ is just $\textbf{\textit{q}}^{T}_{i}\textbf{\textit{a}}_{j} $. The \textit{upper triangular matrix} $R$ in $A=QR$ \textit{is also the Cholesky factor of the matrix} $A^{T}A$. If $A= QR$ then$A^{T}A=(QR)^{T}QR $. This equals $R^{T} Q^{T} QR$ which is $R^{T}R$:
+
+$A^{T}A$ factors into $R^{T}R$=(lower triangular) $ \times$ (upper triangular)=Cholesky factors. to actual calculations this offers two ways to compute $\hat{x}$:
+
+\begin{flushleft}
+1 \ \  Apply Gram-Schrnidt to $A$, and then solve $R\hat{x}$=$Q^{T} C b $(see below).
+\end{flushleft} 
+\begin{flushleft}
+2 \ \   Work with the coefficient matrix $A^{T}A$ or $A^{T}CA$.
+\end{flushleft}
+
+The first method is slightly slower. For full matrices Gram-Schmidt needs about $mn^{2}$ separate muitiplications. This method is more stable numerically (we mean modified GramSchmidt or else Householder). The errors are proportional to the condition number $c(A)$.
+
+The second method (direct solution of the normal equations) is faster. For full maprices it takes $ \frac{1}{2}mn^{2}$ multiplications and additions to compute the $n^{2}$ entries of $A^{T}A$ (the  $ \frac{1}{2}$ comes from symmetry and we consider $C = I$).Then elimination requires about $ \frac{1}{6}n^{3}$again halved by svmmetrv from $\frac{1}{3}n^{2}$.This method works directly with the normal equations and \textit{it is by far the most frequent choice in practice}, although numerically it is not quite as stable.
+
+\begin{flushleft}
+	\textbf{Example 6.1} We use this algorithm with $C= I$ on
+\end{flushleft}
+\begin{align*}
+\begin{bmatrix}
+1&2&3 \\	
+-1&0&-3 \\		
+0&-2&3 \\	
+\end{bmatrix}
+\end{align*}
+
+\begin{flushleft}
+	The result of the $MATLAB$ command $[Q,R]=qr(A)$ shows orthonormal columns in $Q$:
+\end{flushleft}
+\begin{align*}
+Q=
+\begin{bmatrix}
+-0.7071&-0.4082&0.5774 \\	
+0.7071 &-0.4082&0.5774 \\		
+0      &0.8165 &0.5774 \\	
+\end{bmatrix}
+\approx
+\begin{bmatrix}
+-\frac{1}{\sqrt{2}}&-\frac{1}{\sqrt{6}}& \frac{1}{\sqrt{3}} \\	
+ \frac{1}{\sqrt{2}}&-\frac{1}{\sqrt{6}}& \frac{1}{\sqrt{3}} \\		
+         0         &-\frac{2}{\sqrt{6}}& \frac{1}{\sqrt{3}} \\	
+\end{bmatrix}
+\end{align*}
+\begin{align*}
+R=
+\begin{bmatrix}
+-1.4142&-1.4142&-4.2426 \\	
+0      &-2.4495& 2.4495 \\		
+0      &0      & 1.7321 \\	
+\end{bmatrix}
+\approx
+\begin{bmatrix}
+-\sqrt{2}&-\sqrt{2}&-\sqrt{18} \\	
+0        &-\sqrt{6}& \sqrt{6 } \\		
+0        &0        & \sqrt{3} \\	
+\end{bmatrix}
+\end{align*}
+
+Now suppose that $C$ is not necessarily $I$. The normal equation matrix is $A^{T}CA$.We still have $A=QR$, but now the columns $\textbf{\textit{q}}_{i}$ are orthogonal in the $C$-inner product:
+
+$$
+\textbf{\textit{q}}^{T}_{i}C\textbf{\textit{q}}_{j}=
+\begin{cases}
+1& \text{if}\ i=j\\
+0& \text{otherwise}
+\end{cases} \ 
+and \ therefore \  Q^{T}CQ=I.
+$$
+
+\begin{flushleft}
+	The matrix $R$ is still a Cholesky factor!
+\end{flushleft}
+
+$$ 
+N=A^{T}CA=(QR)^{T}C(QR)=R^{T}(Q^{T}CQ)R=R^{T}R.
+$$
+
+\begin{flushleft}
+	The normal equations become$R^{T}R\hat{\textbf{\textit{x}}}=A^{T}C\textbf{\textit{b}}=(QR)TC\textbf{\textit{b}}=R^{T}Q^{T}C\textbf{\textit{b}} $ so $ R\hat{\textbf{\textit{x}}}=Q^{T}C\textbf{\textit{b}}$ .
+\end{flushleft}
+
+\begin{flushleft}
+	\textit{Calculational procedure}
+\end{flushleft}
+\begin{flushleft}
+1 \ \      Use Gram-Schmidt on $A$ (with weights in $C$) to obtain $R$.\\
+2 \ \      Calculate $z=Q^{T} C \textbf{\textit{b}}$.\\
+3  \ \     Solve $R\hat{\textbf{\textit{x}}}= z$ by back substitution.
+\end{flushleft}
+
+\begin{flushleft}
+	Thus the normal equations are solved.
+\end{flushleft}
+
+A more sophisticated procedure is to augment the normal matrix by $\textbf{\textit{b}}$ to $\tilde{N}$:
+
+\begin{align}
+\tilde{N}=
+\begin{bmatrix}
+A^{T} \\	
+\textbf{\textit{b}}^{T}
+\end{bmatrix}C
+\begin{bmatrix}
+A &	 \textbf{\textit{b}}
+\end{bmatrix}=
+\begin{bmatrix}
+A^{T}CA&A^{T}C\textbf{\textit{b}} \\	
+\textbf{\textit{b}}^{T}CA&\textbf{\textit{b}}^{T}C\textbf{\textit{b	}}
+\end{bmatrix}
+\begin{bmatrix}
+R^{T}R&R^{T}Q^{T}C\textbf{\textit{b}} \\	
+\textbf{\textit{b}}^{T}CQR&\textbf{\textit{b}}^{T}C\textbf{\textit{b}}
+\end{bmatrix}.
+\end{align}
+\begin{flushleft}
+	Simultaneously we augment the matrix $R$:
+\end{flushleft}
+\begin{align}
+\tilde{R}=
+\begin{bmatrix}
+R          &  z\\	
+\textbf{0} &  s
+\end{bmatrix}
+\end{align}
+\begin{flushleft}
+	Then
+\end{flushleft}
+\begin{align}
+\tilde{R}^{T}\tilde{R}=
+\begin{bmatrix}
+R^{T}      &  0\\	
+z^{T}      &  s
+\end{bmatrix}
+\begin{bmatrix}
+R          &  z\\	
+\textbf{0} &  s
+\end{bmatrix}
+\begin{bmatrix}
+R^{T}R        & R^{T}z\\	
+z^{T}R        &  z^{T}z+s^{2}
+\end{bmatrix}
+\end{align}
+\begin{flushleft}
+	Comparing with (6.5) we get
+\end{flushleft}
+$$ z^{T}z+s^{2}=\textbf{\textit{b}}^{T}C\textbf{\textit{b}} $$
+\begin{flushleft}
+	Repeating Step 2 above we have $ z=Q^{T}C\textbf{\textit{b}}$ and
+\end{flushleft}
+$$ z^{T}z= \textbf{\textit{b}}^{T}CAR^{-1}R^{-T}ATC\textbf{\textit{b}}=\textbf{\textit{b}}^{T}CA\hat{\textbf{\textit{x}}} \ \ and \ \ s^{2}=\textbf{\textit{b}}^{T}C\textbf{\textit{b}}-\textbf{\textit{b}}CA\hat{\textbf{\textit{x}}}=\hat{\textbf{e}}^{T}C\hat{\textit{e}}$$
+\begin{flushleft}
+	If we put $\textbf{\textit{b}}^{T}C\textbf{\textit{b}}$ in the lower left entry of $\tilde{R}$, then after the solution we recover $\hat{\textbf{e}}^{T}C\hat{\textbf{e}}$ at the very same place. This square sum of residuals is valuable for estimating a lot of a posteriors variances. The residuals are defined as $ \hat{e}=\textbf{\textit{b}}-A\hat{\textbf{\textit{x}}}$.
+\end{flushleft}

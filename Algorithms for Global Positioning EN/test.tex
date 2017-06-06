@@ -1,0 +1,55 @@
+\documentclass[a4paper,12pt]{book}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage[UTF8]{ctex}
+\usepackage{minitoc}
+\dominitoc[n]%表示去掉minitoc的contents的名字
+\dominitoc[c]% 表示把 "contents"居中
+\usepackage{titlesec}
+\usepackage{textcomp}
+\usepackage{tabularx} %可变长表格导言
+\usepackage{graphicx} %插图导言
+\usepackage{listings} %代码插入导言
+\usepackage{amsmath} %公式编辑导言
+\usepackage{multirow} %合并表格
+
+\begin{document}
+
+\author{KAI BORRE}
+\title{ALGORITHMS\\FOR\\GLOBAL\\POSITIONING}
+\date{2017}
+
+\frontmatter
+\maketitle
+\setcounter{tocdepth}{1}
+%仅显示主目录到chapter一级
+%数值	目录等级
+%	0	\part
+%	1	\chapter
+%	2	\section
+%	3	\subsubsection
+\setcounter{minitocdepth}{1} % 会在minitoc显示到sections
+\tableofcontents
+
+\mainmatter
+
+\titleformat{\part}[display]{\centering\Huge\bfseries}{第\,\thepart\,篇}{1em}{}
+%\titleformat{command}[shape]{format}{label}{sep}{before}[after]
+%command 包括\part，\chapter，\section，\subsection，\subsubsection，\paragraph，\subparagraph等
+%display 将单独一行显示“第一篇”
+%format 参数 将章标题设置为居中( \centering )显示、字号为 \Huge，字体被加粗显示 \bfseries  
+%label 参数将标题的标签设置为 “第 xxx 章”格式。 sep 参数设置标签与标题内容之间以一个字(1em)的宽度为间隔。
+\titleformat{\chapter}[display]{\Huge\bfseries}{第\,\thechapter\,章}{1em}{}
+
+\lstset{
+	numbers=left,
+	numberstyle=\tiny,
+	tabsize=1,
+	frame=shadowbox
+	} %插入代码格式
+
+
+\backmatter
+% bibliography, glossary and index would go here.
+
+\end{document}

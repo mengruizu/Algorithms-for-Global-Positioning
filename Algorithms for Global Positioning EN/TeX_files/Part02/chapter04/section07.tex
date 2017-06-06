@@ -1,0 +1,62 @@
+\section{Estimating the Variance of Unit Weight}
+The least-squares solution of afull rank problem comes from $A^T\Sigma^{-1}_bA\hat{x}=A^T\Sigma^{-1}_bb$.The formal solution is
+\begin{equation*}
+\hat{x}=(A^T\Sigma^{-1}_bA)^{-1}A^T\Sigma^{-1}_bb.
+\end{equation*}
+Applying the propagation law on this expression for $\hat{x}$ gives:
+\begin{equation}
+\Sigma_{\hat{x}}=((A^T\Sigma^{-1}_bA)^{-1}A^T\Sigma^{-1}_b)\Sigma^{-1}_b(\Sigma^{-1}_bA(A^T\Sigma^{-1}_bA)^{-1})=(A^T\Sigma^{-1}_bA)^{-1}=\sigma^2_0(A^TCA)^{-1}.
+\end{equation}
+The covariance $\Sigma_{\hat{x}}$ is the inverse matrix from the normal equations. It is useful to separate the scalar factor $\sigma^2_0$ (the variance of unit weight) so that $\Sigma_b=\sigma^2_0C^{-1}$. The Cholesky decomposition of $A^TCA$ gives
+\begin{equation}
+(A^TCA)^{-1}=(R^TR)^{-1}=R^{-1}R^{-T}.
+\end{equation}
+The upper triangular R is computed by the MATLAB command R = chol(A'*C*A).
+
+The variance propagation law is valid for all linear functions of the unknowns $\hat{x}$.
+Each row in the j by n matrix F defines a linear function of $\hat{x}$. By the propagation law,
+the covariance matrix for $F\hat{x}$ is $F(A^T\Sigma^{-1}_bA)^{-1}F^T$. In the special case f = Ax, the best estimators are $\hat{f}=A\hat{x}=\hat{p}$. Sometimes they are called the estimated observations or fitted values. Their covariance matrix is computed after the sampling:
+\begin{equation}
+\Sigma_{\hat{p}}=A(A^T\Sigma^{-1}_bA)^{-1}A^T.
+\end{equation}
+This is the a posteriori covariance matrix for the observations. It is the covariance for the
+projection $\hat{p}$ of b. The a priori covariance matrix, of course, is given as $\Sigma_b=\sigma^2_0C^{-1}$.
+
+If A is n by n, the factors in $(A^TCA)^{-1}$ can be inverted and we get $\Sigma_b= \Sigma_p$; but
+this is no longer a least-squares problem. The equation Ax = b can be solved exactly.
+
+For assessing gross errors in geodetic practice we use the standardized residuals $\tilde{e}$:
+\begin{equation}
+\hat{e}=b-A\hat{x} \quad and \quad
+\tilde{e}=(diag(A\Sigma_{\hat{x}}A^T))^{-1/2}\hat{e}.
+\end{equation} 
+This achieves $\sigma^2(\tilde{e}_1)=\cdots=\sigma^2(\tilde{e}_n)=1$. Bjorck (1996) uses $\tilde{e}=diag(A\Sigma_{\hat{x}}A^T)$ instead.
+
+In most cases the variance of unit weight $\sigma^2_0$ is unknown. Statistical theory gives the
+following unbiased estimate of $\sigma^2_0$ when A is m by n:
+\begin{equation}
+\hat{\sigma^2_0}=\frac{\hat{e}^TC\hat{e}}{m-n}=\frac{\|b-A\hat{x}\|^2}{m-n}.
+\end{equation}
+We shall outline a proof in case $\Sigma_b=\sigma^2_0I$. If we want a valid proof for $\Sigma_b\neq \sigma^2_0I$, we have to decorrelate the variables by the transformation b' = Wb, A' = WA. This is described in Section 6.7 on weight normalization, where $C=W^TW$.
+
+The minimum value for the sum of squares is given by
+\begin{equation}
+\hat{e}^T\hat{e}=(b-\hat{p})^T(b-\hat{p})=(b-Pb)^T(b-Pb)=b^T(I-P)(I-P)b=b^T(I-P)b.
+\end{equation}
+Here we exploited that P and I - P are projections: $P=P^T=P^2$. The expectation
+$b^T(I-P)b$ is a quadratic form, therefore with $a\chi^2$ distribution. The number of degrees
+of freedom is the rank of I - P. When P projects onto the n-dimensional column space
+of A, its rank is n and the rank of I - P is m - n. Hence
+\begin{equation*}
+b^T(I-P)b~\sigma^2_0\chi^2_{m-n}.
+\end{equation*}
+To prove (4.79) we compute the mean value, using $E\{\chi^2_n\}=n$ from equation (4.42):
+\begin{equation*}
+E\{b^T(I-P)b\}=\sigma^2_0E\{\chi^2_(m-n)\}=\sigma^2_0(m-n).
+\end{equation*}
+In words, the number of degrees of freedom in a sum of squares is diminished by the
+number of estimated parameters. In 1889 the Danish actuary T.N. Thiele presented a reasoning based on the only assumption that the observations are independent and normally
+distributed. He found that in the simplest linear model — the canonical model — m observations have unknown mean values and the remaining m - n have known mean values. According to Thiele, estimation in this model is evident. Next he showed that any linear model can be turned into a canonical form by an orthogonal transformation. The estimators in this model, by the inverse transformation, can be expressed by means of the original observations. This fundamental idea of Thiele was not understood by his contemporaries. Only in the 1930s the canonical form of the linear normal model was rediscovered.
+
+A comprehensive historical exposition is given in Seal (1967).
+ 

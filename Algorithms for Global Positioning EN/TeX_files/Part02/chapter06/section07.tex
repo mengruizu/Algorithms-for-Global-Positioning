@@ -1,0 +1,109 @@
+\section[去相关和规范权]{去相关和规范权\\Decorrelation and Weight Nomalization}
+\begin{flushleft}
+	Most computer programs for solving least-squares problems read the observation equations by rows and store the relevant contributions at the matching places of the normal equation matrix. The $i$th observation equation from the ith row of $A$ can be immediately stored at the correct places in the normal equation matrix $A^{T}CA$
+\end{flushleft}
+\begin{align}
+(A^{T}CA)_{old} + \dfrac{1}{\sigma^{2}_{i}}A^{T}_{i}A_{i}\rightarrow (A^{T}CA)_{new}.
+\end{align}
+This procedure works as long as the individual observations are uncorrelated. If they are dependent, we first have to decorrelate the observations by splitting $C$ into $W^{T}W$. Then
+\begin{align}
+A' = WA \quad and \quad (A')^{T}A' = A^{T}W^{T}WA = A^{T}CA.
+\end{align}
+Such a transformation $W$ not only decorrelates the transformed observations but can also guarantee that these equations have the weight 1.
+
+As the covariance matrix $C^{-1}$ is symmetric and positive definite we can use the method of Cholesky for factorization:
+\begin{align}
+\Sigma _{b} = C^{-1} = W^{-1}C^{-T} \quad or \quad C = W^{T}W
+\end{align}
+ The Transformation thus described is given as
+ \begin{align*}
+ A' = WA \quad and \quad (\textbf{\textit{b}}')^{T} = W\textbf{\textit{b}} \quad and \quad  \textbf{\textit{e}}' = W\textbf{\textit{e}}.
+ \end{align*}
+ It is easy to show, see below, that $\textbf{\textit{x}}$ remains unchanged under this special transformation and that the a priori covariance matrix of the transformed observations is simplified to
+ \begin{align}
+ \Sigma_{b'} = I.
+ \end{align}
+ This decomposition of the covariance matrix $ \Sigma_{b}$ and the transformation of $A$ and $\textbf{\textit{b}}$ is often called \textit{decorrelation} of the observations. In practice you need only to calculate $ W^{-1}$ for each set of correlated observations and then solve the equations
+ \begin{align}
+ W^{-1}A' = A \quad and \quad  W^{-1}\textbf{\textit{b}}' =\textbf{\textit{b}}
+ \end{align}
+ for $A'$ and $\textbf{\textit{b}}'$ by one forward reduction. Although $A$ contains more correlated rows the calculation of $A'$ continues column-wise. After the decomposition, $A'$ and $\textbf{\textit{b}}'$ are added to the normal equations as decribed in (6.54).
+ 
+  The transformation is a change of basis in the column space of $W$. This column space is determined uniquely for each set of correlated observations. Any such linear transformation leaves $A^{T}CA$, $A^{T}Cb$, and $\textbf{\textit{x}}$ unchanged. The transformations can be performed to secure simultaneously a unit weight matrix for the correlated observation equations as demonstrated in (6.57).
+  
+  The weighted sum of squares of the residuals $\textbf{\textit{e}}^{T}C\textbf{\textit{e}}$ equals the square sum of the transformed residuals $\textbf{\textit{e}}'=W\textbf{\textit{e}}$:
+  \begin{align*}
+  \textbf{\textit{e}}^{T}C\textbf{\textit{e}} = 
+  (W^{-1}\textbf{\textit{e}}')^{T}C(W^{-1}\textbf{\textit{e}}')=
+  \textbf{\textit{e}}'^{T}\textbf{\textit{e}}' =
+  \sum_{i=1}^m\textbf{\textit{e}}'^{2}_{i}.
+  \end{align*}
+\begin{flushleft}
+	\textbf{Example 6.7} We give a numerical example demonstrating the theory in all details, and use a covariance matrix for double differenced phase observations. Double difference observations are defined by (10.16).We consider a situation with $r = 3$ receivers one of which is the master receiver. The master receiver corresponds to the first block column; the second and third block columns correspond to the two rover receivers. All receivers observe $s = 4$ satellites. The first satellite is taken as the reference satellite and we have three observations at each receiver. Each block matrix is $s-1$ by $s$:
+\end{flushleft}
+\begin{align*}
+D_{d} =
+\begin{bmatrix}
+-1 \quad 1 \quad 0 \quad 0 \quad 1 \quad-1 \quad 0 \quad 0 \quad 0 \quad 0 \quad 0 \quad 0 \\
+-1 \quad 0 \quad 1 \quad 0 \quad 1 \quad 0 \quad-1 \quad 0 \quad 0 \quad 0 \quad 0 \quad 0 \\
+-1 \quad 0 \quad 0 \quad 1 \quad 1 \quad 0 \quad 0 \quad-1 \quad 0 \quad 0 \quad 0 \quad 0 \\
+-1 \quad 1 \quad 0 \quad 0 \quad 0 \quad 0 \quad 0 \quad 0 \quad 1 \quad-1 \quad 0 \quad 0 \\
+-1 \quad 0 \quad 1 \quad 0 \quad 0 \quad 0 \quad 0 \quad 0 \quad 1 \quad 0 \quad-1 \quad 0 \\
+-1 \quad 0 \quad 0 \quad 1 \quad 0 \quad 0 \quad 0 \quad 0 \quad 1 \quad 0 \quad 0 \quad-1 
+\end{bmatrix}.
+\end{align*}
+The covariance matrix $ \Sigma_{d} = D_{d}(\sigma^{2}I)D^{T}_{d} = C^{-1}$ is
+\begin{align*}
+\sigma^{2}
+\begin{bmatrix}
+4 & 2 & 2 & 2 & 1 & 1 \\
+2 & 4 & 2 & 1 & 2 & 1 \\
+2 & 2 & 4 & 1 & 1 & 2 \\
+2 & 1 & 1 & 4 & 2 & 2 \\
+1 & 2 & 1 & 2 & 4 & 2 \\
+1 & 1 & 2 & 2 & 2 & 4 
+\end{bmatrix}.
+\end{align*}
+The first step is to factorize $C^{-1}$ into $ W^{-1} (W^{-1} )^{T}$. The result is
+\begin{align*}
+W^{-1} = 
+\begin{bmatrix}
+2 & 0 & 0 & 0 & 0 & 0 \\
+1 & \sqrt{3} & 0 & 0 & 0 & 0 \\
+1 & \frac{1}{\sqrt{3}} & \frac{2\sqrt{2}}{\sqrt{3}} & 0 & 0 & 0 \\
+1 & 0 & 0 & \sqrt{3} & 0 & 0 \\
+\frac{1}{2} & \dfrac{\sqrt{3}}{2} & 0 & \dfrac{\sqrt{3}}{2} & \dfrac{3}{2} & 0 \\
+\dfrac{1}{2} & \frac{1}{2\sqrt{3}} & \dfrac{\sqrt{2}}{\sqrt{3}} & \dfrac{\sqrt{3}}{2} & \dfrac{1}{2} & \sqrt{2} 
+\end{bmatrix}.
+\end{align*}
+Notice that $w^{-1}$ has only positive entries like $ \Sigma_{d}$. The second step is to calculate theinverse:
+\begin{align*}
+W = 
+\begin{bmatrix}
+\dfrac{1}{2} & 0 & 0 & 0 & 0 & 0 \\
+-\dfrac{1}{2\sqrt{3}} & \dfrac{1}{\sqrt{3}} & 0 & 0 & 0 & 0 \\
+-\dfrac{1}{2\sqrt{6}} & -\dfrac{1}{2\sqrt{6}} & \frac{\sqrt{3}}{2\sqrt{2}} & 0 & 0 & 0 \\
+-\dfrac{1}{2\sqrt{3}} & 0 & 0 & \dfrac{1}{\sqrt{3}} & 0 & 0 \\
+\frac{1}{6} & -\dfrac{1}{3} & 0 & -\dfrac{1}{3} & \dfrac{2}{3} & 0 \\
+\dfrac{1}{6\sqrt{2}} & \dfrac{1}{6\sqrt{2}} & -\dfrac{\sqrt{2}}{\sqrt{2}} & -\dfrac{1}{3\sqrt{2}} & -\dfrac{1}{3\sqrt{2}} & \dfrac{1}{\sqrt{2}} 
+\end{bmatrix}.
+\end{align*}
+Note that the diagonal entries of $W^{-1}$ and $W $ are mutually inverse. The zero entries are placed at identical places in the two matrices and they share other properties which are common to all triangular matrices: The product of two lower (upper) triangular matrices is again lower (upper) triangular, and the inverse of a nonsingular, triangular matrix is also triangular.
+
+After a left multiplication with $W$ of both sides of the original correlated observation equations, the independent observations can be read in by the least-squares program like any other independent observations.
+
+Finally we demonstrate how to combine various types of observations into one least-squares problem. The key is to divide the single observation equation by its standard deviation. Or in other words to multiply the single observation equation by the square root of the pertinent weight. By this the observation equations become dimensionless; subsequently they enter a least-squares problem. We say that the observation equations are\textit{ might normalized}:
+\begin{align}
+WA\textbf{\textit{x}} = W\textbf{\textit{b}}-W\textbf{\textit{e}},
+\end{align}
+And by this the normal equations are
+\begin{align}
+A^{T}W^{T}WA\textbf{\textit{x}}=A^{T}W^{T}W\textbf{\textit{b}}
+\end{align}
+Or
+\begin{align}
+A^{T}CA\textbf{\textit{x}}=A^{T}C\textbf{\textit{b}}.
+\end{align}
+They are the correct normal equations with weight matrix $ C=W^{T}W$.
+
+A last remark on weights. Any observation equation can be multiplied by any positive constant; but you must understand that this\textit{ changes the weight} and consequently the result of the least-squares problem.

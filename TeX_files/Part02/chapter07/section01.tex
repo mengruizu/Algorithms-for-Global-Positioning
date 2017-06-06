@@ -1,2 +1,142 @@
 \section[秩亏的标准方程]{秩亏的标准方程\\Rank Deficient Normal Equations}	
-	
+到目前为止,我们已经假定$A^\mathsf{T}A$是可逆的。$A$的列是相互独立的。正态方程有唯一解。然而,在实际的大地问题中我们也会遇到矩阵$A$\emph{列相
+	关}的最小二乘问题。矩阵是“秩亏”的。
+\par
+最突出的例子是具有\emph{m}条边和\emph{n}个节点的网中的矩阵$A$。\emph{n}的电位或者电压或者高程或者节点的气压形成了未知向量$x$。$A$的每一行相当于一条边（因此$A$为\emph{m} 行）：
+边缘行产生了电位差！如果第\emph{i}边是从节点
+\emph{j}到节点\emph{k}，那么$A$的第\emph{i}行找到$x_j$和$x_k$ 的区别。
+这里有一个典型的6 $\times$ 4矩阵乘以4个节点值$x= (x_1,x_2,x_3,x_4)$产生了6个不同的值的例子：
+\begin{equation}
+	\begin{bmatrix}
+		-1 & 1  & 0  & 0\\
+		-1 & 0  & 1  & 0\\
+		0  & -1 & 1  & 0\\
+		-1 & 0  & 0  & 1\\
+		0  & -1 & 0  & 1\\
+		0  & 0  & -1 & 1
+	\end{bmatrix}
+	\begin{bmatrix}
+		x_1\\
+		x_2\\
+		x_3\\
+		x_4\\
+	\end{bmatrix}
+	=\begin{bmatrix}
+		x_2-x_1\\
+		x_3-x_1\\
+		x_3-x_2\\
+		x_4-x_1\\
+		x_4-x_2\\
+		x_4-x_3
+	\end{bmatrix}
+\end{equation}
+\par
+当然$A$是列相关的秩亏矩阵。这里有一个4维列向量的矩阵可以解决$Ax = 0$:
+\begin{equation}
+	A\emph{的零空间}     \text{当}x=
+	\begin{pmatrix}
+		\varepsilon,\varepsilon,\varepsilon,\varepsilon
+	\end{pmatrix} \text{时}
+	Ax = 0
+\end{equation}
+相同的电位差没有差异。矩阵的四列添加到第零列(因为每一行添加了零)。当$Ax = 0$，我们得到$A^\mathsf{T}Ax = 0$。因此\emph{法方程是奇异的}。
+\par
+线性代数一个重要的事件是逆命题：\emph{如果} $A^\mathsf{T}Ax = 0$ 那么我们得到$Ax = \mathbf{0}$。如果$A^\mathsf{T}Ax = 0$，那么$x^\mathsf{T}A^\mathsf{T}Ax = 
+(Ax)^\mathsf{T}{Ax} = 0$即$Ax = 0$。
+\par
+因此$A$列相关意味着$A^\mathsf{T}A$为奇异矩阵。矩阵$A$的列近乎相关意味着矩阵$A^\mathsf{T}A$是\emph{病态}的。前一章通过选择$A^\mathsf{T}A\hat{x} = A^\mathsf{T}b$的数值方法处理
+病态问题，相比消除的方法，这种方法更加稳定。通常，我们通过$A= QR$正交化列，或者通过SVD使得$A = U\Sigma V^\mathsf{T}$以达到“双正交化”。
+\par
+本章涉及真正的奇异情况。对于网而言，有一个破坏矩阵的$A$的列相关性和$A^\mathsf{T}A$的奇异性的常见方法：\emph{修复一个或多个节点的电位}。（在电子网络中，地面上有\emph{一个节
+	点}）在测量学或者大地测量学中的水准网中，假定其中一个高程。当流动是基于压力差或者温度差时，修复某个节点的压力或温度：\emph{设}\ ${A}_n = 0$。
+\par
+在GPS应用中节点值${x}_j$往往是\emph{向量}而不是标量。在$A$中有更多的依赖关系，有更多破坏矩阵$A$列相关的方法。在一个典型的例子中，${x}_j$可能是一个三维位置向量
+$\begin{pmatrix}
+X_j , Y_j , Z_j
+\end{pmatrix}$。
+如果$Ax$衡量了位置的差异，那么任何\emph{刚性运动}(平移或刚性旋转)相当于$Ax = 0$的一个解。这是$A$的零空间中的一个向量，现在零空间的维数大于1，所以必须删除更多依赖关系。
+\par
+这里是对依赖关系个数的计数，节点值$x_j$表示$d$维空间的位置：
+\begin{eqnarray*}
+	\emph{d}=1 \qquad \text{(线上的点)} \qquad         \text{1 个平移参数} \\
+	\emph{d}=2 \qquad \text{(平面中的点)}\qquad        \text{2个平移参数 + 1个旋转参数}\\
+	\emph{d}=3 \qquad \text{(线上的点)} \qquad         \text{1 个平移参数}\\
+	\emph{d}=2 \qquad \text{(平面中的点)}\qquad        \text{2个平移参数 + 1个旋转参数}
+\end{eqnarray*}
+\par \noindent
+通常将会有$d$次刚性平移和$d(d - l)/2$次刚性旋转。
+\par \noindent
+\textbf{注意 7.1} 我们强调通常被遗忘的一点（作者也容易忘掉）。当矩阵$A$列相关时，矩阵A的秩$r < n$，我们确定$A^\mathsf{T}A$是奇异的。$A^\mathsf{T}A$的秩也是$r$。 法方程
+$A^\mathsf{T}A\hat{x} = A^\mathsf{T}b$ 较通常来说是不正常的，因为$A^\mathsf{T}A$不可逆。但是，这里的关键是 $A^\mathsf{T}A\hat{\mathbf{x}} = A^\mathsf{T}b$\ \emph{总有一个
+	解}。当$r < n$时，它有\emph{许多解}。
+\par
+我们怎么知道$A^\mathsf{T}A\hat{x} = A^\mathsf{T}b$有解那？因为$A^\mathsf{T}A$的零空间等于$A$的零空间,它们中的每一个$x_n$与等号右边$A^\mathsf{T}b$是正交的。证据：点积$x_n^ 
+\mathsf{T}(A^\mathsf{T}b)$与$(Ax_n)^\mathsf{T}b$ 相同，其中$0^\mathsf{T}b = 0$。
+\par
+我们的问题是选择其中的一个解决方法。无论我们选择哪一种方法，法方程假定我们要减小误差向量即残差向量即$b - A\hat{x}$的长度。通过修复$n - r$ 个部分或者增加$n - r$个合适的约束条
+件求得 $\hat{x}$。
+\par
+通过选择\emph{最小范数}广义逆解${x^+}$法方程。这种方面是下面将要描述的$A$的\emph{广义逆}。在这种情况下，${x^+}$被选择为$A$行的组合。在语言的限制中，这意味着${x^+}$垂直于$A$
+的零向量（这也是$A^\mathsf{T}A$的零向量）。这提供了$n - r$个确定${x^+}$方法的限制条件。
+\par
+如果需要广义逆的话，例如在MATLAB中可以通过$pin(A) * b$的命令选择广义逆${x^+}$。这是通过SVD得到特殊和特定的解。但是它不是唯一的选择也不是最好的选择。
+\par
+在我们描述GPS应用之前，我们将处理矩阵列相关的算法简短的解释为广义逆。方程$Ax = b$因为$b$可能没有或者有无穷种解决方法。矩阵$A$为$m \times n$，并且它的秩是$r$:
+\par
+\begin{center}
+	\text{无解} \qquad \text{当}$r < m$ \qquad \text{行向量无关}。  \text{求解} $A^\mathsf{T}A\hat{x} = A^\mathsf{T}b$
+	\par
+	\text{无穷个解} \qquad  \text{当}$r < n$ \qquad \text{列向量无关} \text{。}  \text{找到最小范数解} $\hat{x}$ \text{。}
+\end{center}
+\par
+我们来更加具体的讨论最小范数解。当我们有许多观测值的时候,秩小于$m$。当我们有列相关的矩阵$A$ 时，矩阵的秩小于$n$（因为我们解决的是自由网）。通常$r < m$与$r < n$两种情况都不好
+处理。这种情况导致了\emph{广义逆}（写作${A}^+$而不是${A}^{-1}$)）。向量${x}^+ = {A}^+b$是$A$矩阵行之间的组合，这提供了法方程的最小范数解。
+\par
+当$m\times n$阶矩阵是\emph{对角阵}时一切都清晰了。在那种情况下，我们称它为$\Sigma$。在SVD分解${\color{red}{UNKOWN}} =U\Sigma V^\mathsf{T}$过程中，这代表对角阵，而\emph{不是}
+协方差矩阵。关键是$U$和$V$是可逆的，因此它们可解。
+\par
+最明显的真正的问题是$\Sigma$。$\Sigma$的对角线元素$\sigma_1,...,\sigma_r$都是正的，其他的是零。现将$\Sigma x = c$分解为含有$n$个未知数的$m$个简单方程：$\Sigma x = c$ 即为
+$\sigma_1{x_1}=c_1,...,\sigma_r{x_r}=c_r$。然后0 = $c_{r+1}$,. ..,0 = $c_m$。 法方程$\Sigma^{\mathsf{T}}\Sigma x=\Sigma^\mathsf{T}c: 
+{\sigma_1}^2{{\hat{x}}_1}={\sigma_1}{c_1},...,{\sigma_r}^2{{\hat{x}}_r}={\sigma_r}{c_r}$，随后有$n - r$个“零矩阵”$0{\hat{x}}_{r+1}$ = 0,..., $O{\hat{x}}_{n}$ = 0。
+\par
+这决定了$r$个元素：${\hat{x}}_{1} = c_1/\sigma_1$一直到${\hat{x}}_{r} = c_r/\sigma_r$。如果$r = n$,${\hat{x}}$将被完全确定。$\Sigma$的$n$列是相互独立的并且
+$\Sigma^\mathsf{T}\Sigma$ = diag$({\sigma_1}^2,...,{\sigma_r}^2)$)在它的零空间中只有零向量并且它是可逆的。
+\par
+现在假设$r < n$，第一部分仍然是${x}_{1} = c_1/\sigma_1 ,...,{x}_{r} = c_r/\sigma_r$。这里的问题是如何选择$x_{r+1},...,x_n$—使它们甚至不出现在方程$\Sigma x = c$ 中！
+\par
+很明显以下都是0：$x_{r+1} = 0,...,x_n = 0$。这无疑给出了最小范数解$x^+ = ( c_1 / \sigma_1,...,c_r / \sigma_r,0, ...,0)$，这个解决方案正是$x = \sigma^+c$，其中$\Sigma$的广义
+逆也是一个对角矩阵—$\text{但是}\Sigma^+\text{是}n \times m\text{的矩阵}$。
+\begin{equation}
+	\text{Pseudoinverse} \qquad  \Sigma^+ =
+	\begin{bmatrix}
+		{\sigma_1}^{-1}\\
+		& \ddots & & \emph{0}\\
+		&  & {\sigma_r}^{-1} \\
+		% \hdashline[2pt/2pt]
+		&  \emph{0} & & \emph{0}
+	\end{bmatrix} \text{。}
+\end{equation}
+\par \noindent
+零矩阵的大小为：$r \times ( m - r )\text{，}(n - r ) \times r$ , 和 $(n - r ) \times (m - r )$。
+\par
+也许我们可以在这里声明，对于任何$A = U\Sigma V^\mathsf{T}$，其\emph{广义逆}$A^+ = U\Sigma^+U^\mathsf{T}$。这些正交矩阵$U$ 和$V$ 不改变长度。因此通过$A^\mathsf{T}A$求得的最小
+范数解源于知道使用$\Sigma^\mathsf{T}\Sigma$求得的最小范数解。
+\par
+现在我们讨论在GPS中秩亏矩阵的应用。从过去的大地测量开始，一个基本的例子是一个没有假定高程的水准网。$Ax$仅涉及\emph{不同}的高程。在所有高程中这里有一个不能确定的任意常数。
+（当我们假定地面上一个节点的高程时，这个假定的常数将被删除。）高程常数向量$x = e = (1, 1,...,1)$有=在$Ax = (0,0,...,0)$有差异，并且$A^\mathsf{T}Ax = 0$ 和 $A^\mathsf{T}A$是
+可逆的。
+\par
+由于同样的原因，这个也适用于2维或者3维GPS控制网。,通过修复$A$的一个或多个部分，我们仍然可以定义一个有意义的和独特的解决方案。对于这些类型的解决方案，我们应当研究几何和统计特
+性。他们通过大量使用\emph{广义矩阵}$A^+$进行研究。
+\par
+对于这些秩亏矩阵$A$，不存在任何线性无偏估计量$\hat{x} = Pb$。这将要求对于所有的$x$，$E\{\hat{x}\}= PAx = \mathbf{x}$，或者当$A$列相关时$PA = I$ 是不可能的。但确实存在关于$x$
+的线性函数，允许无偏估计（期望值等于真实值）。基本上，我们在奇异向量的方向上必须没有像是(1,1,...,1)的组成部分。我们的讨论集中于选择合适的线性函数并在几何上如何解释它们。
+\par
+一般来说，在大地控制网中使用最小二乘过程的目的是确定未知点的坐标。具有假定坐标的这些点保持坐标不变，大地网由这些点确定。
+\par
+虽然这样一个网的最小二乘估计提供给我们新点的协方差阵，但是这个协方差矩阵被假定点的出现和分布影响。因为它也反映出已知坐标之间可能的误差，因此协方差矩阵反映了网小部分的一般特
+征。
+\par
+在1962年，迈塞尔针对大地控制网提出了最小二乘过程，允许结合特定线性约束的\emph{奇异法方程}。这个想法是给所有控制点提供相同的情形。
+\par
+在约束最小二乘问题和相同网相似变换之间存在密切关系。当$A$为秩亏矩阵时，我们以推导与最常见类型的大地观测值相联系的奇异向量开始。他们解决了$Ax = 0$。	

@@ -1,0 +1,191 @@
+\contentsline {part}{I\hspace {1em}Satellite Signals \\and\\ Coordinate Systems}{1}
+\contentsline {chapter}{\numberline {1}Essential Ideas and Applications \\ of GNSS}{3}
+\contentsline {section}{\numberline {1.1}定位的世界}{4}
+\contentsline {section}{\numberline {1.2}GPS如何提供位置}{5}
+\contentsline {section}{\numberline {1.3}全球卫星导航系统}{6}
+\contentsline {chapter}{\numberline {2}GNSS Signals and Modulations}{7}
+\contentsline {section}{\numberline {2.1}GNSS信号}{8}
+\contentsline {section}{\numberline {2.2}二进制偏移载波调制}{9}
+\contentsline {chapter}{\numberline {3}Change of Coordinate Systems}{11}
+\contentsline {section}{\numberline {3.1}直角坐标系到椭球坐标系}{12}
+\contentsline {section}{\numberline {3.2}1980大地参考系}{13}
+\contentsline {section}{\numberline {3.3}大地椭球面}{14}
+\contentsline {section}{\numberline {3.4}WGS-84坐标系}{15}
+\contentsline {section}{\numberline {3.5}坐标系转换与基准转换}{16}
+\contentsline {section}{\numberline {3.6}GPS参考系的意义}{17}
+\contentsline {part}{II\hspace {1em}Optimal Estimates}{19}
+\contentsline {chapter}{\numberline {4}Random Variables \\and\\ Covariance Matrices}{21}
+\contentsline {section}{\numberline {4.1}The Equations of Least Squares}{22}
+\contentsline {subsection}{\numberline {4.1.1}Minimizing the Error}{25}
+\contentsline {subsection}{\numberline {4.1.2}Linear Algebra for Statistics and Probability}{28}
+\contentsline {subsection}{\numberline {4.1.3}Weighted Least Squares}{28}
+\contentsline {section}{\numberline {4.2}Covariances and Optimal Weights}{30}
+\contentsline {subsection}{\numberline {4.2.1}Probability Distributions}{30}
+\contentsline {subsection}{\numberline {4.2.2}The Covariance Matrix}{35}
+\contentsline {subsection}{\numberline {4.2.3}The Weighting Matrix $C=\Sigma ^{-1}$}{38}
+\contentsline {section}{\numberline {4.3}Recursive Least Squares(and Kalman Filter)}{41}
+\contentsline {subsection}{\numberline {4.3.1}Kalman Filter by Example}{43}
+\contentsline {section}{\numberline {4.4}The Normal Distribution and $\chi ^{2}$}{48}
+\contentsline {subsection}{\numberline {4.4.1}Two-Dimensional Normal Distribution}{51}
+\contentsline {subsection}{\numberline {4.4.2}$\chi ^2$ Distribution}{52}
+\contentsline {subsection}{\numberline {4.4.3}F Distribution}{59}
+\contentsline {section}{\numberline {4.5}Mean,Variance,and Covariance}{60}
+\contentsline {subsection}{\numberline {4.5.1}Review of Covariance}{62}
+\contentsline {section}{\numberline {4.6}Propagation of Means and Covariances}{66}
+\contentsline {section}{\numberline {4.7}Estimating the Variance of Unit Weight}{73}
+\contentsline {section}{\numberline {4.8}Numerical Methods for Weighted Least Squares}{76}
+\contentsline {section}{\numberline {4.9}Confidence Ellipses}{78}
+\contentsline {subsection}{\numberline {4.9.1}The Support Function}{80}
+\contentsline {subsection}{\numberline {4.9.2}Relative Confidence Ellipses}{83}
+\contentsline {section}{\numberline {4.10}Quality Control}{86}
+\contentsline {subsection}{\numberline {4.10.1}The Non-Recursive Case}{86}
+\contentsline {subsection}{\numberline {4.10.2}The Recursive Case}{90}
+\contentsline {chapter}{\numberline {5}Random Processes}{95}
+\contentsline {section}{\numberline {5.1}连续时间中的随机过程}{96}
+\contentsline {subsection}{\numberline {5.1.1}Random Processes in Continuous Time}{96}
+\contentsline {subsection}{\numberline {5.1.2}Mean and Correlation}{98}
+\contentsline {subsubsection}{ Stationarity}{99}
+\contentsline {subsubsection}{ Cross correlation}{100}
+\contentsline {subsection}{\numberline {5.1.3} Ergodicity}{101}
+\contentsline {subsection}{\numberline {5.1.4} Power Spectral Density}{103}
+\contentsline {section}{\numberline {5.2}离散时间中的随机过程}{108}
+\contentsline {section}{\numberline {5.3}模型}{115}
+\contentsline {subsection}{\numberline {5.3.1}Computing the Autocorrelation }{117}
+\contentsline {subsection}{\numberline {5.3.2}Variance Component Model}{119}
+\contentsline {subsection}{\numberline {5.3.3}Aspects of Random Processes }{129}
+\contentsline {chapter}{\numberline {6}Linear Algebra for\\ Weighted Least Squares}{133}
+\contentsline {section}{\numberline {6.1}格瑞姆-史密正交化系数阵$A$和乔利斯基分解用于$A^{T}A$}{134}
+\contentsline {subsection}{\numberline {6.1.1}Calculation of $R$ from $Q$ and $A$}{135}
+\contentsline {section}{\numberline {6.2}计算正交矩阵}{140}
+\contentsline {section}{\numberline {6.3}奇异值}{142}
+\contentsline {section}{\numberline {6.4}条件数}{149}
+\contentsline {section}{\numberline {6.5}对权重的依赖}{152}
+\contentsline {section}{\numberline {6.6}消除未知量}{158}
+\contentsline {subsection}{\numberline {6.6.1}$A$ Classical Procedure}{158}
+\contentsline {subsection}{\numberline {6.6.2}Eliminating From the Normal Equations}{161}
+\contentsline {subsection}{\numberline {6.6.3}Eliminating Parameters: $A$ Reduced Estimation Problem}{162}
+\contentsline {subsection}{\numberline {6.6.4}Eliminating From the Observation Equations}{164}
+\contentsline {section}{\numberline {6.7}去相关和规范权}{166}
+\contentsline {section}{\numberline {6.8}等式约束的最小二乘}{171}
+\contentsline {subsection}{\numberline {6.8.1}Exact Solution}{171}
+\contentsline {subsection}{\numberline {6.8.2}Approximate Solution}{174}
+\contentsline {chapter}{\numberline {7}Singular Normal Equations \\and\\ Networks}{177}
+\contentsline {section}{\numberline {7.1}秩亏的标准方程}{178}
+\contentsline {section}{\numberline {7.2}网中的零空间}{184}
+\contentsline {section}{\numberline {7.3}约束秩亏问题}{189}
+\contentsline {section}{\numberline {7.4}随机变量的线性变换}{202}
+\contentsline {section}{\numberline {7.5}相似变换}{204}
+\contentsline {section}{\numberline {7.6}协变换}{213}
+\contentsline {section}{\numberline {7.7}控制点的变量}{214}
+\contentsline {section}{\numberline {7.8}向量平差}{215}
+\contentsline {chapter}{\numberline {8}Kalman Filters}{217}
+\contentsline {section}{\numberline {8.1}更新最小二乘法}{218}
+\contentsline {section}{\numberline {8.2}静态与动态方程更新}{219}
+\contentsline {section}{\numberline {8.3}稳定模型}{220}
+\contentsline {section}{\numberline {8.4}推导卡尔曼滤波}{221}
+\contentsline {section}{\numberline {8.5}用于批处理的贝叶斯滤波}{222}
+\contentsline {section}{\numberline {8.6}平滑}{223}
+\contentsline {section}{\numberline {8.7}卡尔曼方法用于稳定模型}{224}
+\contentsline {section}{\numberline {8.8}对角的协方差阵}{225}
+\contentsline {section}{\numberline {8.9}固定约束的卡尔曼滤波}{226}
+\contentsline {section}{\numberline {8.10}相关过程和观测噪声}{227}
+\contentsline {section}{\numberline {8.11}时间相关的过程噪声}{228}
+\contentsline {section}{\numberline {8.12}离散值滤波的稳定}{229}
+\contentsline {section}{\numberline {8.13}离散时间的卡尔曼滤波小项目}{230}
+\contentsline {part}{III\hspace {1em}Positioning Algorithms}{231}
+\contentsline {chapter}{\numberline {9}Receiver Position \\from One-Way Pseudoranges}{233}
+\contentsline {section}{\numberline {9.1}Positioning by GPS}{234}
+\contentsline {subsection}{\numberline {9.1.1}Clock Errors and Hyperbolas of Revolution}{235}
+\contentsline {subsection}{\numberline {9.1.2}Reference Ellipsoid and Coordinate Systems}{236}
+\contentsline {section}{\numberline {9.2}The EASY Suites}{237}
+\contentsline {subsection}{\numberline {9.2.1}Orbits of the Satellites}{239}
+\contentsline {subsection}{\numberline {9.2.2}easy17}{239}
+\contentsline {section}{\numberline {9.3}Time Systems Relevant for GPS}{241}
+\contentsline {subsection}{\numberline {9.3.1}Special and General Relativity}{241}
+\contentsline {subsection}{\numberline {9.3.2}GPS Time and Leap seconds}{241}
+\contentsline {subsection}{\numberline {9.3.3}easy1}{244}
+\contentsline {subsection}{\numberline {9.3.4}Estimation of Receiver Clock Offset}{245}
+\contentsline {subsection}{\numberline {9.3.5}easy7}{247}
+\contentsline {section}{\numberline {9.4}Satellite Position}{249}
+\contentsline {subsection}{\numberline {9.4.1}easy2}{256}
+\contentsline {subsection}{\numberline {9.4.2}easy11}{257}
+\contentsline {section}{\numberline {9.5}Receiver Position From Code Observations}{260}
+\contentsline {subsection}{\numberline {9.5.1}easy3}{266}
+\contentsline {section}{\numberline {9.6}Alternative Algorithms}{270}
+\contentsline {subsection}{\numberline {9.6.1}Ordinary Least Squares}{270}
+\contentsline {subsection}{\numberline {9.6.2}Weighted Least Squares}{270}
+\contentsline {subsection}{\numberline {9.6.3}Conclusions}{271}
+\contentsline {section}{\numberline {9.7}Receiver Position by Search}{275}
+\contentsline {section}{\numberline {9.8}Errors in the GPS Observables}{278}
+\contentsline {subsection}{\numberline {9.8.1}Delay of the Signal}{280}
+\contentsline {subsection}{\numberline {9.8.2}Error Budget for GPS}{281}
+\contentsline {subsection}{\numberline {9.8.3}easy16}{286}
+\contentsline {subsection}{\numberline {9.8.4}easy10}{291}
+\contentsline {subsection}{\numberline {9.8.5}Summary of the Error Budget}{292}
+\contentsline {section}{\numberline {9.9}Satellite Based Augmentation Systems}{294}
+\contentsline {subsection}{\numberline {9.9.1}Ranging and Integrity Monitoring Station}{295}
+\contentsline {subsection}{\numberline {9.9.2}SBAS Messages and Their Generation}{299}
+\contentsline {subsection}{\numberline {9.9.3}Summary of the SBAS Corrections}{302}
+\contentsline {subsection}{\numberline {9.9.4}easy13}{302}
+\contentsline {subsection}{\numberline {9.9.5}easy14}{309}
+\contentsline {subsection}{\numberline {9.9.6}The Galileo Integrity Concept}{318}
+\contentsline {section}{\numberline {9.10}练习题}{323}
+\contentsline {chapter}{\numberline {10}Differences of One-Way Observations}{325}
+\contentsline {section}{\numberline {10.1}Combining One-Way Observations}{326}
+\contentsline {subsubsection}{easy 4}{326}
+\contentsline {section}{\numberline {10.2}计算模型的动机}{329}
+\contentsline {section}{\numberline {10.3}组合编码和伪距观测}{335}
+\contentsline {subsection}{\numberline {10.3.1}easy8}{338}
+\contentsline {section}{\numberline {10.4}GPS的计算模型}{342}
+\contentsline {subsection}{\numberline {10.4.1}Differential GPS}{343}
+\contentsline {subsection}{\numberline {10.4.2}DGPS: Phase Observations}{344}
+\contentsline {subsection}{\numberline {10.4.3}DGPS: Single Differences of Receivers}{344}
+\contentsline {subsection}{\numberline {10.4.4}DGPS: Double Differences of Receivers and Satellites}{345}
+\contentsline {subsection}{\numberline {10.4.5}A Priori Covariance: Correlated Differences}{347}
+\contentsline {subsection}{\numberline {10.4.6}easy15}{348}
+\contentsline {section}{\numberline {10.5}检查观测值}{353}
+\contentsline {subsection}{\numberline {10.5.1}Ionospheric Delay}{353}
+\contentsline {subsection}{\numberline {10.5.2}Tropospheric Delay}{355}
+\contentsline {subsection}{\numberline {10.5.3}Multipath on Code Observations}{356}
+\contentsline {subsection}{\numberline {10.5.4}Bayes Filter for Ambiguity Estimation}{356}
+\contentsline {section}{\numberline {10.6}模糊度的GOAD解法}{362}
+\contentsline {section}{\numberline {10.7}模糊度的LAMBDA解法}{363}
+\contentsline {subsection}{\numberline {10.7.1}integer Least Squares}{365}
+\contentsline {subsection}{\numberline {10.7.2}easy12}{369}
+\contentsline {subsection}{\numberline {10.7.3}When to Fix the Ambiguities?}{372}
+\contentsline {subsection}{\numberline {10.7.4}The Three-Frequency Case}{375}
+\contentsline {subsection}{\numberline {10.7.5}Differential DOP-Values}{376}
+\contentsline {subsection}{\numberline {10.7.6}easy5}{376}
+\contentsline {subsection}{\numberline {10.7.7}Another Ambiguity Filter}{376}
+\contentsline {subsection}{\numberline {10.7.8}easy6}{378}
+\contentsline {section}{\numberline {10.8}GPS和时间}{379}
+\contentsline {subsection}{\numberline {10.8.1}Difference of Clock Offsets Between Two Receivers}{379}
+\contentsline {subsection}{\numberline {10.8.2}Improving the Accuracy from Externally Estimated Satellite Clock Offsets}{382}
+\contentsline {section}{\numberline {10.9}动态实时定位}{386}
+\contentsline {subsection}{\numberline {10.9.1}The RTCM Format}{387}
+\contentsline {subsection}{\numberline {10.9.2}Description of RTK Code}{387}
+\contentsline {subsection}{\numberline {10.9.3}rtk1.m}{391}
+\contentsline {subsection}{\numberline {10.9.4}rtk2. M}{394}
+\contentsline {subsection}{\numberline {10.9.5}rtk3.m}{394}
+\contentsline {subsection}{\numberline {10.9.6}easy6e}{396}
+\contentsline {subsection}{\numberline {10.9.7}easy 9}{397}
+\contentsline {subsection}{\numberline {10.9.8}easy18}{399}
+\contentsline {part}{IV\hspace {1em}Geodesy and Earth Coordinates}{401}
+\contentsline {chapter}{\numberline {11}Geometry of the Ellipsoid}{403}
+\contentsline {section}{\numberline {11.1}旋转椭球}{404}
+\contentsline {section}{\numberline {11.2}主曲率}{405}
+\contentsline {section}{\numberline {11.3}子午圈的长度}{406}
+\contentsline {section}{\numberline {11.4}法截面和测地线}{407}
+\contentsline {section}{\numberline {11.5}曲线和测地线的Frenet公式}{408}
+\contentsline {section}{\numberline {11.6}克莱劳方程}{409}
+\contentsline {section}{\numberline {11.7}测地线的性能}{410}
+\contentsline {section}{\numberline {11.8}直接和间接的大地测量}{411}
+\contentsline {section}{\numberline {11.9}算法}{412}
+\contentsline {chapter}{\numberline {12}Differences of One-Way Observations}{413}
+\contentsline {section}{\numberline {12.1}正形}{414}
+\contentsline {section}{\numberline {12.2}椭球的高斯投影}{415}
+\contentsline {section}{\numberline {12.3}笛卡尔坐标系到大地坐标系的转换}{416}
+\contentsline {section}{\numberline {12.4}子午线收敛角和比例尺}{417}
+\contentsline {section}{\numberline {12.5}地图叠加}{418}
+\contentsline {section}{\numberline {12.6}通用横轴墨卡托投影}{419}
+\contentsline {section}{\numberline {12.7}最好的等角投影}{420}

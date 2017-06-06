@@ -1,0 +1,63 @@
+\section[计算正交矩阵]{计算正交矩阵\\Computing with Orthogonal Matrices}
+\begin{flushleft}
+	Starting from an $m$ by $n$ matrix $A$, the Gram-Schmidt process reaches an orthogonal matrix $Q$. The matrix $R$ that connects $A$ to $Q$ is upper triangular, because of the order of steps.
+\end{flushleft}
+The Householder idea is different. It aims for an upper triangular matrix $R$(just as elimination does). The matrix that connects $A$ to $R$ is forced to be orthogonal. One big advantage is that this $Q$ is exactly orthogonal (where Gram-Schmidt could lose orthogonality by roundoff errors).
+
+The exactness comes from creating $Q$ as a product of \textit{Householder reflection matrices}. Each $H$comes from choosing a vector $v$:
+
+\begin{align}
+H=I-2\frac{\textbf{\textit{v}}\textbf{\textit{v}}^{T}}{\textbf{\textit{v}}^{T}\textbf{\textit{v}}}
+\end{align}
+\begin{flushleft}
+	Certainly $H\textbf{\textit{v}}=\textbf{\textit{v}}-2\textbf{\textit{v}}=-\textbf{\textit{v}}$. And for the plane of vectors $w$ that are orthogonal to this $v$,$ \textbf{\textit{v}}^{T}\textbf{\textit{w}}=0$means that $ H\textbf{\textit{w}}=\textbf{\textit{w}}$. The matrix $H$ reflects every vector to its image on the other side of that plane.
+\end{flushleft}
+
+Notice that $H^{2}=I$. Two reflections bring back the original. Squaring $H$ directly  from(6.8) confirms this picture:
+\begin{align*}
+(I-2\frac{\textbf{\textit{v}}\textbf{\textit{v}}^{T}}{\textbf{\textit{v}}^{T}\textbf{\textit{v}}})^{2}=I-4\frac{\textbf{\textit{v}}\textbf{\textit{v}}^{T}}{\textbf{\textit{v}}^{T}\textbf{\textit{v}}}+4\frac{\textbf{\textit{v}}(\textbf{\textit{v}}^{T}\textbf{\textit{v}})\textbf{\textit{v}}^{T}}{(\textbf{\textit{v}}^{T}\textbf{\textit{v}})^{2}}=I
+\end{align*}
+\begin{flushleft}
+	$H$ is also symmetric ($H^{T}=H$) so it must be an \textit{orthogonal matrix}.  The requirement $H^{T}H=I$ is true because $H^{2}=I$.
+\end{flushleft}
+
+How to choose $\textbf{\textit{v}}$? The first step from $A$ to the triangular $R$ is to get zeros in column 1 below the diagonal. Since $H$ leaves length unchanged, the first columns of $A$ and $R$ will have the same lengths: $ \lVert\textbf{\textit{a}}_{1}\rVert=\lVert\textbf{\textit{r}}_{1}\rVert$.So the column $\textbf{\textit{r}}_{1}$ must be $ (\lVert\textbf{\textit{a}}_{1}\rVert,0,\ldots,0)$or$ (-\lVert\textbf{\textit{a}}_{1}\rVert,0,\ldots,0)$. This leads to two choices of $\textbf{\textit{v}}_{1}$ in the Householder matrix $H_{1}$.
+
+Next come the vector $\textbf{\textit{v}}_{2}$ and the matrix $H_{2}$. Their purpose is to reveal the second column $\textbf{\textit{r}}_{2}$ of$ R$. To keep the zeros obtained in the first column $\textbf{\textit{r}}_{1}$，we start $\textbf{\textit{v}}_{2}$ with a zero.The rest of $\textbf{\textit{v}}_{2}$ is chosen to get zeros below the diagonal in column 2. So the action in $H_{2}$ is in its lower right corner (of size $n-1$). As we continue, each $v_{j+l}$ starts with $j$ zeros and the action of $H_{j+1}$ is again in its lower right corner (of size $n-j$).
+
+One advantage of Householder is that each matrix $H_{j}$ is (by its algebraic form) exactly orthogonal. A second advantage is that we store and use the vectors $\textbf{\textit{v}}_{j}$ \textit{and not the matrices} $H_{j}$. (To multiply by $Q$=\textit{product of the} $H_{j}$，just apply one $H_{j}$ at a time.) The third advantage is that these orthogonal matrices are \textit{full size} (square):
+\begin{center}
+	Gram-Schmidt Leads to $A=QR=(m \  \text{by} \  n)(n \  \text{by}  \ n)$
+\end{center}
+\begin{center}
+	Householder leads to $A=QR=(m \  \text{by} \  m)(m \  \text{by} \  n)$.
+\end{center}
+\begin{flushleft}
+	Gram-Schmidt finds an orthonormal basis $\textbf{\textit{q}}_{1},\cdots,\textbf{\textit{q}}_{n}$ for the column space of $A$. Householder finds an orthonormal basis $\textbf{\textit{q}}_{1},\cdots,\textbf{\textit{q}}_{m}$  for the whole m-dimensional space.
+\end{flushleft}
+
+The last $m-n$ vectors $\textbf{\textit{q}}_{n+1},\cdots,\textbf{\textit{q}}_{m}$ are orthogonal to the columns (so they solve $ A^{T}\textbf{\textit{q}}=\textbf{0}$). They can be useful to have:
+\begin{align*}
+A=
+\begin{bmatrix}
+Q \\
+\
+\end{bmatrix}
+\begin{bmatrix}
+R 
+\end{bmatrix} \ \ \   \text{has grown to} \  \  \ 
+A=
+\begin{bmatrix}
+Q \\
+\
+\end{bmatrix}
+\begin{bmatrix}
+R\\
+\textit{O} 
+\end{bmatrix}
+\end{align*}
+\begin{flushleft}
+	where $\textit{O}$ is $m-n$ by $n$.
+\end{flushleft}
+
+ $MATLAB$ uses Householder to find the full (second) form. It can be asked for the reduced (first) form. We will be offered the same choice for the $SVD$.

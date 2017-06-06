@@ -1,0 +1,74 @@
+\section{Numerical Methods for Weighted Least Squares}
+Now we turn briefly to the computational aspects of solving a least-squares problem. This
+means to solve $A^TCA\hat{x}=A^TCb$ and to find expressions for various covariance matrices
+nod error quantities. Specifically to calculate the weighted sum of squared residuals: $\hat{e}^TC\hat{e}$. The topic is treated in more detail in Chapter 6. Here we restrict ourselves to using two standard methods: the QR factorization and the Cholesky method.
+
+QR Factorization For any m by n matrix A there is an m by m matrix Q with orthonormal
+columns such that
+\begin{equation}
+Q^{-1}A=Q^TA=\begin{bmatrix} R\\0 \end{bmatrix}.
+\end{equation}
+The upper triangular matrix R has nonnegative diagonal entries. This QR decomposition
+of A is established in Section 4.4 ; it is the matrix statement of the Gram-Schmidt process.
+If A has full rank n, then R equals the upper triangular Cholesky factor of $A^TA$:
+\begin{equation*}
+A^TA=[R^T\, 0]Q^TQ
+\begin{bmatrix} R\\0 \end{bmatrix}
+=R^TR.
+\end{equation*}
+Since Q is orthogonal it preserves lengths. Then $c=Q^Tb$ has the same length as b:
+\begin{equation}
+\|b-Ax\|^2=\|Q^Tb-Q^TAx\|^2=\|\begin{bmatrix}c_1 \\ c_2\end{bmatrix}-\begin{bmatrix}
+R\\0 \end{bmatrix}x\|^2=\|c_2\|^2+\|Rx-c_1\|^2.
+\end{equation} 
+The residual norm is minimized by the least-squares solution $\hat{x}=R^{-1}c_1$, as we knew. The
+minimum residual $\|e\|=\|b-A\hat{x}\|$ then equals the norm of $c_2$.
+
+Cholesky Factorization Often the Cholesky factorization applies not to the matrix $A^TCA=LL^T$ but rather to a system augmented with a column and a row:
+\begin{equation}
+\begin{bmatrix}
+A^TCA  &A^TCb\\
+(A^TCb)^T & b^TCb
+\end{bmatrix}.
+\end{equation}
+The lower triangular Cholesky factor $\tilde{L}$ of this augmented matrix starts with L:
+\begin{equation*}
+\tilde{L}=
+\begin{bmatrix}
+\mathop L\limits_{n\,by\,n} & \mathop 0\limits_{n\,by\,1}\\
+\mathop z^T\limits_{1\,by\,n} & \mathop s\limits_{1\,by\,1}
+\end{bmatrix}.
+\end{equation*} 
+We look closely at the lower right entry s and compute the product
+\begin{equation*}
+\tilde{L}\tilde{L}^T=
+\begin{bmatrix}
+LL^T & L_z\\
+z^TL^T & z^Tz+s^2
+\end{bmatrix}.
+\end{equation*} 
+Comparing this product with (4.83) we get
+\begin{equation}
+z^Tz+s^2=b^TCb.
+\end{equation}
+The Cholesky factorization finds an n by n lower triangular matrix L such that $LL^T=A^TCA$. Given this “square root” L, the normal equations can be solved quickly and stably via two triangular systems:
+\begin{equation*}
+Lz=A^TCb \quad and \quad L^T\hat{x}=z.
+\end{equation*} 
+These two systems are identical to $A^TCA\hat{x}=A^TCb$. (Multiply the second by L and
+substitute the first.) From these systems also follows $z=L^{-1}A^TCb$ and consequently
+\begin{equation}
+z^Tz=b^TCAL^{-T}L^{-1}A^TCb=b^TCA\underbrace{(A^TCA)^{-1}A^TCb}_x
+\end{equation}
+Insertion into (4.84) reveals that $\hat{e}^TC\hat{e}$can be found directly from s:
+\begin{equation}
+s^2=b^TCb-z^Tz=b^TCb-b^TCA\hat{x}=b^TC\hat{e}=\hat{e}^TC\hat{e}+\underbrace{\hat{x}^TA^TC\hat{e}}_0=\hat{e}^TC\hat{e}
+\end{equation}
+We repeat the contrast between the QR and the Cholesky approach to the normal equations.
+One works very stably with A = QR (orthogonalization). The other works more simply
+but a little more dangerously with $A^TCA=LL^T$.
+
+The QR decomposition solves the normals as $\hat{x}=R^{-1}Q^Tb$ and $\hat{r}C\hat{r}=\|c_2\|^2$. The
+Cholesky method solves two triangular systems: $Lz=A^TCb$ and $L^T\hat{x}=z$. Then finally
+$\hat{e}^TC\hat{e}=s^2$. All relevant formulas are surveyed in Table 4.7.
+  

@@ -1,0 +1,231 @@
+\section[离散时间中的随机过程]{离散时间中的随机过程\\Random Processes in Discrete Time}
+	Chapter 4 started with continuous random variables. In the present chapter we proceeded similarly. However in geodesy most applications involve discrete time and we must now 'nscretiz (看不清）the time parameter. A discrete-time linear random process replaces the different(看不清）equation $  x(t)=F(t)x(t)+G(t)\varepsilon(t)$ for the state $ x(t) $ by a difference equation for the （看不清）$ x_{k}=x(k) $：
+	
+	\[ x_{k}=F_{k-1}x_{k-1}+G_{k}\varepsilon_{k} \]
+	\begin{equation}\label{5.24}
+	 b_{k}=A_{k}x_{k}+e_{k}
+	\end{equation}
+ 
+	
+	Suppose the uncorrelated process noise $ \varepsilon_{k} $ in the state equation has covariance matrix $\sum_{\varepsilon,k} $ .If the observation noise $ e_{k} $ is uncorrelated and with zero mean, we have by covariance propagation the following recursion formula for the covariance of $ x_{k} $:
+	\begin{equation}\label{5.25}
+	\sum\nolimits_{k}=F_{k-1}\sum\nolimits_{k-1}F_{k-1}^{T}+G_{k}\sum\nolimits_{\varepsilon,k}G_{k}^{T}
+	\end{equation}
+ 
+	
+	However, the model (5.24) allows for time correlation in the random process noise $ \varepsilon_{k} $. Such correlation often occurs in models from practice. It can be handled correctly by an augmentation of the state vector $ x_{k} $ . Suppose $ \varepsilon_{k} $ can be split into correlated quantities $ \varepsilon_{1,k} $ and uncorrelated quantities $ \varepsilon_{2,k}: \varepsilon_{k} = \varepsilon_{1,k} + \varepsilon_{2,k} $ ,We suppose that $\varepsilon_{1,k} $can be modelled as a difference equation
+	
+	\[ \varepsilon_{1,k}=G_{\varepsilon,\varepsilon_{1,k}}+\varepsilon_{3,k-1} \]
+	
+	where $ \varepsilon_{3} $ is a vector of uncorrelated noises. Then the augmented state vector $ x_{k}^{'} $ is given by 
+	
+	\[ x_{k}^{'}=\begin{bmatrix} x_{k}  \\ \varepsilon_{1,k}\end{bmatrix} \quad \]
+	
+	and the augmented state equation, driven only by uncorrelated disturbances, is
+	
+	\begin{equation}\label{5.26}
+	 x_{k}^{'}=\begin{bmatrix} x_{k}  \\ \varepsilon_{1,k}\end{bmatrix} \quad=\begin{bmatrix} F&G  \\ 0&G_{\varepsilon}\end{bmatrix} \quad \begin{bmatrix} x_{k-1}  \\ \varepsilon_{1,k-1}\end{bmatrix} \quad
+	+ \begin{bmatrix} G&0 \\ 0&I\end{bmatrix} \quad \begin{bmatrix} \varepsilon_{2,k-1}  \\ \varepsilon_{3,k-1}\end{bmatrix} 
+	\end{equation}
+ 
+	
+	Next we consider four specific correlation models for system disturbances. In each case scalar descriptions are presented.
+	
+	\textbf{Example 5.7} (Random constant) The random constant is a non-dynamic quantity with a fixed random amplitude.The process is described by
+	
+	\[ x_{k}=x_{k-1} \]
+	
+	The random constant may have a random initial condition $ x_{0} $.
+	
+	\textbf{Example 5.8} (Random walk) The process is described by
+	
+	\[ x_{k}=x_{k-1}+\varepsilon_{k} \]
+	
+	The variance of the noise is 
+	
+	\[ E\left\lbrace \varepsilon_{k}^{2}\right\rbrace = E\left\lbrace(x_{k}-x_{k-1})^{2} \right\rbrace =E\left\lbrace x_{k}^{2} \right\rbrace +E\left\lbrace x_{k-1}^{2} \right\rbrace -2E\left\lbrace x_{k}x_{k-1} \right\rbrace =2\sigma_{x}^{2} \]
+	
+	\textbf{Example 5.9} (Random ramp) The random ramp is a process growing linearly with time. The growth rate of the random ramp is a random quantity with given variance. We need two state elements to decribe the random ramp:
+	
+	\[ x_{1,k}=x_{1,k-1}+(t_{k}-t_{k-1})x_{2,k-1}+\varepsilon_{1,k-1} \]
+	\[ x_{2,k}=x_{2,k-1}+\varepsilon_{2,k} \]
+	
+	Example 5.10 (Exponentially correlated random variable)
+	
+	\[ x_{k}=e^{-\alpha(t_{k}-t{k-1})}x_{k-1}+\varepsilon_{k}\]
+	
+	We have $ \varepsilon_{k}=x_{k}-e^{-\alpha(t_{k}-t_{k-1})} $ . The time difference is $ \Delta t=t_{k}-t_{k-1} $. According to (5.20) we have $ E\left\lbrace \varepsilon_{k}^{2}\right\rbrace =\sigma^{2}(1-e^{-2 \alpha   \bigtriangleup t  })  $.
+	
+	The random processes in Examples 5.7-5.10 make the basis for a lot of linear filters. Next we bring three examples related to GPS applications,see Axelrad and Brown (1996).  
+	
+	\textbf{Example5.11}(Discrete random ramp) Often random errors exhibit a definite time-growing behavior.The discrete random ramp,a function that grows linearly with time,can often be used to describe them.The growth rate of the random ramp is a random quantity with a given variance. A good example of this model is the behavior of the offset $ b $ and the drift $ d $ of a GPS receiver clock. 	
+	
+	 Two state components are necessary to describe the random ramp. So we use a vector $ x_{k} $ and a matrix equation:
+	 
+		
+	\textbf{Example5.11}(Discrete random ramp) Often random errors exhibit a definite time-growing behavior.The discrete random ramp,a function that grows linearly with time,can often be used to describe them.The growth rate of the random ramp is a random quantity with a given variance. A good example of this model is the behavior of the offset b and the drift d of a GPS receiver clock. 
+	
+	Two state components are necessary to describe the random ramp. So we use a vector $ x_{k} $ and a matrix equation:
+	\begin{equation}\label{5.27}
+	  x_{k}=Fx_{k-1}+\varepsilon _{k} \quad with \quad  x_{k}= \begin{bmatrix} b_{k}  \\ d_{k}\end{bmatrix} \quad and\quad F=\begin{bmatrix} 1&\Delta t  \\ 0 & 1 \end{bmatrix}
+	\end{equation}
+ 
+		
+    The offset $b$ is the random ramp process. The drift d describes the slope of the ramp. The second row of $ F $ gives random changes of slope from $ d_{k-1} $ to $ d_{k} $. The first row gives the random ramp:
+    
+    \[ b_{k}=b_{k-1}+\Delta t d_{k-1}+random error \]
+    
+    Next we shall estimate the covariance matrix of observation errors $ \sum = E\left\lbrace \varepsilon \varepsilon^{T} \right\rbrace  $ . We start with a continuous system formulation,and integrate over a time step:
+	
+    \[ \epsilon_{k}=\int_{t_{k-1}}^{t_{k}}F(t_{k},\tau)\epsilon(\tau)d\tau \]	
+	
+	which yields
+	\begin{equation*}
+	\begin{aligned}
+     E\left\lbrace \epsilon_{k} \epsilon_{k}^{T} \right\rbrace &=E\left\lbrace\int_{t_{k-1}}^{t_{k}}\int_{t_{k-1}}^{t_{k}} F(t_{k},\tau)\epsilon(\tau)\epsilon(\sigma)^{T}F(t_{k},\sigma)d\tau d\sigma \right\rbrace \\
+     &= \int_{t_{k-1}}^{t_{k}} F(t_{k},\tau)\sum(\tau)F(t_{k},\tau)^{T}d\tau
+	\end{aligned}
+	\end{equation*}
+ 
+	
+	The matrix $\sum (\tau)$ is the spectral density matrix. Let the spectral amplitudes for the offset and drift be $ s_{b} $ and $ s_{d}$:
+	
+	\[ \sum = \begin{bmatrix} s_{b}&0  \\ 0&s_{d} \end{bmatrix} \quad \]
+	
+	Then the integrand is a 2 by 2 matrix: 
+	
+	\[ F\sum F_{T} = \begin{bmatrix} s_{b}+s_{d} \tau ^{2} & s_{d}\tau \\s_{d}\tau & s_{d} \end{bmatrix} \quad  \]
+	
+	Therefore we get a formula for the covariance matrix:
+	\begin{equation}\label{5.28}
+	\begin{aligned}
+	E\left\lbrace\epsilon \epsilon^{T} \right\rbrace &=\int_{t_{k-1}}^{t_{k}} \begin{bmatrix}
+	s_{b}+s_{d}\tau^{2}&s_{d}\tau\\s_{d}\tau&s_{d}
+	\end{bmatrix}\quad d\tau\\
+	&=\begin{bmatrix}
+	s_{b}\Delta t+s_{d}(\Delta t)^{3}/3&s_{d}(\Delta t)^{2}/2\\s_{d}(\Delta)^{2}/2&s_{d}\Delta t
+	\end{bmatrix}
+	\end{aligned}
+	\end{equation}
+	 
+	
+	Typical values for the white noise spectral amplitudes $ s_{b} $ and $ s_{d} $ in GPS receiver clocks are $ 4\times10^{-19} $ and $ 15\times10^{-19} $ . A typical time step is $ \Delta t=20s $. In this case the covariance matrix is $ \sum\nolimits_{clock} $:
+	
+	\[ \sum\nolimits_{clock}=E\left\lbrace \epsilon \epsilon^{T} \right\rbrace =\begin{bmatrix}
+	400004&300\\300&3000
+	\end{bmatrix}\times10^{-19} \] 
+	
+	Example 5.12 A process model for a GPS receiver includes the three coordinates of the receiver position combined with the clock offset and the clock drift. The dynamic model is still given by (5.27)and the state vector x has five components:
+	
+	\[ x_{k}=\begin{bmatrix}
+	x\\y\\z\\b\\d
+	\end{bmatrix}\quad and \quad  F=\begin{bmatrix}
+	1&0&0&0&0\\0&1&0&0&0\\0&0&1&0&0\\0&0&0&1&\Delta t\\0&0&0&0&1
+	\end{bmatrix}  \]
+ 
+	
+	The covariance matrix for this static receiver is: 
+	\begin{equation}\label{5.29}
+	\sum\nolimits_{static} = E\left\lbrace \epsilon \epsilon^{T} \right\rbrace = \begin{bmatrix}
+	\sum\nolimits_{position}&0\\0&\sum\nolimits_{clock}
+	\end{bmatrix}
+	\end{equation}
+ 
+	
+	The matrix $ \sum\nolimits_{clock} $ reflects the random contribution from the receiver clock. The covariance matrix $ \sum\nolimits_{position} $ describes the model noise related to the position. When the receiver is kept at a fixed position (static receiver) it would be natural to set $ \sum\nolimits_{position}=0$. This however would imply that all new position information is ignored and that is not meaningful. So “artificially” we let the position have small variances in order that the filter does not get stuck.
+	
+	
+	\textbf{Example 5.13 }A kinematic receiver is a GPS receiver that is moved around. Often it goes on board a vehicle with low velocity and without sudden shifts. Now the state vector includes eight components: three coordinates, three velocities, and two clock terms:
+	
+	\[ x_{k}=\begin{bmatrix}
+x\\y\\z\\\dot{x}\\\dot{y}\\\dot{z}\\b\\d
+\end{bmatrix}\quad and \quad  F=\begin{bmatrix}
+1&0&0&\Delta t&0&0&0&0\\0&1&0&0&\Delta t&0&0&0\\0&0&1&0&0&\Delta t&0&0\\0&0&0&1&0&0&0&0\\0&0&0&0&1&0&0&0\\0&0&0&0&0&1&0&0\\0&0&0&0&0&0&1&\Delta t\\0&0&0&0&0&0&0&1
+\end{bmatrix}  \]
+
+The covariance matrix is
+\begin{equation}\label{5.30}
+\sum\nolimits_{kinematic}=E\left\lbrace \epsilon\epsilon^{T}   \right\rbrace=\begin{bmatrix}
+\sum\nolimits_{position}&\sum\nolimits_{position,velocity}&0\\\sum\nolimits_{position,velocity}&\sum\nolimits_{velocity}&0\\0&0&\sum\nolimits_{clock}
+\end{bmatrix} 
+\end{equation}
+ 
+The matrix $ \sum\nolimits_{velocity} $ often uses different values for the horizontal and vertical components. A car does not substantially change its vertical velocity.But it can accelerate or decelerate rapidly. Of course if the variances in the diagonal terms of  $ \sum\nolimits_{kinematic} $ are large, a filtering process— as described in the next chapter— will not improve the accuracy of the position very much.
+
+ 
+\textbf{Example 5.14} (Gauss-Markov process) Let $ x_{k} $ be a stationary random process with zero mean and exponentially decreasing autocorrelation:
+
+\[ R_{x}(t_{2}-t_{1})=\sigma^{2}e^{-\alpha|t_{2}-t_{1}|} \] 
+
+This type of random process can be modeled as the output of a linear system, when the input $v\varepsilon_{k} $  is zero-mean white noise with power spectral density equal to unity. (In standard time series literature this is called an AR(1) model. AR(1) means autoregressive of order 1.) A difference equation model for this type of process is 
+
+  \[  x_{k}=Fx_{k-1}+G\epsilon_{k}\]
+  \begin{equation}\label{5.31}
+  b_{k}=x_{k}
+  \end{equation}
+ 
+
+In order to use this model we need to solve for the unknown scalar parameters $F$ and $G$ as functions of the parameter $ \alpha $. To do so we multiply (5.31) by $ x_{k-1} $ on both sides and take
+
+\[ \textbf{Table 5.2} System models of discrete-time random processes  \]
+ \[ \begin{tabular}{lcr}
+\hline
+$ Process\quad type $ & $ Autocorrelation\quad R_{x}(\tau) $ & $State\quad model $ \\
+  \cline{1-3}
+ $ Random \quad constant $ & $  R_{x}(\Delta t)=\sigma^{2}$ & $  x_{k}=x_{k-1},\sigma^{2}{x_{0}}=\sigma^{2}$\\
+ $ Random \quad walk $&$  R_{x}(\Delta t)= \infty  $&$  x_{k}=x_{k-1}+\epsilon_{k},\sigma^{2}{x_{0}}=0$\\
+ 
+ $ Random \quad ramp $ &$ \quad$&$  x_{1,k}=x_{1,k-1}+\Delta t x_{2,k-1}$\\
+ 
+ $  \quad  $ &$ \quad$&$  x_{2,k}=x_{2,k-1} $\\
+ 
+$  Exponenitially  $  & $ R_{x}(\Delta t)=\sigma^{2}e^{-\alpha|\Delta t_{k}|} $ & $ x_{k}=e^{-\alpha|\Delta t|}x_{k-1}\epsilon_{k}$\\
+ 	
+ 	$ correlated$ & $  \quad   $ & $ \sigma^{2}{x_{0}}=\sigma^{2},\Delta t = t_{k}-t_{k-1} $ \\
+  
+ 	\hline
+\end{tabular} \]      	  
+
+expected values to obtain the equations
+
+\[ E\left\lbrace x_{k}x_{k-1} \right\rbrace =FE\left\lbrace x_{k-1}x_{k-1}\right\rbrace +GE\left\lbrace \epsilon_{k}x_{k-1}\right\rbrace \]
+\begin{equation}\label{5.32}
+\sigma^{2}e^{-\alpha}=F\sigma^{2}
+\end{equation}
+ 
+
+assuming that the $ \varepsilon_{k} $ are uncorrelated and $ E\left\lbrace \varepsilon_{k}\right\rbrace =0 $so that $ E\left\lbrace \varepsilon_{k}\varepsilon_{k} \right\rbrace = 0 $ . The transition matrix (factor) is $ F=e^{-\alpha} $。 Next square the state variable defined by (5.31) and take its expected value: 
+
+\[ E\left\lbrace x_{k}^{2}\right\rbrace = F^{2}E\left\lbrace x_{k-1}x_{k-1}\right\rbrace+G^{2}E\left\lbrace \epsilon_{k}\epsilon{k}\right\rbrace \]
+\begin{equation}\label{5.33}
+\sigma^{2}=\sigma^{2}F^{2}+G^{2}
+\end{equation}
+ 
+
+because the system variance is $ E\left\lbrace\varepsilon_{k}^{2}\right\rbrace=1 $ 。We insert $ F=e^{-\alpha} $ into (5.33) and get $ G=\sigma\sqrt{1-e^{-2\alpha}}   $。The complete model is then
+
+ \[ x_{k}=e^{-\alpha}x_{k-1}+\sigma\sqrt{1-e^{-2\alpha}}\epsilon_{k} \]
+ 
+ \[ b_{k}=x_{k} \]
+ 
+  with $ E\left\lbrace \varepsilon_{k}\right\rbrace=0  $ and $E\left\lbrace \varepsilon_{k}\varepsilon_{j}\right\rbrace=\delta_{jk}$.
+ 
+ Ideally a random process should be based on the physical laws that govern the noise of the system errors. An exact representation is often impossible, either because the underlying physics is not well understood or because implementing the ideal random process would yield a cumbersome solution. The Gauss-Markov model (exponential decay in correlation)is extremely useful, requiring only one parameter $ \alpha $. 
+
+
+
+	
+	
+	
+	
+	
+	
+ 
+	
+	
+	
+	
+	
+	
+	
+	

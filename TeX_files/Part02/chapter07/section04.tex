@@ -1,1 +1,69 @@
 \section[随机变量的线性变换]{随机变量的线性变换\\Linear Transformation of Random Variables}	
+\par \noindent
+当$A$列相关时，我们通过介绍最短长度的解向量$x^+$规避这个问题。这是增强$A^\mathsf{T}A$和产生伪逆的结果。
+\par
+我们将试图从一个随机的观点分析这种情况。来自于零空间的任何额外的解决方案决定了解并不是唯一的。任何非唯一解向量$\hat{x}$都与协方差$\sum_{\hat{x}}$有关。因为向量$\hat{x}$不同，
+因此协方差矩阵$\sum_{\hat{x}}$也不同。在所有这些可能的协方差阵中，我们将要证明，与伪逆解相关的协方差矩阵具有最小逆。在统计上，这意味着伪逆解$x^+$给出了未知数的最小的总体方差。
+\par
+令$\mathop{v}\limits_{m\ by\ 1} = \mathop{B}\limits_{m\ by\ n}\mathop{u}\limits_{n\ by\ 1}$作为随机变量$u$与$v$的一个线性变换。由于零均值，$E{u} = 0$使得$E{uu^\mathsf{T}} = 
+\sum_u$。
+\par
+现在我们想要通过 $Av$近似估计$u$并且代替
+\begin{equation*}
+	\mathop{u}\limits_{n\ by\ 1}
+	=\mathop{A}\limits_{n\ by\ m}\mathop{v}\limits_{m\ by\ 1} + \mathop{w}\limits_{n\ by\ 1}\text{，}
+\end{equation*}
+其中$w$是残余向量：\begin{equation}
+	w
+	=u - Av = (I - AB)u
+\end{equation}
+$w$的协方差矩阵 $\sum_w$是
+\begin{equation}
+	\sum\nolimits_w
+	=(I - AB)\sum\nolimits_u(I - AB)^\mathsf{T}\text{。}
+\end{equation}
+我们想要选择$B$最小化$\sum_w$的迹。我们将证明
+\textbf{定理 7.1}  $\sum_w$的迹是最小量对于
+\begin{equation}
+	B
+	=(A^\mathsf{T}A)^{-1}A^\mathsf{T}\text{。}
+\end{equation}
+结果是
+\begin{equation}
+	\text{trace} \sum\nolimits_w
+	=\text{trace} \sum\nolimits_u - \text{trace}(A^\mathsf{T}A)^{-1}A^\mathsf{T}\sum\nolimits_uA
+\end{equation}
+和
+\begin{equation}
+	\sum\nolimits_w
+	=(I - A(A^\mathsf{T}A)^{-1}A^\mathsf{T})\sum\nolimits_u(I - A(A^\mathsf{T}A)^{-1}A^\mathsf{T})^\mathsf{T}
+\end{equation}
+并且
+\begin{equation}
+	\sum\nolimits_v
+	=(A^\mathsf{T}A)^{-1}A^\mathsf{T}\sum\nolimits_uA(A^\mathsf{T}A)^{-1}\text{。}
+\end{equation}
+这个定理显示了不同于最小二乘估计 $v = Bu$的结果。普通最小二乘使加权残差的平方和最小，产生结果
+\begin{equation*}
+	B = (A^\mathsf{T}\sum\nolimits_{u}^{-1}A)^{-1}A^\mathsf{T}\sum\nolimits_{u}^{-1} \qquad \text{where} \qquad \text{rank} \sum\nolimits_u = n\text{。}
+\end{equation*}
+在目前的定理中，我们最小化残差的方差和$w$;$\sum_u$可能有任何的秩。当$\sum_u = I$这两种情况没有差别。
+\par\noindent
+\textbf{证明} 我们由式（7.22）开始并且得到
+\begin{equation*}
+	\sum\nolimits_w = (\sum\nolimits_u - AB\sum\nolimits_u)(I - B^\mathsf{T}A^\mathsf{T})
+	= \sum\nolimits_u - \sum\nolimits_uB^\mathsf{T}A^\mathsf{T} - AB\sum\nolimits_u + AB\sum\nolimits_uB^\mathsf{T}A^\mathsf{T}\text{。}
+\end{equation*}
+第一项$B$是独立的，因此我们得到
+\begin{equation*}
+	\text{trace} \sum\nolimits_w = \text{const}.
+	- \text{trace}(\sum\nolimits_uB^\mathsf{T}A^\mathsf{T})
+	- \text{trace}(AB\sum\nolimits_u)
+	+ \text{trace}(AB\sum\nolimits_uB^\mathsf{T}A^\mathsf{T})
+\end{equation*}
+与
+\begin{equation*}
+	\frac{\partial {\text{trace} \sum\nolimits_w}}{\partial{B}}
+	= -2A^\mathsf{T}\sum\nolimits_u + 2A^\mathsf{T}AB\sum\nolimits_u = 0\text{。}
+\end{equation*}
+因此$B = (A^\mathsf{T}A)^{-1}A^\mathsf{T}$，证明了这个定理。
